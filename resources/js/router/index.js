@@ -1,18 +1,32 @@
-import {createRouter, createWebHistory} from "vue-router"
+import { createRouter, createWebHistory } from "vue-router";
 
-import ComplaintsIndex from "../components/complaints/ComplaintsIndex"
+import PageContent from "../components/PageContent";
+
 const routes = [
-    {   path: "/home",
-        name: "complaints.index",
-        component: ComplaintsIndex
+    {
+        path: "/",
+        name: "Home",
+        component: PageContent,
     },
 
-    
-    ]
-const router = createRouter(
     {
-        history: createWebHistory(),
-        routes,
-    })
-export default router   
-
+        path: "/use_website",
+        name: "UseWebsite",
+        component: PageContent,
+    },
+    {
+        path: "/disclose_irreqularities",
+        name: "DiscloseIrreqularities",
+        component: PageContent,
+    },
+    {
+        path: "/contacts",
+        name: "Contacts",
+        component: PageContent,
+    },
+];
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+});
+export default router;
