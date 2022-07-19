@@ -1,7 +1,15 @@
-<template></template>
+<template>
+    <div class="col-md">
+        {{ contentDescription.name }}
+    </div>
+</template>
 
 <script>
-export default {};
+export default {
+    props: {
+        contentDescription: Object,
+    },
+};
 </script>
 
 <style></style>

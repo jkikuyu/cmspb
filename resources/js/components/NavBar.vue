@@ -35,7 +35,10 @@
             </div>
         </div>
     </nav>
-    <div class="row float-end tollfree">Toll Free:</div>
+    <div class="float-start whistle">
+        <img src="../../assets/whistlewithsound.png" alt="" class="w-25 py-3" />
+    </div>
+    <div class="float-end tollfree">Toll Free:</div>
     <h4>
         <span>0800 5970000</span>
     </h4>
@@ -62,14 +65,39 @@ h4 {
     border-top: 50px solid #5d6d07;
     border-bottom: 20px solid #5d6d07;
     line-height: 0;
-    padding-right: 50px;
+    padding-right: 155px;
 }
 h4 span {
     background: #5d6d07;
 }
 .tollfree {
     color: #fff;
-    right: 150px;
+    right: 250px;
     position: absolute;
+}
+.whistle {
+    left: 150px;
+    position: absolute;
+}
+.navbar .navbar-nav .nav-link {
+    color: #000;
+    font-size: 1.1em;
+}
+.navbar .navbar-nav .nav-link:hover {
+    background-color: #5d6d07;
+    color: #fff;
+}
+li a:hover:not(.router-link-active) {
+    background-color: #5d6d07;
+    color: #fff;
+}
+
+li a:focus {
+    background-color: #5d6d07;
+    color: #fff;
+}
+.nav-link:focus {
+    background-color: #5d6d07;
+    color: #fff;
 }
 </style>

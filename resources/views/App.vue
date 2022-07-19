@@ -1,13 +1,11 @@
 <template>
     <Header :menuitems="menuitems"></Header>
-    <PageContent />
     <router-view :menuitems="menuitems"></router-view>
     <Footer></Footer>
 </template>
 
 <script>
 import Header from "../js/components/Header";
-import PageContent from "../js/components/PageContent";
 import Footer from "../js/components/Footer";
 import { provide } from "vue";
 export default {
@@ -19,7 +17,7 @@ export default {
                     id: 1,
                     active: true,
                     index: 1,
-                    link: "/",
+                    link: "/home",
                 },
                 {
                     name: "Use of this website",
@@ -40,14 +38,13 @@ export default {
                     id: 3,
                     active: true,
                     index: 4,
-                    link: "contacts",
+                    link: "/contacts",
                 },
             ],
         };
     },
     components: {
         Header,
-        PageContent,
         Footer,
     },
 };

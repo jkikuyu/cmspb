@@ -1,23 +1,27 @@
 <template>
     <div class="container">
-        <div class="row d-sm-flex aligh-items-center justify-content-between">
-            <div
-                v-for="menuitem in menuitems"
-                :key="menuitem.id"
-                class="col-md"
-            >
-                {{ menuitem.name }}
-            </div>
-
-            <div class="col-md"></div>
-        </div>
+        <ContentDescription
+            v-for="menuitem in filteredMenuItems"
+            :key="menuitem.id"
+            :contentDescription="menuitem"
+        ></ContentDescription>
     </div>
 </template>
 
 <script>
+import ContentDescription from "./ContentDescription";
 export default {
+    components: {
+        ContentDescription,
+    },
     props: {
         menuitems: Array,
+    },
+
+    computed: {
+        filteredMenuItems() {
+            return this.menuitems.filter((a) => a.link === this.$route.path);
+        },
     },
 };
 </script>

@@ -5,10 +5,14 @@ import PageContent from "../components/PageContent";
 const routes = [
     {
         path: "/",
+        name: "Welcome",
+        component: PageContent,
+    },
+    {
+        path: "/home",
         name: "Home",
         component: PageContent,
     },
-
     {
         path: "/use_website",
         name: "UseWebsite",
