@@ -1,23 +1,21 @@
 <template>
-    <Label :for="InputItem.name">{{ InputItem.name }}</Label>
-    <select
-        v-for="dropdownitem in dropdownitems"
-        :key="dropdownitem.id"
-        class="form-select form-select-sm"
-    >
-        <option :value="dropdownitem.id">{{ dropdownitem.name }}</option>
+    <select id="id" v-show="dropdownitems" class="form-select form-select-sm">
+        <option
+            v-for="dropdownitem in dropdownitems"
+            :key="dropdownitem.id"
+            :value="dropdownitem.id"
+        >
+            {{ dropdownitem.name }}
+        </option>
     </select>
 </template>
 
 <script>
-import Label from "./Label";
 export default {
-    components: {
-        Label,
-    },
+    components: {},
     props: {
-        InputItem: Object,
-        DropDownItems: Object,
+        dropdownitems: Array,
+        id: String,
     },
 };
 </script>

@@ -1,11 +1,15 @@
 <template>
-    <div class="form-label col-6 col-sm-6">
-        <label for="" class="form-label">{{ name }}</label>
-    </div>
+    <label :for="label.name" class="fw-bold form-label">{{
+        label.title
+    }}</label>
 </template>
 
 <script>
-export default {};
+export default {
+    props: {
+        label: Object,
+    },
+};
 </script>
 
-<style></style>
+<style scoped></style>

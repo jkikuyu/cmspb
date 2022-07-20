@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import PageContent from "../components/PageContent";
+import MakeReport from "../components/MakeReport";
 
 const routes = [
     {
@@ -27,6 +28,11 @@ const routes = [
         path: "/contacts",
         name: "Contacts",
         component: PageContent,
+    },
+    {
+        path: "/makereport",
+        name: "MakeReport",
+        component: MakeReport,
     },
 ];
 const router = createRouter({

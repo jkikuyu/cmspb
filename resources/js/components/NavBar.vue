@@ -36,9 +36,18 @@
         </div>
     </nav>
     <div class="float-start whistle">
-        <img src="../../assets/whistlewithsound.png" alt="" class="w-25 py-3" />
+        <router-link to="/makereport">
+            <img
+                src="../../assets/whistlewithsound.png"
+                alt="Whistle Blow"
+                class="pt-3 whistlesize"
+            />
+        </router-link>
+        <div class="makereport">Make a Report:</div>
     </div>
-    <div class="float-end tollfree">Toll Free:</div>
+    <div class="float-end pt-2 tollfree">
+        <span class="text-nowrap" style="font-size: 1.2em">Toll Free:</span>
+    </div>
     <h4>
         <span>0800 5970000</span>
     </h4>
@@ -63,9 +72,9 @@ h4 {
     color: #fff;
     text-align: right;
     border-top: 50px solid #5d6d07;
-    border-bottom: 20px solid #5d6d07;
+    border-bottom: 40px solid #5d6d07;
     line-height: 0;
-    padding-right: 155px;
+    padding-right: 170px;
 }
 h4 span {
     background: #5d6d07;
@@ -78,6 +87,12 @@ h4 span {
 .whistle {
     left: 150px;
     position: absolute;
+}
+.whistlesize {
+    width: 30% !important;
+}
+.makereport {
+    color: #fff;
 }
 .navbar .navbar-nav .nav-link {
     color: #000;

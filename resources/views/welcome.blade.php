@@ -19,10 +19,12 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+
       }
 
       * {
         box-sizing: border-box;
+
       }
     </style>
         <script src="{{ asset('js/app.js') }}" defer></script>
