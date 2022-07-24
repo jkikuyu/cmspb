@@ -36,14 +36,14 @@
         </div>
     </nav>
     <div class="float-start whistle">
-        <router-link to="/makereport">
+        <router-link class="makereportlink" to="/makereport">
             <img
                 src="../../assets/whistlewithsound.png"
                 alt="Whistle Blow"
                 class="pt-3 whistlesize"
             />
+            <div class="makereport">Report Incident</div>
         </router-link>
-        <div class="makereport">Make a Report:</div>
     </div>
     <div class="float-end pt-2 tollfree">
         <span class="text-nowrap" style="font-size: 1.2em">Toll Free:</span>
@@ -102,17 +102,25 @@ h4 span {
     background-color: #5d6d07;
     color: #fff;
 }
-li a:hover:not(.router-link-active) {
+/* li a:hover:not(.router-link-active) {
     background-color: #5d6d07;
     color: #fff;
+} */
+a:not([makereportlink]):hover {
+    text-decoration: underline;
+    color: #fff;
+}
+a:not([makereportlink]) {
+    text-decoration: none;
 }
 
-li a:focus {
+/* li a:focus {
     background-color: #5d6d07;
     color: #fff;
-}
-.nav-link:focus {
+} */
+li .nav-link:focus {
     background-color: #5d6d07;
+    text-decoration-color: #fff;
     color: #fff;
 }
 </style>

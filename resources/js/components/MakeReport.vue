@@ -1,75 +1,303 @@
 <template>
-    <form>
-        <div class="container">
-            <div class="row mb-3">
-                <div class="col-sm-auto">
-                    <Label :label="fields.complaintanttype"></Label>
-                </div>
-                <div class="col-sm-2">
-                    <Select
-                        :id="fields.complaintanttype"
-                        :dropdownitems="complainantlist"
-                    />
-                </div>
-                <!-- <div class="col-1 g-0"></div> -->
-                <div class="col-sm-auto offset-sm-1">
-                    <Label :label="fields.allegetype"></Label>
-                </div>
-                <div class="col-sm-3">
-                    <Select :dropdownitems="allegetypelist" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-auto">
-                    <Label :label="fields.reported"></Label>
-                </div>
-                <div class="col-sm-1">
-                    <Select :dropdownitems="yesno" />
-                </div>
-            </div>
-            <!-- 
-            <div class="col-sm-2">
+    <div class="container-fluid px-3">
+        <div class="content">
+            <section>
+                <div class="card">
+                    <form>
+                        <div class="card-body">
+                            <div class="container">
+                                <h2 class="fs-2 mb-3 fw-bold text-center">
+                                    Report Incident
+                                </h2>
+                                <div class="alert alert-primary" role="alert">
+                                    Please note: All fields are required
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-auto">
+                                        <Label
+                                            :label="fields.anonymous"
+                                        ></Label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <Select
+                                            v-model="anonymous"
+                                            :dropdownitems="yesno"
+                                            :elementId="fields.anonymous.name"
+                                        />
+                                    </div>
+                                </div>
+                                <div v-if="!+anonymous" class="row mb-3">
+                                    <div class="row">
+                                        <div class="col-sm-auto">
+                                            <Label :label="fields.first" />
+                                        </div>
+                                    </div>
 
-                <Select :inputItem="fields.reported" />
-                <Select :inputItem="fields.towhom" />
-            </div>
-           
-            <div class="row">
-                <Select :inputItem="fields.describe" />
-                <Select :inputItem="fields.subjectdetail" />
-            </div>
-            <div class="row">
-                <Select :inputItem="fields.threat" />
-                <Select :inputItem="fields.elaborate" />
-            </div>
-            <div class="row">
-                <Select :inputItem="fields.evidence" />
-                <Select :inputItem="fields.nopossession" />
-            </div>
-            <div class="row">
-                <Select :inputItem="fields.datefrom" />
-                <Select :inputItem="fields.dateto" />
-            </div>
+                                    <div v-if="!+anonymous" class="row mb-3">
+                                        <div class="col-sm-2 me-3">
+                                            <Input
+                                                v-model="firstname"
+                                                :elementId="fields.first.name"
+                                                :placeholder="
+                                                    fields.first.placeholder
+                                                "
+                                            />
+                                        </div>
+
+                                        <div class="col-sm-2 me-3">
+                                            <Input
+                                                v-model="middlename"
+                                                :elementId="fields.middle.name"
+                                                :placeholder="
+                                                    fields.middle.placeholder
+                                                "
+                                            />
+                                        </div>
+                                        <div class="col-sm-2 me-3">
+                                            <Input
+                                                v-model="lastname"
+                                                :elementId="fields.last.name"
+                                                :placeholder="
+                                                    fields.last.placeholder
+                                                "
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="row">
+                                            <div class="col-sm-auto">
+                                                <Label :label="fields.email" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2 me-3">
+                                            <Input
+                                                v-model="email"
+                                                :elementId="fields.email.name"
+                                                :placeholder="
+                                                    fields.email.placeholder
+                                                "
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-sm-auto">
+                                        <Label
+                                            :label="fields.complaintanttype"
+                                        ></Label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <Select
+                                            :elementId="
+                                                fields.complaintanttype.name
+                                            "
+                                            :dropdownitems="complainantlist"
+                                        />
+                                    </div>
+                                    <!-- <div class="col-1 g-0"></div> -->
+                                    <div class="col-sm-auto offset-sm-1">
+                                        <Label
+                                            :label="fields.allegetype"
+                                        ></Label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <Select
+                                            :dropdownitems="allegetypelist"
+                                            :elementId="fields.allegetype.name"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.reported"></Label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <Select
+                                            v-model="reported"
+                                            :dropdownitems="yesno"
+                                            :elementId="fields.reported.name"
+                                        />
+                                    </div>
+                                    <div
+                                        v-show="!!+reported"
+                                        class="col-sm-auto"
+                                    >
+                                        <Label :label="fields.towhom" />
+                                    </div>
+
+                                    <div v-show="!!+reported" class="col-sm-3">
+                                        <Input
+                                            v-model="towhom"
+                                            :elementId="fields.towhom.name"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.describe" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <TextArea
+                                        v-model="describe"
+                                        :elementId="fields.describe.name"
+                                    />
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.subjectdetail" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <TextArea
+                                        v-model="subjectdetail"
+                                        :elementId="fields.subjectdetail.name"
+                                    />
+                                </div>
+                                <div class="row mb-3">
+                                    <DateTimePicker v-model="range" />
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.threat" />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <Select
+                                            v-model="threat"
+                                            :dropdownitems="yesno"
+                                            :elementId="fields.threat.name"
+                                        />
+                                    </div>
+                                </div>
+                                <div v-show="!!+threat" class="row mb-3">
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.elaborate" />
+                                    </div>
+                                </div>
+                                <div v-show="!!+threat" class="row mb-3">
+                                    <TextArea
+                                        v-model="elaborate"
+                                        :elementId="fields.elaborate.name"
+                                    />
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.evidence"></Label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <Select
+                                            v-model="evidence"
+                                            :dropdownitems="yesno"
+                                            :elementId="fields.evidence.name"
+                                        />
+                                    </div>
+                                </div>
+                                <div v-show="!+evidence" class="row mb-3">
+                                    <div class="col-sm-auto">
+                                        <Label
+                                            :label="fields.nopossession"
+                                        ></Label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <Select
+                                            v-model="nopossession"
+                                            :dropdownitems="yesno"
+                                            :elementId="
+                                                fields.nopossession.name
+                                            "
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <Button class="mx-2" button="submit">Submit</Button>
+                            <Button button="cancel">Cancel</Button>
+                        </div>
+
+                        <!-- 
             <div class="row">
                 <Select :inputItem="fields.region" />
                 <Select :inputItem="fields.station" />
                 <Select :inputItem="fields.department" />
             </div> -->
+                    </form>
+                </div>
+            </section>
         </div>
-    </form>
+    </div>
 </template>
 
 <script>
 import Select from "./Select";
-import Label from "./Label.vue";
+import Label from "./Label";
+import Input from "./Input";
+import TextArea from "./TextArea";
+import DateTimePicker from "./DateTimePicker";
+import Button from "./Button";
 export default {
     data() {
         return {
+            anonymous: "",
+            firstname: "",
+            middlename: "",
+            lastname: "",
+            reported: "",
+            towhom: "",
+            describe: "",
+            subjectdetail: "",
+            threat: "",
+            elaborate: "",
+            evidence: "",
+            nopossession: "",
+            region: "",
+            station: "",
+            department: "",
+            range: "",
             fields: {
+                anonymous: {
+                    name: "anonymous",
+                    title: "Do you want to remain anonymous?",
+                    placeholder: "",
+                    description: "What is your relation with KWS",
+                    order: 1,
+                },
+                first: {
+                    name: "firstname",
+                    title: "Ener your (first, middle, last) names",
+                    placeholder: "First Name",
+                    description: "Enter your first name",
+                    order: 1,
+                },
+                middle: {
+                    name: "firstname",
+                    title: "Ener your names",
+                    placeholder: "Middle Name",
+                    description: "What is your relation with KWS",
+                    order: 1,
+                },
+                last: {
+                    name: "lastname",
+                    title: "Ener your names",
+                    placeholder: "Last Name",
+                    description: "What is your relation with KWS",
+                    order: 1,
+                },
+                email: {
+                    name: "firstname",
+                    title: "Email Address",
+                    placeholder: "email address",
+                    description: "What is your relation with KWS",
+                    order: 1,
+                },
                 complaintanttype: {
                     name: "complaintanttype",
                     title: "What is your relation with KWS",
-                    placeholder: "",
+                    placeholder: "Please select...",
                     description: "What is your relation with KWS",
                     order: 1,
                 },
@@ -178,7 +406,7 @@ export default {
                 },
                 {
                     name: "Unethical Behaviour",
-                    id: 3,
+                    id: 4,
                 },
             ],
             complainantlist: [
@@ -218,8 +446,18 @@ export default {
     components: {
         Select,
         Label,
+        Input,
+        TextArea,
+        DateTimePicker,
+        Button,
     },
 };
+/* const date = Date();
+date.value.setDate(Number(date.value.getDate()) + 35);
+const range = reactive({
+    start: new Date(),
+    end: date.value,
+});*/
 </script>
 
 <style>
@@ -232,5 +470,15 @@ a {
     font-size: 1rem;
     text-align: left;
     color: #212529;
+}
+reporttitle {
+    font-family: "futurabold";
+    font-size: 42px;
+    color: #000;
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+.content {
+    padding: 0 0.5rem;
 }
 </style>
