@@ -62,13 +62,41 @@
                                                 "
                                             />
                                         </div>
-                                    </div>
+                                        <div class="col-sm-auto ms-4 ps-2">
+                                            <Label :label="fields.workid" />
+                                        </div>
 
+                                        <div class="col-sm-2">
+                                            <Input
+                                                v-model="wid"
+                                                :elementId="fields.workid.name"
+                                                :placeholder="
+                                                    fields.workid.placeholder
+                                                "
+                                            />
+                                        </div>
+                                    </div>
                                     <div class="row mb-2">
-                                        <div class="row">
-                                            <div class="col-sm-auto">
-                                                <Label :label="fields.email" />
-                                            </div>
+                                        <div class="col-sm-auto">
+                                            <Label :label="fields.nationalid" />
+                                        </div>
+
+                                        <div class="col-sm-2 me-3">
+                                            <Input
+                                                v-model="nid"
+                                                :elementId="
+                                                    fields.nationalid.name
+                                                "
+                                                :placeholder="
+                                                    fields.nationalid
+                                                        .placeholder
+                                                "
+                                            />
+                                        </div>
+                                        <div class="col-3"></div>
+
+                                        <div class="col-sm-auto ms-4 ps-4">
+                                            <Label :label="fields.email" />
                                         </div>
 
                                         <div class="col-sm-2 me-3">
@@ -288,12 +316,27 @@ export default {
                     order: 1,
                 },
                 email: {
-                    name: "firstname",
+                    name: "email",
                     title: "Email Address",
                     placeholder: "email address",
-                    description: "What is your relation with KWS",
+                    description: "Email address of the complainant",
                     order: 1,
                 },
+                workid: {
+                    name: "workid",
+                    title: "Employee ID",
+                    placeholder: "employee ID",
+                    description: "Employee Identification number",
+                    order: 1,
+                },
+                nationalid: {
+                    name: "workid",
+                    title: "National ID",
+                    placeholder: "national ID",
+                    description: "Government recognized Identification ID ",
+                    order: 1,
+                },
+
                 complaintanttype: {
                     name: "complaintanttype",
                     title: "What is your relation with KWS",

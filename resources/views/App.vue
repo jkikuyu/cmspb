@@ -47,6 +47,21 @@ export default {
         Header,
         Footer,
     },
+    async created() {
+        this.tasks = await this.fetchPageContents();
+    },
+    async fetchPageContents() {
+        let data = null;
+        try {
+            const res = await fetch(`api/pagecontents/`);
+            data = await res.json();
+
+            return data;
+        } catch (err) {
+            console.log("error");
+            console.log(err);
+        }
+    },
 };
 </script>
 

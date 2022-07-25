@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::apiResource(name:"complaints",controller:App\Http\Controllers\Api\ComplaintController::class);
+Route::apiResource(name:"pagecontents",controller:App\Http\Controllers\Api\PageContentController::class);
