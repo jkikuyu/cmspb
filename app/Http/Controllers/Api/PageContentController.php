@@ -17,7 +17,8 @@ class PageContentController extends Controller
      */
     public function index()
     {
-        return PageContentResource::collection(PageContent::all());
+        $pageContent = PageContent::all()->sortBy('position');
+        return PageContentResource::collection($pageContent);
 
     }
 
