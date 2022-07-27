@@ -1,18 +1,31 @@
 <template>
-    <div class="container">
-        <ContentDescription
-            v-for="menuitem in filteredMenuItems"
-            :key="menuitem.id"
-            :contentDescription="menuitem"
-        ></ContentDescription>
+    <div
+        v-for="menuitem in filteredMenuItems"
+        :key="menuitem.id"
+        class="container"
+    >
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>{{ menuitem.title }}</h2>
+                <hr />
+                <ContentDescription :contentDescription="menuitem">
+                </ContentDescription>
+            </div>
+            <div class="col-sm-6">
+                <ContentImage :contentImage="menuitem"> </ContentImage>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import ContentDescription from "./ContentDescription";
+import ContentImage from "./ContentImage";
+
 export default {
     components: {
         ContentDescription,
+        ContentImage,
     },
     props: {
         menuitems: Array,
@@ -20,7 +33,9 @@ export default {
 
     computed: {
         filteredMenuItems() {
-            return this.menuitems.filter((a) => a.link === this.$route.path);
+            return this.menuitems.filter(
+                (a) => a.resource_path === this.$route.path
+            );
         },
     },
 };

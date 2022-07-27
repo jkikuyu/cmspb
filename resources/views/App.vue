@@ -11,13 +11,14 @@ import { provide } from "vue";
 export default {
     data() {
         return {
-            menuitems: [
+            menuitems: [],
+            /*             menuitems: [
                 {
                     name: "Home",
                     id: 1,
                     active: true,
                     index: 1,
-                    link: "/home",
+                    link: "/",
                 },
                 {
                     name: "Use of this website",
@@ -40,7 +41,7 @@ export default {
                     index: 4,
                     link: "/contacts",
                 },
-            ],
+            ],*/
         };
     },
     components: {
@@ -48,19 +49,22 @@ export default {
         Footer,
     },
     async created() {
-        this.tasks = await this.fetchPageContents();
+        this.menuitems = await this.fetchPageContents();
+        console.log(this.menuitems);
     },
-    async fetchPageContents() {
-        let data = null;
-        try {
-            const res = await fetch(`api/pagecontents/`);
-            data = await res.json();
-
-            return data;
-        } catch (err) {
-            console.log("error");
-            console.log(err);
-        }
+    methods: {
+        async fetchPageContents() {
+            let data = null;
+            try {
+                const res = await fetch("api/pagecontents/");
+                data = await res.json();
+                //console.log(data.data);
+                return data.data;
+            } catch (err) {
+                console.log("error");
+                console.log(err);
+            }
+        },
     },
 };
 </script>

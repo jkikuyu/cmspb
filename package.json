@@ -24,6 +24,7 @@
         "@eonasdan/tempus-dominus": "^6.0.0-beta9",
         "@vue/compiler-sfc": "^3.2.19",
         "autoprefixer": "10.4.5",
+        "marked": "^4.0.18",
         "v-calendar": "^3.0.0-alpha.8",
         "vue": "^3.2.19",
         "vue-loader": "^16.8.1",

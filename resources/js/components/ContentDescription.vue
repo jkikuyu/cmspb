@@ -1,13 +1,18 @@
 <template>
-    <div class="col-md">
-        {{ contentDescription.name }}
-    </div>
+    <div v-html="markitdown"></div>
 </template>
 
 <script>
+import { marked } from "marked";
+
 export default {
     props: {
         contentDescription: Object,
+    },
+    computed: {
+        markitdown() {
+            return marked(this.contentDescription.content);
+        },
     },
 };
 </script>

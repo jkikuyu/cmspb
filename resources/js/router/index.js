@@ -15,17 +15,28 @@ const routes = [
         component: PageContent,
     },
     {
-        path: "/use_website",
+        path: "/confidentiality_name_identity",
         name: "UseWebsite",
         component: PageContent,
     },
     {
-        path: "/disclose_irreqularities",
-        name: "DiscloseIrreqularities",
+        path: "/reporting_irregularities",
+        name: "ReportingIrregularities",
         component: PageContent,
     },
     {
-        path: "/contacts",
+        path: "/follow_up",
+        name: "FollowUp",
+        component: PageContent,
+    },
+
+    {
+        path: "/faqs",
+        name: "FAQs",
+        component: PageContent,
+    },
+    {
+        path: "/contact_us",
         name: "Contacts",
         component: PageContent,
     },

@@ -1,6 +1,6 @@
 <template>
     <li class="nav-item">
-        <router-link class="nav-link" :to="menuitem.link">{{
+        <router-link class="nav-link" :to="menuitem.resource_path">{{
             menuitem.name
         }}</router-link>
     </li>
