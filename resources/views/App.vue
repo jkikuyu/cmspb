@@ -50,13 +50,12 @@ export default {
     },
     async created() {
         this.menuitems = await this.fetchPageContents();
-        console.log(this.menuitems);
     },
     methods: {
         async fetchPageContents() {
             let data = null;
             try {
-                const res = await fetch("api/pagecontents/");
+                const res = await fetch("https://cmspb.herokuapp.com/api/pagecontents");
                 data = await res.json();
                 //console.log(data.data);
                 return data.data;
