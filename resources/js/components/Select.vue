@@ -4,7 +4,6 @@
         v-show="dropdownitems"
         class="form-select form-select-sm"
         :name="elementId"
-        @change="$emit('update:modelValue', $event.target.value)"
     >
         <option selected disabled value="">Please select ...</option>
         <option
@@ -15,21 +14,17 @@
             {{ dropdownitem.name }}
         </option>
     </select>
+    <!-- @change="$emit('update:modelValue', $event.target.value)" -->
 </template>
 
 <script>
 export default {
-    /*     watch: {
-        modelValue: function (val) {
-            console.log("!!! model value changed ", val);
-        },
-    },*/
     components: {},
     props: {
         dropdownitems: Array,
         elementId: String,
         placeholder: String,
-        modelValue: String,
+        // modelValue: String,
     },
 };
 </script>

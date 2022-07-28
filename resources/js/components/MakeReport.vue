@@ -3,87 +3,132 @@
         <div class="content">
             <section>
                 <div class="card">
-                    <form>
+                    <form @submit.prevent="submitreport">
                         <div class="card-body">
                             <div class="container">
                                 <h2 class="fs-2 mb-3 fw-bold text-center">
                                     Report Incident
                                 </h2>
                                 <div class="alert alert-primary" role="alert">
-                                    Please note: All fields are required
+                                    Please note: All fields marked (
+                                    <span style="color: #ff0000"> * </span> )
+                                    are required
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-auto">
-                                        <Label
-                                            :label="fields.anonymous"
-                                        ></Label>
+                                        <Label :label="fields.anonymous"></Label
+                                        ><span style="color: #ff0000"> * </span>
                                     </div>
                                     <div class="col-sm-2">
                                         <Select
-                                            v-model="anonymous"
+                                            required
+                                            @change="
+                                                updateForm(
+                                                    fields.anonymous.name,
+                                                    $event.target.value
+                                                )
+                                            "
                                             :dropdownitems="yesno"
                                             :elementId="fields.anonymous.name"
+                                            :value="form.anonymous"
                                         />
                                     </div>
                                 </div>
-                                <div v-if="!+anonymous" class="row mb-3">
+                                <div v-if="!+form.anonymous" class="row mb-3">
                                     <div class="row">
                                         <div class="col-sm-auto">
                                             <Label :label="fields.first" />
+                                            <span style="color: #ff0000">
+                                                *
+                                            </span>
                                         </div>
                                     </div>
 
-                                    <div v-if="!+anonymous" class="row mb-3">
+                                    <div
+                                        v-if="!+form.anonymous"
+                                        class="row mb-3"
+                                    >
                                         <div class="col-sm-2 me-3">
                                             <Input
-                                                v-model="firstname"
+                                                :required="!+form.anonymous"
+                                                @input="
+                                                    updateForm(
+                                                        fields.first.name,
+                                                        $event.target.value
+                                                    )
+                                                "
                                                 :elementId="fields.first.name"
                                                 :placeholder="
                                                     fields.first.placeholder
                                                 "
+                                                :value="form.firstname"
                                             />
                                         </div>
 
                                         <div class="col-sm-2 me-3">
                                             <Input
-                                                v-model="middlename"
+                                                @input="
+                                                    updateForm(
+                                                        fields.middle.name,
+                                                        $event.target.value
+                                                    )
+                                                "
                                                 :elementId="fields.middle.name"
                                                 :placeholder="
                                                     fields.middle.placeholder
                                                 "
+                                                :value="form.middlename"
                                             />
                                         </div>
                                         <div class="col-sm-2 me-3">
                                             <Input
-                                                v-model="lastname"
+                                                :required="!+form.anonymous"
+                                                @input="
+                                                    updateForm(
+                                                        fields.last.name,
+                                                        $event.target.value
+                                                    )
+                                                "
                                                 :elementId="fields.last.name"
                                                 :placeholder="
                                                     fields.last.placeholder
                                                 "
-                                            />
-                                        </div>
-                                        <div class="col-sm-auto ms-4 ps-2">
-                                            <Label :label="fields.workid" />
-                                        </div>
-
-                                        <div class="col-sm-2">
-                                            <Input
-                                                v-model="wid"
-                                                :elementId="fields.workid.name"
-                                                :placeholder="
-                                                    fields.workid.placeholder
-                                                "
+                                                :value="form.lastname"
                                             />
                                         </div>
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-sm-auto">
+                                            <Label :label="fields.workid" />
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <Input
+                                                @input="
+                                                    updateForm(
+                                                        fields.workid.name,
+                                                        $event.target.value
+                                                    )
+                                                "
+                                                :elementId="fields.workid.name"
+                                                :placeholder="
+                                                    fields.workid.placeholder
+                                                "
+                                                :value="form.workid"
+                                            />
+                                        </div>
+                                        <div class="col-sm-auto ms-4">
                                             <Label :label="fields.nationalid" />
                                         </div>
 
-                                        <div class="col-sm-2 me-3">
+                                        <div class="col-sm-2 me-4">
                                             <Input
-                                                v-model="nid"
+                                                @input="
+                                                    updateForm(
+                                                        fields.nationalid.name,
+                                                        $event.target.value
+                                                    )
+                                                "
                                                 :elementId="
                                                     fields.nationalid.name
                                                 "
@@ -91,21 +136,32 @@
                                                     fields.nationalid
                                                         .placeholder
                                                 "
+                                                :value="form.nationalid"
                                             />
                                         </div>
-                                        <div class="col-3"></div>
 
-                                        <div class="col-sm-auto ms-4 ps-4">
+                                        <div class="col-sm-auto">
                                             <Label :label="fields.email" />
+                                            <span style="color: #ff0000">
+                                                *
+                                            </span>
                                         </div>
 
-                                        <div class="col-sm-2 me-3">
+                                        <div class="col-sm-2">
                                             <Input
-                                                v-model="email"
+                                                :required="!+form.anonymous"
+                                                type="email"
+                                                @input="
+                                                    updateForm(
+                                                        fields.email.name,
+                                                        $event.target.value
+                                                    )
+                                                "
                                                 :elementId="fields.email.name"
                                                 :placeholder="
                                                     fields.email.placeholder
                                                 "
+                                                :value="form.email"
                                             />
                                         </div>
                                     </div>
@@ -114,63 +170,101 @@
                                 <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label
-                                            :label="fields.complaintanttype"
-                                        ></Label>
+                                            :label="fields.complainanttype"
+                                        />
+                                        <span style="color: #ff0000"> * </span>
                                     </div>
                                     <div class="col-sm-2">
                                         <Select
+                                            @change="
+                                                updateForm(
+                                                    fields.complainanttype.name,
+                                                    $event.target.value
+                                                )
+                                            "
                                             :elementId="
-                                                fields.complaintanttype.name
+                                                fields.complainanttype.name
                                             "
                                             :dropdownitems="complainantlist"
-                                        />
-                                    </div>
-                                    <!-- <div class="col-1 g-0"></div> -->
-                                    <div class="col-sm-auto offset-sm-1">
-                                        <Label
-                                            :label="fields.allegetype"
-                                        ></Label>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <Select
-                                            :dropdownitems="allegetypelist"
-                                            :elementId="fields.allegetype.name"
+                                            :value="form.complainttype"
                                         />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-auto">
-                                        <Label :label="fields.reported"></Label>
+                                        <Label :label="fields.allegetype" />
+                                        <span style="color: #ff0000"> * </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <Select
+                                            @change="
+                                                updateForm(
+                                                    fields.allegetype.name,
+                                                    $event.target.value
+                                                )
+                                            "
+                                            :dropdownitems="allegetypelist"
+                                            :elementId="fields.allegetype.name"
+                                            :value="form.allegetype"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.reported" />
+                                        <span style="color: #ff0000"> * </span>
                                     </div>
                                     <div class="col-sm-2">
                                         <Select
-                                            v-model="reported"
+                                            @change="
+                                                updateForm(
+                                                    fields.reported.name,
+                                                    $event.target.value
+                                                )
+                                            "
                                             :dropdownitems="yesno"
                                             :elementId="fields.reported.name"
+                                            :value="form.reported"
                                         />
                                     </div>
                                     <div
-                                        v-show="!!+reported"
+                                        v-show="!!+form.reported"
                                         class="col-sm-auto"
                                     >
                                         <Label :label="fields.towhom" />
+                                        <span style="color: #ff0000"> * </span>
                                     </div>
 
-                                    <div v-show="!!+reported" class="col-sm-3">
+                                    <div
+                                        v-show="!!+form.reported"
+                                        class="col-sm-3"
+                                    >
                                         <Input
-                                            v-model="towhom"
+                                            @input="
+                                                updateForm(
+                                                    fields.towhom.name,
+                                                    $event.target.value
+                                                )
+                                            "
                                             :elementId="fields.towhom.name"
+                                            :value="form.towhom"
                                         />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.describe" />
+                                        <span style="color: #ff0000"> * </span>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <TextArea
-                                        v-model="describe"
+                                        @input="
+                                            updateForm(
+                                                fields.describe.name,
+                                                $event.target.value
+                                            )
+                                        "
                                         :elementId="fields.describe.name"
                                     />
                                 </div>
@@ -178,11 +272,17 @@
                                 <div class="row mb-3">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.subjectdetail" />
+                                        <span style="color: #ff0000"> * </span>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <TextArea
-                                        v-model="subjectdetail"
+                                        @input="
+                                            updateForm(
+                                                fields.subjectdetail.name,
+                                                $event.target.value
+                                            )
+                                        "
                                         :elementId="fields.subjectdetail.name"
                                     />
                                 </div>
@@ -195,20 +295,31 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <Select
-                                            v-model="threat"
+                                            @change="
+                                                updateForm(
+                                                    fields.threat.name,
+                                                    $event.target.value
+                                                )
+                                            "
                                             :dropdownitems="yesno"
                                             :elementId="fields.threat.name"
+                                            :value="form.threat"
                                         />
                                     </div>
                                 </div>
-                                <div v-show="!!+threat" class="row mb-3">
+                                <div v-if="!!+form.threat" class="row mb-3">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.elaborate" />
                                     </div>
                                 </div>
-                                <div v-show="!!+threat" class="row mb-3">
+                                <div v-if="!!+form.threat" class="row mb-3">
                                     <TextArea
-                                        v-model="elaborate"
+                                        @input="
+                                            updateForm(
+                                                fields.elaborate.name,
+                                                $event.target.value
+                                            )
+                                        "
                                         :elementId="fields.elaborate.name"
                                     />
                                 </div>
@@ -218,13 +329,19 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <Select
-                                            v-model="evidence"
+                                            @change="
+                                                updateForm(
+                                                    fields.evidence.name,
+                                                    $event.target.value
+                                                )
+                                            "
                                             :dropdownitems="yesno"
                                             :elementId="fields.evidence.name"
+                                            :value="form.evidence"
                                         />
                                     </div>
                                 </div>
-                                <div v-show="!+evidence" class="row mb-3">
+                                <div v-show="!+form.evidence" class="row mb-3">
                                     <div class="col-sm-auto">
                                         <Label
                                             :label="fields.nopossession"
@@ -232,27 +349,30 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <Select
-                                            v-model="nopossession"
+                                            @change="
+                                                updateForm(
+                                                    fields.nopossession.name,
+                                                    $event.target.value
+                                                )
+                                            "
                                             :dropdownitems="yesno"
                                             :elementId="
                                                 fields.nopossession.name
                                             "
+                                            :value="form.nopossession"
                                         />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer">
-                            <Button class="mx-2" button="submit">Submit</Button>
-                            <Button button="cancel">Cancel</Button>
+                            <Button class="mx-2" type="submit" button="submit"
+                                >Submit</Button
+                            >
+                            <Button button="cancel" @click="cancelreport"
+                                >Cancel</Button
+                            >
                         </div>
-
-                        <!-- 
-            <div class="row">
-                <Select :inputItem="fields.region" />
-                <Select :inputItem="fields.station" />
-                <Select :inputItem="fields.department" />
-            </div> -->
                     </form>
                 </div>
             </section>
@@ -270,22 +390,8 @@ import Button from "./Button";
 export default {
     data() {
         return {
-            anonymous: "",
-            firstname: "",
-            middlename: "",
-            lastname: "",
-            reported: "",
-            towhom: "",
-            describe: "",
-            subjectdetail: "",
-            threat: "",
-            elaborate: "",
-            evidence: "",
-            nopossession: "",
-            region: "",
-            station: "",
-            department: "",
-            range: "",
+            form: {},
+            range: [],
             fields: {
                 anonymous: {
                     name: "anonymous",
@@ -337,8 +443,8 @@ export default {
                     order: 1,
                 },
 
-                complaintanttype: {
-                    name: "complaintanttype",
+                complainanttype: {
+                    name: "complainanttype",
                     title: "What is your relation with KWS",
                     placeholder: "Please select...",
                     description: "What is your relation with KWS",
@@ -493,6 +599,47 @@ export default {
         TextArea,
         DateTimePicker,
         Button,
+    },
+    created() {
+        const storedForm = this.openStorage();
+        if (storedForm) {
+            this.form = {
+                ...this.form,
+                ...storedForm,
+            };
+            console.log(this.form);
+        }
+    },
+    watch: {
+        range: function (val) {
+            this.updateForm("range", val);
+        },
+    },
+
+    methods: {
+        cancelreport() {
+            localStorage.clear(0);
+            history.back();
+        },
+        submitreport() {
+            console.log("submit form");
+        },
+        updateForm(input, value) {
+            console.log(input, value);
+            this.form[input] = value;
+
+            let storedForm = this.openStorage(); // extract stored form
+            if (!storedForm) storedForm = {}; // if none exists, default to empty object
+
+            storedForm[input] = value; // store new value
+            this.saveStorage(storedForm); // save changes into localStorage
+        },
+        openStorage() {
+            return JSON.parse(localStorage.getItem("form"));
+        },
+        saveStorage(form) {
+            localStorage.setItem("form", JSON.stringify(form));
+        },
     },
 };
 /* const date = Date();

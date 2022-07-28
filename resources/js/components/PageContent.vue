@@ -11,7 +11,7 @@
                 <ContentDescription :contentDescription="menuitem">
                 </ContentDescription>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 d-none d-lg-block d-md-block">
                 <ContentImage :contentImage="menuitem"> </ContentImage>
             </div>
         </div>
