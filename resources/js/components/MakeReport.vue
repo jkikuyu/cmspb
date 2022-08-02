@@ -3,7 +3,7 @@
         <div class="content">
             <section>
                 <div class="card">
-                    <form @submit.prevent="submitreport">
+                    <form ref="makereport">
                         <div class="card-body">
                             <div class="container">
                                 <h2 class="fs-2 mb-3 fw-bold text-center">
@@ -83,6 +83,8 @@
                                         <div class="col-sm-2 me-3">
                                             <Input
                                                 :required="!+form.anonymous"
+                                                pattern="[A-Za-z]"
+                                                oninvalid="this.setCustomValidity('Enter your Surname')"
                                                 @input="
                                                     updateForm(
                                                         fields.last.name,
@@ -174,7 +176,7 @@
                                         />
                                         <span style="color: #ff0000"> * </span>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-3">
                                         <Select
                                             @change="
                                                 updateForm(
@@ -366,7 +368,11 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <Button class="mx-2" type="submit" button="submit"
+                            <Button
+                                class="mx-2"
+                                type="button"
+                                @click="submitreport"
+                                button="submit"
                                 >Submit</Button
                             >
                             <Button button="cancel" @click="cancelreport"
@@ -377,6 +383,10 @@
                 </div>
             </section>
         </div>
+        <Login
+            :showModal="isModalOpen"
+            @hideLoginModal="isModalOpen = false"
+        ></Login>
     </div>
 </template>
 
@@ -387,9 +397,12 @@ import Input from "./Input";
 import TextArea from "./TextArea";
 import DateTimePicker from "./DateTimePicker";
 import Button from "./Button";
+import Login from "./Login";
+
 export default {
     data() {
         return {
+            isModalOpen: false,
             form: {},
             range: [],
             fields: {
@@ -599,6 +612,7 @@ export default {
         TextArea,
         DateTimePicker,
         Button,
+        Login,
     },
     created() {
         const storedForm = this.openStorage();
@@ -622,7 +636,13 @@ export default {
             history.back();
         },
         submitreport() {
-            console.log("submit form");
+            console.log(this.$refs.makereport);
+            if (this.$refs.makereport.checkValidity()) {
+                this.isModalOpen = true;
+                console.log("submit form");
+            } else {
+                this.$refs.makereport.reportValidity();
+            }
         },
         updateForm(input, value) {
             console.log(input, value);
@@ -650,7 +670,7 @@ const range = reactive({
 });*/
 </script>
 
-<style>
+<style scoped>
 label,
 a {
     font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont,

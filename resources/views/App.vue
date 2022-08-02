@@ -1,12 +1,14 @@
 <template>
     <Header :menuitems="menuitems"></Header>
     <router-view :menuitems="menuitems"></router-view>
+
     <Footer></Footer>
 </template>
 
 <script>
 import Header from "../js/components/Header";
 import Footer from "../js/components/Footer";
+
 import { provide } from "vue";
 export default {
     data() {
@@ -56,7 +58,9 @@ export default {
         async fetchPageContents() {
             let data = null;
             try {
-                const res = await fetch("api/pagecontents/");
+                const res = await fetch(
+                    "http://localhost:8000/api/pagecontents/"
+                );
                 data = await res.json();
                 //console.log(data.data);
                 return data.data;

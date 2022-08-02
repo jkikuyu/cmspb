@@ -6,6 +6,7 @@
 
 <script>
 export default {
+    name: "Label",
     props: {
         label: Object,
     },
