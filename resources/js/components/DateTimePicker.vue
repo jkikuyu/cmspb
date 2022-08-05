@@ -1,5 +1,5 @@
 <template>
-    <DatePicker mode="dateTime" :columns="2" is-range>
+    <DatePicker mode="dateTime" :columns="2" :mode-config="modeConfig" is-range>
         <template v-slot="{ inputValue, inputEvents }">
             <div class="row">
                 <div class="col-sm-auto">
@@ -36,6 +36,12 @@ import Input from "./Input";
 export default {
     data() {
         return {
+            modeConfig: {
+                type: "string",
+                mask: "YYYY-MM-DD HH:mm",
+            },
+
+            masks: { L: "YYYY-MM-DD" },
             start: {
                 name: "datefrom",
                 title: "Date From",
@@ -46,6 +52,15 @@ export default {
             },
         };
     },
+    watch: {
+        range: {
+            handler: function () {
+                console.log(this.range);
+            },
+            deep: true,
+        },
+    },
+
     components: {
         DatePicker,
         Label,

@@ -35,22 +35,32 @@
             </div>
         </div>
     </nav>
-    <div class="float-start whistle">
-        <router-link class="makereportlink" to="/makereport">
-            <img
-                src="../../assets/whistlewithsound.png"
-                alt="Whistle Blow"
-                class="pt-3 whistlesize"
-            />
-            <div class="makereport">Report Incident</div>
-        </router-link>
+    <div class="container-fluid">
+        <div class="row hline">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-4">
+                <div class="whistle">
+                    <router-link class="makereportlink" to="/makereport">
+                        <img
+                            src="../../assets/whistlewithsound.png"
+                            alt="Whistle Blow"
+                            class="whistlesize"
+                        />
+                        <div class="makereport">Report Incident</div>
+                    </router-link>
+                </div>
+            </div>
+            <div class="col-sm-6 m-0 p-0">
+                <h5 class="float-end tollfree">Toll Free:</h5>
+
+                <h2 class="float-end makereport pt-4">0800 5970000</h2>
+            </div>
+        </div>
     </div>
-    <div class="float-end pt-2 tollfree">
-        <span class="text-nowrap" style="font-size: 1.2em">Toll Free:</span>
-    </div>
-    <h4>
+
+    <!-- <h4>
         <span>0800 5970000</span>
-    </h4>
+    </h4> -->
 </template>
 <script>
 import Button from "../components/Button";
@@ -67,7 +77,13 @@ export default {
 };
 </script>
 <style>
-h4 {
+.hline {
+    border-top: 10px solid #5d6d07;
+
+    background-color: #5d6d07 !important;
+    border-bottom: 10px solid #5d6d07;
+}
+/* h4 {
     width: 100%;
     color: #fff;
     text-align: right;
@@ -78,14 +94,16 @@ h4 {
 }
 h4 span {
     background: #5d6d07;
+} */
+.hotline {
+    padding-right: 250px;
 }
 .tollfree {
     color: #fff;
-    right: 250px;
-    position: absolute;
+    right: 80px;
+    position: relative;
 }
 .whistle {
-    left: 150px;
     position: absolute;
 }
 .whistlesize {

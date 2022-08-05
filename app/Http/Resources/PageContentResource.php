@@ -18,7 +18,6 @@ class PageContentResource extends JsonResource
 
     {
         $result = $this->content;
-        error_log($result);
         return [
         'id'          => $this->id,
         'name'        => $this->name,

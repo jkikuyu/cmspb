@@ -22,12 +22,19 @@
                                     <div class="col-sm-2">
                                         <Select
                                             required
+                                            oninvalid="this.setCustomValidity('Please select item from the drop down list')"
                                             @change="
                                                 updateForm(
                                                     fields.anonymous.name,
                                                     $event.target.value
                                                 )
                                             "
+                                            :class="{
+                                                'border border-danger':
+                                                    !form[
+                                                        fields.anonymous.name
+                                                    ],
+                                            }"
                                             :dropdownitems="yesno"
                                             :elementId="fields.anonymous.name"
                                             :value="form.anonymous"
@@ -51,12 +58,20 @@
                                         <div class="col-sm-2 me-3">
                                             <Input
                                                 :required="!+form.anonymous"
+                                                pattern="[^\s]+"
+                                                oninvalid="this.setCustomValidity('Please enter your first name')"
                                                 @input="
                                                     updateForm(
                                                         fields.first.name,
                                                         $event.target.value
                                                     )
                                                 "
+                                                :class="{
+                                                    'border border-danger':
+                                                        !form[
+                                                            fields.first.name
+                                                        ],
+                                                }"
                                                 :elementId="fields.first.name"
                                                 :placeholder="
                                                     fields.first.placeholder
@@ -83,14 +98,18 @@
                                         <div class="col-sm-2 me-3">
                                             <Input
                                                 :required="!+form.anonymous"
-                                                pattern="[A-Za-z]"
-                                                oninvalid="this.setCustomValidity('Enter your Surname')"
+                                                pattern="[^\s]+"
+                                                oninvalid="this.setCustomValidity('Please enter your last name/surname')"
                                                 @input="
                                                     updateForm(
                                                         fields.last.name,
                                                         $event.target.value
                                                     )
                                                 "
+                                                :class="{
+                                                    'border border-danger':
+                                                        !form[fields.last.name],
+                                                }"
                                                 :elementId="fields.last.name"
                                                 :placeholder="
                                                     fields.last.placeholder
@@ -116,7 +135,7 @@
                                                 :placeholder="
                                                     fields.workid.placeholder
                                                 "
-                                                :value="form.workid"
+                                                :value="form.wid"
                                             />
                                         </div>
                                         <div class="col-sm-auto ms-4">
@@ -138,7 +157,7 @@
                                                     fields.nationalid
                                                         .placeholder
                                                 "
-                                                :value="form.nationalid"
+                                                :value="form.nid"
                                             />
                                         </div>
 
@@ -159,6 +178,12 @@
                                                         $event.target.value
                                                     )
                                                 "
+                                                :class="{
+                                                    'border border-danger':
+                                                        !form[
+                                                            fields.email.name
+                                                        ],
+                                                }"
                                                 :elementId="fields.email.name"
                                                 :placeholder="
                                                     fields.email.placeholder
@@ -184,6 +209,13 @@
                                                     $event.target.value
                                                 )
                                             "
+                                            :class="{
+                                                'border border-danger':
+                                                    !form[
+                                                        fields.complainanttype
+                                                            .name
+                                                    ],
+                                            }"
                                             :elementId="
                                                 fields.complainanttype.name
                                             "
@@ -205,6 +237,12 @@
                                                     $event.target.value
                                                 )
                                             "
+                                            :class="{
+                                                'border border-danger':
+                                                    !form[
+                                                        fields.allegetype.name
+                                                    ],
+                                            }"
                                             :dropdownitems="allegetypelist"
                                             :elementId="fields.allegetype.name"
                                             :value="form.allegetype"
@@ -224,6 +262,10 @@
                                                     $event.target.value
                                                 )
                                             "
+                                            :class="{
+                                                'border border-danger':
+                                                    !form[fields.reported.name],
+                                            }"
                                             :dropdownitems="yesno"
                                             :elementId="fields.reported.name"
                                             :value="form.reported"
@@ -267,7 +309,12 @@
                                                 $event.target.value
                                             )
                                         "
+                                        :class="{
+                                            'border border-danger':
+                                                !form[fields.describe.name],
+                                        }"
                                         :elementId="fields.describe.name"
+                                        :value="form.description"
                                     />
                                 </div>
 
@@ -285,7 +332,14 @@
                                                 $event.target.value
                                             )
                                         "
+                                        :class="{
+                                            'border border-danger':
+                                                !form[
+                                                    fields.subjectdetail.name
+                                                ],
+                                        }"
                                         :elementId="fields.subjectdetail.name"
+                                        :value="form.detail"
                                     />
                                 </div>
                                 <div class="row mb-3">
@@ -398,13 +452,19 @@ import TextArea from "./TextArea";
 import DateTimePicker from "./DateTimePicker";
 import Button from "./Button";
 import Login from "./Login";
-
+import moment from "moment-timezone";
 export default {
     data() {
         return {
             isModalOpen: false,
+            fieldErrors: {},
             form: {},
-            range: [],
+            range: {
+                start: "",
+                end: "",
+            },
+            datefrom: Date(),
+            dateto: Date(),
             fields: {
                 anonymous: {
                     name: "anonymous",
@@ -413,49 +473,6 @@ export default {
                     description: "What is your relation with KWS",
                     order: 1,
                 },
-                first: {
-                    name: "firstname",
-                    title: "Ener your (first, middle, last) names",
-                    placeholder: "First Name",
-                    description: "Enter your first name",
-                    order: 1,
-                },
-                middle: {
-                    name: "firstname",
-                    title: "Ener your names",
-                    placeholder: "Middle Name",
-                    description: "What is your relation with KWS",
-                    order: 1,
-                },
-                last: {
-                    name: "lastname",
-                    title: "Ener your names",
-                    placeholder: "Last Name",
-                    description: "What is your relation with KWS",
-                    order: 1,
-                },
-                email: {
-                    name: "email",
-                    title: "Email Address",
-                    placeholder: "email address",
-                    description: "Email address of the complainant",
-                    order: 1,
-                },
-                workid: {
-                    name: "workid",
-                    title: "Employee ID",
-                    placeholder: "employee ID",
-                    description: "Employee Identification number",
-                    order: 1,
-                },
-                nationalid: {
-                    name: "workid",
-                    title: "National ID",
-                    placeholder: "national ID",
-                    description: "Government recognized Identification ID ",
-                    order: 1,
-                },
-
                 complainanttype: {
                     name: "complainanttype",
                     title: "What is your relation with KWS",
@@ -470,6 +487,58 @@ export default {
                     description: "Enter complainant type",
                     order: 2,
                 },
+                nationalid: {
+                    name: "nid",
+                    title: "National ID",
+                    placeholder: "national ID",
+                    description: "Government recognized Identification ID ",
+                    order: 1,
+                },
+                workid: {
+                    name: "wid",
+                    title: "Employee ID",
+                    placeholder: "employee ID",
+                    description: "Employee Identification number",
+                    order: 1,
+                },
+
+                first: {
+                    name: "firstname",
+                    title: "Ener your (first, middle, last) names",
+                    placeholder: "First Name",
+                    description: "Enter your first name",
+                    order: 1,
+                },
+                middle: {
+                    name: "middlename",
+                    title: "Ener your names",
+                    placeholder: "Middle Name",
+                    description: "What is your relation with KWS",
+                    order: 1,
+                },
+                last: {
+                    name: "lastname",
+                    title: "Ener your names",
+                    placeholder: "Last Name",
+                    description: "What is your relation with KWS",
+                    order: 1,
+                },
+                phone: {
+                    name: "phone",
+                    title: "Phone number",
+                    placeholder: "phone number",
+                    description: "phone number of the complainant",
+                    order: 1,
+                },
+
+                email: {
+                    name: "email",
+                    title: "Email Address",
+                    placeholder: "email address",
+                    description: "Email address of the complainant",
+                    order: 1,
+                },
+
                 reported: {
                     name: "reported",
                     title: "Has this issue been reported to any other party",
@@ -484,13 +553,13 @@ export default {
                     description: "Enter complainant type",
                 },
                 describe: {
-                    name: "describe",
+                    name: "description",
                     title: "Describe the incident in as much detail as possible",
                     placeholder: "",
                     description: "Enter complainant type",
                 },
                 subjectdetail: {
-                    name: "subjectdetail",
+                    name: "detail",
                     title: "Who is involved in the incident (Suspects), phone number(s), email(s)?",
                     Name: "",
                     placeholder: "",
@@ -615,18 +684,26 @@ export default {
         Login,
     },
     created() {
-        const storedForm = this.openStorage();
+        const storedForm = this.getLocalStorage();
         if (storedForm) {
             this.form = {
                 ...this.form,
                 ...storedForm,
             };
-            console.log(this.form);
+            this.range.start = storedForm.datefrom;
+            this.range.end = storedForm.dateto;
         }
     },
     watch: {
-        range: function (val) {
-            this.updateForm("range", val);
+        range: function (value) {
+            this.updateForm(
+                "datefrom",
+                moment(value.start).format("YYYY-MM-DD HH:mm")
+            );
+            this.updateForm(
+                "dateto",
+                moment(value.end).format("YYYY-MM-DD HH:mm")
+            );
         },
     },
 
@@ -637,28 +714,45 @@ export default {
         },
         submitreport() {
             console.log(this.$refs.makereport);
+            let isEmailorId = false;
             if (this.$refs.makereport.checkValidity()) {
-                this.isModalOpen = true;
-                console.log("submit form");
+                if (this.form.email) isEmailorId = true;
+                else {
+                    this.isModalOpen = true;
+                }
+                if (this.anonymousId) {
+                    isEmailorId = true;
+                }
+                if (isEmailorId) {
+                    this.storeReport();
+                }
             } else {
                 this.$refs.makereport.reportValidity();
             }
         },
         updateForm(input, value) {
-            console.log(input, value);
             this.form[input] = value;
 
-            let storedForm = this.openStorage(); // extract stored form
+            let storedForm = this.getLocalStorage(); // extract stored form
             if (!storedForm) storedForm = {}; // if none exists, default to empty object
 
             storedForm[input] = value; // store new value
             this.saveStorage(storedForm); // save changes into localStorage
         },
-        openStorage() {
+        getLocalStorage() {
             return JSON.parse(localStorage.getItem("form"));
         },
         saveStorage(form) {
             localStorage.setItem("form", JSON.stringify(form));
+        },
+        async storeReport() {
+            const res = await fetch("http://localhost:8000/api/complaints", {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(this.form),
+            });
         },
     },
 };

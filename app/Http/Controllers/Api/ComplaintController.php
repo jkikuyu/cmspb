@@ -30,7 +30,8 @@ class ComplaintController extends Controller
 
     {
         //
-        $complaint = Complaint::create($request);
+        $validated = $request->validated();
+        $complaint = Complaint::create($validated);
         return new ComplaintResource($complaint);
     }
 
