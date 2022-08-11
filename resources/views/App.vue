@@ -1,7 +1,6 @@
 <template>
     <Header :menuitems="menuitems"></Header>
     <router-view :menuitems="menuitems"></router-view>
-
     <Footer></Footer>
 </template>
 

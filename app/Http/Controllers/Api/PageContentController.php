@@ -6,10 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PageContentRequest;
 use App\Models\PageContent;
 use App\Http\Resources\PageContentResource;
-use Illuminate\Http\Request;
 
 class PageContentController extends Controller
 {
+    public function __construct()
+    {
+        //$this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +23,6 @@ class PageContentController extends Controller
     {
         $pageContent = PageContent::all()->sortBy('position');
         return PageContentResource::collection($pageContent);
-
     }
 
     /**
@@ -33,7 +36,7 @@ class PageContentController extends Controller
         $pageContent = PageContent::create($request);
         return new PageContentResource($pageContent);
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -57,7 +60,6 @@ class PageContentController extends Controller
     {
         $pageContent->udate($request);
         return new PageContentResource($pageContent);
-
     }
 
     /**

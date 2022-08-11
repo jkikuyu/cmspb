@@ -439,8 +439,14 @@
         </div>
         <Login
             :showModal="isModalOpen"
+            :anonymoususer_id="userid"
+            :label="logintext"
             @hideLoginModal="isModalOpen = false"
-        ></Login>
+            @submitReport="storeReport"
+        >
+            <template #formname> Create Anonymous User </template>
+            <template #usertitle> Anonymous User ID </template>
+        </Login>
     </div>
 </template>
 
@@ -457,6 +463,21 @@ export default {
     data() {
         return {
             isModalOpen: false,
+            userid: "",
+            logintext: {
+                newpassword: {
+                    name: "newpassword",
+                    title: "Enter New Password",
+                },
+                confirmpassword: {
+                    name: "confirmpassword",
+                    title: "Confirm New Password",
+                },
+                anonymousid: {
+                    name: "anonymousid",
+                    title: "Anonymous User ID",
+                },
+            },
             fieldErrors: {},
             form: {},
             range: {
@@ -712,16 +733,22 @@ export default {
             localStorage.clear(0);
             history.back();
         },
-        submitreport() {
-            console.log(this.$refs.makereport);
+        async submitreport() {
             let isEmailorId = false;
             if (this.$refs.makereport.checkValidity()) {
-                if (this.form.email) isEmailorId = true;
-                else {
-                    this.isModalOpen = true;
+                if (this.form.userid) {
+                    this.userid = this.form.userid;
+                } else {
+                    let data = await this.getAnonymousID();
+
+                    this.userid = data.userid;
+                    this.updateForm("userid", this.userid);
                 }
-                if (this.anonymousId) {
+
+                if (this.form.email) {
                     isEmailorId = true;
+                } else {
+                    this.isModalOpen = true;
                 }
                 if (isEmailorId) {
                     this.storeReport();
@@ -753,6 +780,20 @@ export default {
                 },
                 body: JSON.stringify(this.form),
             });
+        },
+        async getAnonymousID() {
+            let data = null;
+            try {
+                const res = await fetch(
+                    "http://localhost:8000/api/user/randomuserid"
+                );
+                data = await res.json();
+                console.log(data.userid);
+                return data;
+            } catch (err) {
+                console.log("error");
+                console.log(err);
+            }
         },
     },
 };

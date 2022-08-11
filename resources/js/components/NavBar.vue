@@ -35,7 +35,15 @@
             </div>
         </div>
     </nav>
+
     <div class="container-fluid">
+        <div class="row">
+            <div class="float-end loginpos">
+                <router-link class="text-muted login" to="#"
+                    >Log in</router-link
+                >
+            </div>
+        </div>
         <div class="row hline">
             <div class="col-sm-1"></div>
             <div class="col-sm-4">
@@ -95,6 +103,21 @@ export default {
 h4 span {
     background: #5d6d07;
 } */
+.login {
+    text-decoration: underline !important;
+}
+
+.login:hover {
+    text-decoration: underline !important;
+}
+.loginpos {
+    z-index: 99999;
+    position: absolute;
+    width: 100%;
+    top: 60px;
+    text-align: right;
+    padding-right: 100px;
+}
 .hotline {
     padding-right: 250px;
 }
