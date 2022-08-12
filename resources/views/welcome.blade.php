@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>KWS Integrity Office Online</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>KWS Integrity Office Online</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">    <style>
-      html,body {
-        height: 100%;
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-      }
-      body{
-        background-color: white;
-      }
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <style>
+    html,
+    body {
+      height: 100%;
 
-      #app {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
+    }
 
-      }
+    body {
+      background-color: white;
+    }
 
-      * {
-        box-sizing: border-box;
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
 
-      }
-    </style>
-        <script src="{{ asset('js/app.js') }}" defer></script>
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    }
 
-    </head>
-    <body>
-      <div id="app"></div>
-    </body>
+    * {
+      box-sizing: border-box;
+
+    }
+  </style>
+  <script src="{{ asset('js/app.js') }}" defer></script>
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
 
 
 </html>

@@ -715,6 +715,7 @@ export default {
             this.range.end = storedForm.dateto;
         }
     },
+
     watch: {
         range: function (value) {
             this.updateForm(
@@ -745,7 +746,7 @@ export default {
                     this.updateForm("userid", this.userid);
                 }
 
-                if (this.form.email) {
+                if (this.form.email && !this.form.anonymous) {
                     isEmailorId = true;
                 } else {
                     this.isModalOpen = true;

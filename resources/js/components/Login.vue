@@ -3,6 +3,7 @@
 
     <!-- Modal -->
     <div
+        ref="modal"
         class="modal fade"
         id="loginForm"
         data-bs-backdrop="static"
@@ -17,12 +18,6 @@
                     <h5 class="modal-title" id="loginFormLabel">
                         <slot name="formname" />
                     </h5>
-                    <!-- <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                    ></button> -->
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -41,31 +36,80 @@
                         <div class="col-sm-5 pt-2">
                             <Label :label="label.newpassword" />
                         </div>
-                        <div class="col-sm-4">
-                            <Input
-                                v-model="newpassword"
-                                id="newpassword"
-                                name="newpassword"
-                                placeholder="Password"
-                                type="Password"
-                            /><br />
-                            <span v-if="msg.password">{{ msg.password }}</span>
+                        <div class="form-group col-sm-6 m-0">
+                            <div class="input-group">
+                                <input
+                                    class="form-control"
+                                    :type="
+                                        isVisibleNewPassword
+                                            ? 'text'
+                                            : 'password'
+                                    "
+                                    v-model="newpassword"
+                                />
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <a
+                                            src="#"
+                                            @click="
+                                                isVisibleNewPassword =
+                                                    !isVisibleNewPassword
+                                            "
+                                            ><i
+                                                :class="{
+                                                    'fa fa-eye':
+                                                        !isVisibleNewPassword,
+                                                    'fas fa-eye-slash':
+                                                        isVisibleNewPassword,
+                                                }"
+                                            ></i
+                                        ></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span class="errmsg" v-if="msg.newpassword">{{
+                                msg.newpassword
+                            }}</span>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-sm-5 pt-2">
                             <Label :label="label.confirmpassword" />
                         </div>
-                        <div class="col-sm-4">
-                            <Input
-                                v-model="confirmpassword"
-                                id="confirmpassword"
-                                name="confirmpassword"
-                                placeholder="Confirm Password"
-                                type="Password"
-                            /><br />
-                            <span v-if="msg.confirmpassword">{{
+                        <div class="form-group col-sm-6 m-0">
+                            <div class="input-group">
+                                <input
+                                    class="form-control"
+                                    :type="
+                                        isVisibleConfirmPassword
+                                            ? 'text'
+                                            : 'password'
+                                    "
+                                    v-model="confirmpassword"
+                                />
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <a
+                                            src="#"
+                                            @click="
+                                                isVisibleConfirmPassword =
+                                                    !isVisibleConfirmPassword
+                                            "
+                                            ><i
+                                                :class="{
+                                                    'fa fa-eye':
+                                                        !isVisibleConfirmPassword,
+                                                    'fas fa-eye-slash':
+                                                        isVisibleConfirmPassword,
+                                                }"
+                                            ></i
+                                        ></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span class="errmsg" v-if="msg.confirmpassword">{{
                                 msg.confirmpassword
                             }}</span>
                         </div>
@@ -73,7 +117,7 @@
                 </div>
                 <div class="modal-footer">
                     <Button
-                        :disabled="!(msg.newpassword || msg.confirmpassword)"
+                        :disabled="isValid"
                         type="button"
                         button="submit"
                         data-bs-dismiss="modal"
@@ -107,11 +151,15 @@ export default {
         confirmpassword: "",
         msg: [],
         isValid: false,
+        isVisibleNewPassword: false,
+
+        isVisibleConfirmPassword: false,
     }),
     props: {
         showModal: Boolean,
         anonymoususer_id: String,
         label: Object,
+        modelValue: String,
     },
     components: { Button, Input, Label },
     watch: {
@@ -120,22 +168,19 @@ export default {
                 this.modalActive();
             }
         },
-        anonymoususer_id: function (val) {
-            console.log(val);
-        },
         newpassword: function (val) {
             this.newpassword = val;
-            console.log(val);
             this.validatePassword(val, "N");
         },
         confirmpassword: function (val) {
-            console.log(val);
             this.confirmpassword = val;
             this.validatePassword(val, "C");
         },
     },
-
     methods: {
+        togglePassword: function () {
+            this.isVisibleNewPassword = !this.isVisibleNewPassword;
+        },
         modalActive: function () {
             this.loginFormModal = new Modal(
                 document.getElementById("loginForm"),
@@ -157,18 +202,15 @@ export default {
         },
         submitReport: function () {
             this.loginFormModal.hide();
-            this.$emit("hideLoginModal");
+            this.$emit("submitReport");
         },
         validatePassword(value, type) {
+            this.isValid = true;
             if (type === "N") {
-                let difference = 8 - value.length;
                 if (value.length < 8) {
-                    this.msg["password"] =
-                        "Must be 8 characters! " +
-                        difference +
-                        " characters left";
+                    this.msg["newpassword"] = "( " + value.length + "/8 )";
                 } else {
-                    this.msg["password"] = "";
+                    this.msg["newpassword"] = "";
                 }
             } else {
                 if (value !== this.newpassword) {
@@ -176,6 +218,7 @@ export default {
                         "New password and confirm password must be the same";
                 } else {
                     this.msg["confirmpassword"] = "";
+                    this.isValid = false;
                 }
             }
         },
@@ -184,7 +227,7 @@ export default {
 </script>
 
 <style scoped>
-span {
+span.errmsg {
     padding-top: 0px;
     margin-top: 0px;
     font-size: 12px;
