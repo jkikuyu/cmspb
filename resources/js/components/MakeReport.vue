@@ -464,6 +464,7 @@ export default {
         return {
             isModalOpen: false,
             userid: "",
+            password: "",
             logintext: {
                 newpassword: {
                     name: "newpassword",
@@ -486,6 +487,7 @@ export default {
             },
             datefrom: Date(),
             dateto: Date(),
+
             fields: {
                 anonymous: {
                     name: "anonymous",
@@ -734,15 +736,15 @@ export default {
             localStorage.clear(0);
             history.back();
         },
-        async submitreport() {
+        async submitreport(password) {
             let isEmailorId = false;
             if (this.$refs.makereport.checkValidity()) {
                 if (this.form.userid) {
                     this.userid = this.form.userid;
                 } else {
-                    let data = await this.getAnonymousID();
+                    this.userid = await this.getAnonymousID();
 
-                    this.userid = data.userid;
+                    //this.userid = data.userid;
                     this.updateForm("userid", this.userid);
                 }
 
@@ -752,7 +754,7 @@ export default {
                     this.isModalOpen = true;
                 }
                 if (isEmailorId) {
-                    this.storeReport();
+                    this.storeReport(password);
                 }
             } else {
                 this.$refs.makereport.reportValidity();
@@ -773,14 +775,58 @@ export default {
         saveStorage(form) {
             localStorage.setItem("form", JSON.stringify(form));
         },
-        async storeReport() {
-            const res = await fetch("http://localhost:8000/api/complaints", {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify(this.form),
-            });
+        async getToken() {
+            let data = null;
+            let token = "";
+            let userDetails = {
+                userid: this.userid,
+                password: this.password,
+            };
+
+            try {
+                const res = await fetch("http://localhost:8000/api/register", {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(userDetails),
+                });
+                data = await res.json();
+                if (data.status === "409") {
+                    this.userid = await this.getAnonymousID();
+                    token = await this.getToken();
+                } else {
+                    token = data.authorisation.token;
+                }
+                return token;
+            } catch (err) {
+                console.log(err);
+            }
+        },
+        async storeReport(password) {
+            let data = null;
+            this.password = password;
+            let token = await this.getToken();
+            console.log(token);
+            let headers = new Headers();
+            headers.append("Authorization", "bearer " + token);
+            headers.append("Content-type", "application/json");
+            try {
+                const res = await fetch(
+                    "http://localhost:8000/api/complaints",
+                    {
+                        method: "POST",
+                        headers: headers,
+                        body: JSON.stringify(this.form),
+                    }
+                );
+                data = await res.json();
+                if (data.status === "200") {
+                    this.cancelreport();
+                }
+            } catch (err) {
+                console.log(err);
+            }
         },
         async getAnonymousID() {
             let data = null;
@@ -789,8 +835,8 @@ export default {
                     "http://localhost:8000/api/user/randomuserid"
                 );
                 data = await res.json();
-                console.log(data.userid);
-                return data;
+                let userid = data.userid;
+                return userid;
             } catch (err) {
                 console.log("error");
                 console.log(err);

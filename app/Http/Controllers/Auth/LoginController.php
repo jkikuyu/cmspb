@@ -9,8 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-
-
+use Exception;
 
 class LoginController extends Controller
 {
@@ -46,69 +45,94 @@ class LoginController extends Controller
     public function login(UserRequest $request)
     {
 
-        if ($request->userid) {
-            $request->validate([
-                'userid' => 'required|string|userid',
-                'password' => 'required|string',
-            ]);
-            $credentials = $request->only('userid', 'password');
-        } else {
-            $request->validate([
-                'email' => 'required|string|email',
-                'password' => 'required|string',
-            ]);
-            $credentials = $request->only('email', 'password');
-            error_log(implode($credentials));
-        }
+        try {
+            if ($request->userid) {
+                $request->validate([
+                    'userid' => 'required|string|userid',
+                    'password' => 'required|string',
+                ]);
+                $credentials = $request->only('userid', 'password');
+            } else {
+                $request->validate([
+                    'email' => 'required|string|email',
+                    'password' => 'required|string',
+                ]);
+                $credentials = $request->only('email', 'password');
+                error_log(implode($credentials));
+            }
 
-        $token = Auth::attempt($credentials);
-        if (!$token) {
+            $token = Auth::attempt($credentials);
+            if (!$token) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Unauthorized',
+                ], 401);
+            }
+
+            $user = Auth::user();
             return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
+                'status' => 'success',
+                'user' => $user,
+                'authorisation' => [
+                    'token' => $token,
+                    'type' => 'bearer',
+                ]
+            ]);
+        } catch (Exception $ex) {
+            return response()->json($user);
         }
-
-        $user = Auth::user();
-        return response()->json([
-            'status' => 'success',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
     }
 
     public function register(UserRequest $request)
     {
-        $validated = $request->validate([
-            'firstname' => 'required|string|max:255',
-            'middlename' => 'string|max:255',
-            'lastname' => 'required|string|max:255',
-            'userid' => 'required|string|max:10|unique:users',
-            'email' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
+        error_log($request->userid);
+        $validated = "";
+        try {
 
-        $user = User::create($validated);
-        $token = Auth::login($user);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User created successfully',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
+            if ($request->userid) {
+                $validated = $request->validate(
+                    [
+                        'userid' => 'required|string|max:10|unique:users',
+                        'password' => 'required|string|min:8',
+                    ]
+                );
+            } else {
+                $validated = $request->validate([
+                    'firstname' => 'required|string|max:255',
+                    'middlename' => 'string|max:255',
+                    'lastname' => 'required|string|max:255',
+                    'email' => 'required|string|max:255|unique:users',
+                    'password' => 'required|string|min:8',
+                ]);
+            }
+
+            $validated['password'] = Hash::make($validated['password']);
+            $user = User::create($validated);
+            $token = Auth::login($user);
+            return response()->json([
+                'status' => '200',
+                'message' => 'User created successfully',
+                'user' => $user,
+                'authorisation' => [
+                    'token' => $token,
+                    'type' => 'bearer',
+                ]
+            ]);
+        } catch (Exception $ex) {
+            error_log($ex->getMessage());
+
+            return response()->json([
+                'status' => '409',
+                'message' => 'conflict with existing resource',
+            ]);
+        }
     }
 
     public function logout()
     {
         Auth::logout();
         return response()->json([
-            'status' => 'success',
+            'status' => '200',
             'message' => 'Successfully logged out',
         ]);
     }
@@ -116,7 +140,7 @@ class LoginController extends Controller
     public function refresh()
     {
         return response()->json([
-            'status' => 'success',
+            'status' => '200',
             'user' => Auth::user(),
             'authorisation' => [
                 'token' => Auth::refresh(),

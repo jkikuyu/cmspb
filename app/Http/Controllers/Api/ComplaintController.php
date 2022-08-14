@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ComplaintResource;
 use App\Models\Complaint;
 use App\Http\Requests\ComplaintRequest;
+use Exception;
 
 class ComplaintController extends Controller
 {
@@ -34,10 +35,22 @@ class ComplaintController extends Controller
     public function store(ComplaintRequest $request)
 
     {
-        //
-        $validated = $request->validated();
-        $complaint = Complaint::create($validated);
-        return new ComplaintResource($complaint);
+        $resp = "";
+        try {
+            $validated = $request->validated();
+            $complaint = Complaint::create($validated);
+            $resp = [
+                'status' => '200',
+                'message' => 'Record saved successfully',
+            ];
+        } catch (Exception $ex) {
+            $resp = [
+                'status' => '400',
+                'message' => 'Unauthorized request',
+
+            ];
+        }
+        return response()->json($resp);
     }
 
     /**

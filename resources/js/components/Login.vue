@@ -195,14 +195,9 @@ export default {
             this.loginFormModal.hide();
             this.$emit("hideLoginModal");
         },
-        encrypt: async function (texttoEncrypt) {
-            const password = window.prompt("Password");
-            const encryptedData = await encryptData(data, password);
-            encryptedDataOut.value = encryptedData;
-        },
         submitReport: function () {
             this.loginFormModal.hide();
-            this.$emit("submitReport");
+            this.$emit("submitReport", this.newpassword);
         },
         validatePassword(value, type) {
             this.isValid = true;
