@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import PageContent from "../components/PageContent";
 import MakeReport from "../components/MakeReport";
+import Login from "../components/Login";
+import Dashboard from "../components/Dashboard";
 
 const routes = [
     {
@@ -44,6 +46,16 @@ const routes = [
         path: "/makereport",
         name: "MakeReport",
         component: MakeReport,
+    },
+    {
+        path: "/login",
+        name: "Login",
+        component: Login,
+    },
+    {
+        path: "/dashboard",
+        name: "Dashboard",
+        component: Dashboard,
     },
 ];
 const router = createRouter({

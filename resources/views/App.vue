@@ -8,7 +8,6 @@
 import Header from "../js/components/Header";
 import Footer from "../js/components/Footer";
 
-import { provide } from "vue";
 export default {
     data() {
         return {

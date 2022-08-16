@@ -17,33 +17,33 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->boolean('anonymous')->nullable()->default(false);
 
-            $table->string('complainanttype',2)->nullable(false);
-            $table->string('allegetype',2)->nullable(false);
-            $table->string('nid',256)->nullable();
-            $table->string('wid',256)->nullable();
-            $table->string('firstname',256)->nullable();
-            $table->string('middlename',256)->nullable();
-            $table->string('lastname',256)->nullable();
-            $table->string('phone',256)->nullable();
-            $table->string('email',256)->nullable();
-            $table->boolean('reported',1)->nullable();
-            $table->string('towhom',256)->nullable();
+            $table->string('complainanttype', 2)->nullable(false);
+            $table->bigInteger('user_id')->unsigned();
+            $table->string('allegetype', 2)->nullable(false);
+            $table->string('nid', 256)->nullable();
+            $table->string('wid', 256)->nullable();
+            $table->string('firstname', 256)->nullable();
+            $table->string('middlename', 256)->nullable();
+            $table->string('lastname', 256)->nullable();
+            $table->string('phone', 256)->nullable();
+            $table->string('email', 256)->nullable();
+            $table->boolean('reported', 1)->nullable();
+            $table->string('towhom', 256)->nullable();
             $table->longText('description')->nullable();
             $table->longText('detail')->nullable();
-            $table->boolean('threat',1)->nullable();
+            $table->boolean('threat', 1)->nullable();
             $table->longText('elaborate')->nullable();
             $table->boolean('evidence')->nullable();
             $table->boolean('nopossession')->nullable();
 
-            $table->string('region',256)->nullable();
-            $table->string('station',256)->nullable();
-            $table->string('department',256)->nullable();
-            $table->timestamp('datefrom',0)->nullable();
-            $table->timestamp('dateto',0)->nullable();
+            $table->string('region', 256)->nullable();
+            $table->string('station', 256)->nullable();
+            $table->string('department', 256)->nullable();
+            $table->timestamp('datefrom', 0)->nullable();
+            $table->timestamp('dateto', 0)->nullable();
 
             $table->softDeletes();
             $table->timestamps();
-
         });
     }
 

@@ -28,6 +28,8 @@
         "@eonasdan/tempus-dominus": "^6.0.0-beta9",
         "@vue/cli": "^5.0.8",
         "autoprefixer": "10.4.5",
+        "datatables.net-select": "^1.4.0",
+        "datatables.net-vue3": "^1.0.0",
         "i": "^0.3.7",
         "marked": "^4.0.18",
         "moment-timezone": "^0.5.34",

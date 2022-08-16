@@ -22,7 +22,6 @@
                                     <div class="col-sm-2">
                                         <Select
                                             required
-                                            oninvalid="this.setCustomValidity('Please select item from the drop down list')"
                                             @change="
                                                 updateForm(
                                                     fields.anonymous.name,
@@ -59,7 +58,6 @@
                                             <Input
                                                 :required="!+form.anonymous"
                                                 pattern="[^\s]+"
-                                                oninvalid="this.setCustomValidity('Please enter your first name')"
                                                 @input="
                                                     updateForm(
                                                         fields.first.name,
@@ -99,7 +97,6 @@
                                             <Input
                                                 :required="!+form.anonymous"
                                                 pattern="[^\s]+"
-                                                oninvalid="this.setCustomValidity('Please enter your last name/surname')"
                                                 @input="
                                                     updateForm(
                                                         fields.last.name,
@@ -437,7 +434,7 @@
                 </div>
             </section>
         </div>
-        <Login
+        <Register
             :showModal="isModalOpen"
             :anonymoususer_id="userid"
             :label="logintext"
@@ -446,7 +443,7 @@
         >
             <template #formname> Create Anonymous User </template>
             <template #usertitle> Anonymous User ID </template>
-        </Login>
+        </Register>
     </div>
 </template>
 
@@ -457,7 +454,7 @@ import Input from "./Input";
 import TextArea from "./TextArea";
 import DateTimePicker from "./DateTimePicker";
 import Button from "./Button";
-import Login from "./Login";
+import Register from "./Register";
 import moment from "moment-timezone";
 export default {
     data() {
@@ -704,7 +701,7 @@ export default {
         TextArea,
         DateTimePicker,
         Button,
-        Login,
+        Register,
     },
     created() {
         const storedForm = this.getLocalStorage();
@@ -738,17 +735,13 @@ export default {
         },
         async submitreport(password) {
             let isEmailorId = false;
+
             if (this.$refs.makereport.checkValidity()) {
-                if (this.form.userid) {
-                    this.userid = this.form.userid;
-                } else {
-                    this.userid = await this.getAnonymousID();
+                this.userid = await this.getAnonymousID();
 
-                    //this.userid = data.userid;
-                    this.updateForm("userid", this.userid);
-                }
-
-                if (this.form.email && !this.form.anonymous) {
+                //this.userid = data.userid;
+                this.updateForm("userid", this.userid);
+                if (this.form.email && !+this.form.anonymous) {
                     isEmailorId = true;
                 } else {
                     this.isModalOpen = true;
@@ -792,12 +785,8 @@ export default {
                     body: JSON.stringify(userDetails),
                 });
                 data = await res.json();
-                if (data.status === "409") {
-                    this.userid = await this.getAnonymousID();
-                    token = await this.getToken();
-                } else {
-                    token = data.authorisation.token;
-                }
+                token = data.authorisation.token;
+
                 return token;
             } catch (err) {
                 console.log(err);
@@ -863,7 +852,7 @@ a {
     text-align: left;
     color: #212529;
 }
-reporttitle {
+.reporttitle {
     font-family: "futurabold";
     font-size: 42px;
     color: #000;

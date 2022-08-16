@@ -39,7 +39,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="float-end loginpos">
-                <router-link class="text-muted login" to="#"
+                <router-link class="text-muted login" to="/login"
                     >Log in</router-link
                 >
             </div>
@@ -71,17 +71,28 @@
     </h4> -->
 </template>
 <script>
+import { valuesIn } from "lodash";
 import Button from "../components/Button";
 import MenuItem from "../components/MenuItem";
-import { inject } from "vue";
 export default {
     components: {
         Button,
         MenuItem,
     },
+    data() {
+        return {
+            newpassword: "",
+        };
+    },
     props: {
         menuitems: Array,
     },
+    watch: {
+        newpassword: function (val) {
+            console.log(val);
+        },
+    },
+    methods: {},
 };
 </script>
 <style>

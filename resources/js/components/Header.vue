@@ -8,6 +8,8 @@
 import NavBar from "./NavBar";
 
 export default {
+    name: "Header",
+
     components: { NavBar },
     props: {
         menuitems: Array,

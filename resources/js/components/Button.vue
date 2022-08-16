@@ -17,6 +17,7 @@
 
 <script>
 export default {
+    name: "Button",
     props: {
         button: {
             type: String,

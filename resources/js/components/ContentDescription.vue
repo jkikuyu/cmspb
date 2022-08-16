@@ -6,6 +6,7 @@
 import { marked } from "marked";
 
 export default {
+    name: "contentDescription",
     props: {
         contentDescription: Object,
     },
