@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use App\Providers\RouteServiceProvider;
+//use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +31,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    //protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -40,19 +40,22 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        //$this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
     public function login(UserRequest $request)
     {
 
         try {
             if ($request->userid) {
+                error_log($request->userid);
                 $request->validate([
                     'userid' => 'required|string|userid',
                     'password' => 'required|string',
                 ]);
                 $credentials = $request->only('userid', 'password');
             } else {
+                error_log("email");
+                error_log($request->email);
                 $request->validate([
                     'email' => 'required|string|email',
                     'password' => 'required|string',
@@ -62,16 +65,17 @@ class LoginController extends Controller
             }
 
             $token = Auth::attempt($credentials);
+
             if (!$token) {
                 return response()->json([
-                    'status' => 'error',
+                    'status' => '401',
                     'message' => 'Unauthorized',
                 ], 401);
             }
 
             $user = Auth::user();
             return response()->json([
-                'status' => 'success',
+                'status' => '200',
                 'user' => $user,
                 'authorisation' => [
                     'token' => $token,
@@ -79,7 +83,11 @@ class LoginController extends Controller
                 ]
             ]);
         } catch (Exception $ex) {
-            return response()->json($user);
+            error_log($ex->getMessage());
+            return response()->json([
+                'status' => '404',
+                'message' => 'Not found',
+            ]);
         }
     }
 

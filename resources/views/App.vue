@@ -11,6 +11,8 @@ import Footer from "../js/components/Footer";
 export default {
     data() {
         return {
+            resp: {},
+            isExpired: false,
             menuitems: [],
             /*             menuitems: [
                 {
@@ -63,9 +65,33 @@ export default {
                 //console.log(data.data);
                 return data.data;
             } catch (err) {
-                console.log("error");
                 console.log(err);
             }
+        },
+        isTokenExpired: function (token) {
+            if (token) {
+                console.log(token);
+                try {
+                    const [, payload] = token.split(".");
+                    const { exp: expires } = JSON.parse(window.atob(payload));
+                    if (typeof expires === "number") {
+                        if (Date.now() >= expires * 1000) {
+                            this.isExpired = true;
+                        } else {
+                            this.isExpired = false;
+                        }
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        },
+        refreshToken: async function () {
+            console.log("dash");
+        },
+        getStoredToken: function () {
+            console.log("gettoken");
+            this.resp = JSON.parse(localStorage.getItem("resp"));
         },
     },
 };

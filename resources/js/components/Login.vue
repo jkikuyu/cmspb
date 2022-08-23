@@ -23,6 +23,8 @@ export default {
 
     data() {
         return {
+            response: {},
+            isExpired: false,
             page: "Login Details",
             imageDetail: {
                 name: "LoginImage",
@@ -43,6 +45,32 @@ export default {
             msg: [],
             isVisibleNewPassword: false,
         };
+    },
+    /*  mounted() {
+        this.response = this.getStoredToken();
+        if (this.response) {
+            this.isExpired = this.isTokenExpired(this.response.token);
+            if (!this.isExpired) {
+                this.$router.push({ path: "/dashboard" });
+            }
+        }
+    }, */
+    watch: {
+        $route: function (value) {
+            // lets watch for route changes on our
+            console.log("dash");
+        },
+    },
+
+    methods: {
+        storeToken: function (resp) {
+            localStorage.setItem("resp", JSON.stringify(resp));
+        },
+        getStoredToken: function () {
+            return JSON.parse(localStorage.getItem("resp"));
+        },
+
+        logout: async function () {},
     },
 };
 </script>

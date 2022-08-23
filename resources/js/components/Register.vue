@@ -57,9 +57,9 @@
                                             "
                                             ><i
                                                 :class="{
-                                                    'fa fa-eye':
+                                                    'fa fa-eye-slash':
                                                         !isVisibleNewPassword,
-                                                    'fas fa-eye-slash':
+                                                    'fas fa-eye':
                                                         isVisibleNewPassword,
                                                 }"
                                             ></i
@@ -98,9 +98,9 @@
                                             "
                                             ><i
                                                 :class="{
-                                                    'fa fa-eye':
+                                                    'fa fa-eye-slash':
                                                         !isVisibleConfirmPassword,
-                                                    'fas fa-eye-slash':
+                                                    'fas fa-eye':
                                                         isVisibleConfirmPassword,
                                                 }"
                                             ></i

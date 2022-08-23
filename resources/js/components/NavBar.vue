@@ -92,7 +92,6 @@ export default {
             console.log(val);
         },
     },
-    methods: {},
 };
 </script>
 <style>
