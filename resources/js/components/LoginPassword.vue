@@ -97,7 +97,12 @@ export default {
             },
         };
     },
-
+    mounted() {
+        if (axios.defaults.headers.common["Authorization"]) {
+            console.log(axios.defaults.headers.common["Authorization"]);
+            this.$router.push("/dashboard");
+        }
+    },
     setup() {
         const router = new useRouter();
         const loginform = async (e) => {
@@ -105,7 +110,6 @@ export default {
 
             const form = new FormData(e.target);
             const inputs = Object.fromEntries(form.entries());
-            console.log(inputs);
             if (
                 /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
                     inputs.userid
@@ -124,9 +128,10 @@ export default {
             const { data } = await axios.post("login", userDetails, {
                 withCredentials: true,
             });
+
             axios.defaults.headers.common[
                 "Authorization"
-            ] = `Bearer ${data.token}`;
+            ] = `Bearer ${data.authorisation.token}`;
             router.push({ path: "/dashboard" });
         };
         return {

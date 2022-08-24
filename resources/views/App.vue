@@ -59,7 +59,7 @@ export default {
             let data = null;
             try {
                 const res = await fetch(
-                    "http://localhost:8000/api/pagecontents/"
+                    "http://127.0.0.1:8000/api/pagecontents/"
                 );
                 data = await res.json();
                 //console.log(data.data);

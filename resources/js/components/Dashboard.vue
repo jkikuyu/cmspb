@@ -122,12 +122,24 @@ export default {
         }
     }, */
     setup() {
-        const logout = async () => {
+        const router = new useRouter();
+        onMounted(async () => {
+            try {
+                if (!axios.defaults.headers.common["Authorization"]) {
+                    await router.push("/login");
+                }
+
+                //const {data} = await axios.get('user');
+                //message.value = `Hi ${data.name}`;
+            } catch (e) {
+                await router.push("/login");
+            }
+        });
+        const logout = async (e) => {
             await axios.post("logout", {}, { withCredentials: true });
 
             axios.defaults.headers.common["Authorization"] = "";
-
-            await router.push("/");
+            router.push({ path: "/" });
         };
 
         return {

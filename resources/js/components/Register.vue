@@ -114,7 +114,32 @@
                             }}</span>
                         </div>
                     </div>
+                    <hr />
+                    <div class="row">
+                        <p class="fw-bold m-0">Note:</p>
+                        <div class="col-sm-12 pt-2">
+                            <ul>
+                                <li>
+                                    Write down your anonymous User ID and
+                                    password. You need them to login and track
+                                    the status of your report
+                                </li>
+                                <li>Keep your login details safe.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-10 ms-4">
+                        <input
+                            type="checkbox"
+                            id="btncheck1"
+                            autocomplete="off"
+                        />
+                        I have read and understood the steps and Guidelines
+                    </div>
+                </div>
+
                 <div class="modal-footer">
                     <Button
                         :disabled="isValid"
