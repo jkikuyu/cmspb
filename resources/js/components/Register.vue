@@ -130,24 +130,15 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-10 ms-4">
-                        <button
-                            class="btn btn-primary"
-                            type="button"
+                        <input type="checkbox" id="iagree" autocomplete="off" />
+                        I have read and understood
+                        <a
+                            href="#"
+                            class="link-primary"
                             data-bs-toggle="modal"
                             data-bs-target="#userManual"
+                            >the steps and guidelines</a
                         >
-                            Submit
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-10 ms-4">
-                        <input
-                            type="checkbox"
-                            id="btncheck1"
-                            autocomplete="off"
-                        />
-                        I have read and understood the steps and Guidelines
                     </div>
                 </div>
 
@@ -173,17 +164,17 @@
         </div>
     </div>
     <div
-        class="modal fade"
+        class="modal"
         id="userManual"
         aria-hidden="true"
         aria-labelledby="userManual"
         tabindex="-1"
     >
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalToggleLabel2">
-                        Modal 2
+                    <h5 class="modal-title" id="userManualTitle">
+                        Whistleblower User Manual
                     </h5>
                     <button
                         type="button"
@@ -193,15 +184,40 @@
                     ></button>
                 </div>
                 <div class="modal-body">
-                    Hide this modal and show the first with the button below.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Eveniet, nostrum doloribus quis mollitia nisi inventore.
+                    Rerum iure eaque saepe natus, provident sequi consectetur
+                    ipsam expedita omnis dicta voluptatem officia illum quaerat
+                    ullam repellat quos vero debitis nesciunt voluptas. Adipisci
+                    ut corporis rerum quo sit soluta aliquid, at eligendi quia
+                    odit laboriosam enim tempora possimus nemo autem, veniam a
+                    voluptatem nihil dolores ullam velit quidem sequi! Iure
+                    accusamus culpa voluptatem id repudiandae, nihil vel
+                    repellat quia odio quae distinctio, dolore consequatur quis
+                    ducimus numquam praesentium maiores labore eaque maxime
+                    excepturi? Ipsum error a ipsa nemo porro. Consequatur
+                    perspiciatis modi veritatis ullam! Lorem ipsum dolor sit
+                    amet consectetur adipisicing elit. Eveniet, nostrum
+                    doloribus quis mollitia nisi inventore. Rerum iure eaque
+                    saepe natus, provident sequi consectetur ipsam expedita
+                    omnis dicta voluptatem officia illum quaerat ullam repellat
+                    quos vero debitis nesciunt voluptas. Adipisci ut corporis
+                    rerum quo sit soluta aliquid, at eligendi quia odit
+                    laboriosam enim tempora possimus nemo autem, veniam a
+                    voluptatem nihil dolores ullam velit quidem sequi! Iure
+                    accusamus culpa voluptatem id repudiandae, nihil vel
+                    repellat quia odio quae distinctio, dolore consequatur quis
+                    ducimus numquam praesentium maiores labore eaque maxime
+                    excepturi? Ipsum error a ipsa nemo porro. Consequatur
+                    perspiciatis modi veritatis ullam!
                 </div>
                 <div class="modal-footer">
                     <button
-                        class="btn btn-primary"
-                        data-bs-target="#loginForm"
-                        data-bs-toggle="modal"
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
                     >
-                        Back to first
+                        Close
                     </button>
                 </div>
             </div>
