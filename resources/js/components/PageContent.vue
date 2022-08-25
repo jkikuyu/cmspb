@@ -5,7 +5,7 @@
         class="container"
     >
         <div class="row">
-            <div class="col-sm-6">
+            <div v-if="menuitem.id % 2 > 0" class="col-sm-6">
                 <h2>{{ menuitem.title }}</h2>
                 <hr />
                 <ContentDescription :contentDescription="menuitem">
@@ -13,6 +13,12 @@
             </div>
             <div class="col-sm-6 d-none d-lg-block d-md-block">
                 <ContentImage :contentImage="menuitem"> </ContentImage>
+            </div>
+            <div v-if="menuitem.id % 2 == 0" class="col-sm-6">
+                <h2>{{ menuitem.title }}</h2>
+                <hr />
+                <ContentDescription :contentDescription="menuitem">
+                </ContentDescription>
             </div>
         </div>
     </div>

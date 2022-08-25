@@ -6,7 +6,6 @@
         ref="modal"
         class="modal fade"
         id="loginForm"
-        data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="loginFormLabel"
@@ -131,6 +130,18 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-10 ms-4">
+                        <button
+                            class="btn btn-primary"
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#userManual"
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 ms-4">
                         <input
                             type="checkbox"
                             id="btncheck1"
@@ -161,6 +172,41 @@
             </div>
         </div>
     </div>
+    <div
+        class="modal fade"
+        id="userManual"
+        aria-hidden="true"
+        aria-labelledby="userManual"
+        tabindex="-1"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalToggleLabel2">
+                        Modal 2
+                    </h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    Hide this modal and show the first with the button below.
+                </div>
+                <div class="modal-footer">
+                    <button
+                        class="btn btn-primary"
+                        data-bs-target="#loginForm"
+                        data-bs-toggle="modal"
+                    >
+                        Back to first
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -176,7 +222,7 @@ export default {
         confirmpassword: "",
         newpassword: "",
         msg: [],
-        isValid: false,
+        isValid: true,
         isVisibleNewPassword: false,
 
         isVisibleConfirmPassword: false,
@@ -208,6 +254,7 @@ export default {
             this.isVisibleNewPassword = !this.isVisibleNewPassword;
         },
         modalActive: function () {
+            console.log("here");
             this.loginFormModal = new Modal(
                 document.getElementById("loginForm"),
                 {
