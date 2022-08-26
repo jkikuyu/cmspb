@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Exception;
+
 class UserController extends Controller
 {
     /**
@@ -63,15 +65,17 @@ class UserController extends Controller
     {
         //
     }
-    public function generateRandomUserId(){
-        $length = env('RANDOM_ID_LENGTH',12); 
+    public function generateRandomUserId()
+    {
+        $length = env('RANDOM_ID_LENGTH', 12);
         $id = strtoupper(Str::random($length));
-        $validator = Validator::make(['userid'=>$id],['userid'=>'unique:users,userid']);
+        $validator = Validator::make(['userid' => $id], ['userid' => 'unique:users,userid']);
 
-        if($validator->fails()){
-         $id = $this->generateRandomUserId();
+        if ($validator->fails()) {
+
+            $id = $this->generateRandomUserId();
         }
-        return response()->json(['userid'=> $id]);
-
+        error_log($id);
+        return response()->json(['userid' => $id]);
     }
 }

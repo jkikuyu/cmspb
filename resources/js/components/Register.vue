@@ -130,7 +130,12 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-10 ms-4">
-                        <input type="checkbox" id="iagree" autocomplete="off" />
+                        <input
+                            type="checkbox"
+                            @click="isAgree = !isAgree"
+                            id="iagree"
+                            autocomplete="off"
+                        />
                         I have read and understood
                         <a
                             href="#"
@@ -144,7 +149,7 @@
 
                 <div class="modal-footer">
                     <Button
-                        :disabled="isValid"
+                        :disabled="!(isValid && isAgree)"
                         type="button"
                         button="submit"
                         data-bs-dismiss="modal"
@@ -239,10 +244,12 @@ export default {
         newpassword: "",
         msg: [],
         isValid: true,
+        isAgree: false,
         isVisibleNewPassword: false,
 
         isVisibleConfirmPassword: false,
     }),
+
     props: {
         showModal: Boolean,
         anonymoususer_id: String,
@@ -250,6 +257,7 @@ export default {
         modelValue: String,
     },
     components: { Button, Input, Label, LoginPassword },
+
     watch: {
         showModal: function (val) {
             if (val === true) {
@@ -270,7 +278,6 @@ export default {
             this.isVisibleNewPassword = !this.isVisibleNewPassword;
         },
         modalActive: function () {
-            console.log("here");
             this.loginFormModal = new Modal(
                 document.getElementById("loginForm"),
                 {
@@ -289,7 +296,10 @@ export default {
             this.$emit("submitReport", this.newpassword);
         },
         validatePassword(value, type) {
-            this.isValid = true;
+            this.isValid = false;
+
+            let regularExpression =
+                /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
             if (type === "N") {
                 this.newpassword = value;
                 if (value.length < 8) {
@@ -302,8 +312,13 @@ export default {
                     this.msg["confirmpassword"] =
                         "New password and confirm password must be the same";
                 } else {
-                    this.msg["confirmpassword"] = "";
-                    this.isValid = false;
+                    if (regularExpression.test(this.newpassword)) {
+                        this.isValid = true;
+                        this.msg["confirmpassword"] = "";
+                    } else {
+                        this.msg["confirmpassword"] =
+                            "Password should contain numbers, letters and special characters";
+                    }
                 }
             }
         },

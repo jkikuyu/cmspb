@@ -14,6 +14,19 @@
                                     <span style="color: #ff0000"> * </span> )
                                     are required
                                 </div>
+                                <div
+                                    v-if="msg.warning || msg.success"
+                                    class="alert"
+                                    :class="{
+                                        'alert-warning': msg.warning,
+                                        'alert-success': msg.success,
+                                    }"
+                                    role="alert"
+                                >
+                                    {{ msg.warning ? msg.warning : "" }}
+                                    {{ msg.success ? msg.success : "" }}
+                                </div>
+
                                 <div class="row mb-3">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.anonymous"></Label
@@ -217,7 +230,7 @@
                                                 fields.complainanttype.name
                                             "
                                             :dropdownitems="complainantlist"
-                                            :value="form.complainttype"
+                                            :value="form.complainanttype"
                                         />
                                     </div>
                                 </div>
@@ -476,7 +489,7 @@ export default {
                     title: "Anonymous User ID",
                 },
             },
-            fieldErrors: {},
+            msg: {},
             form: {},
             range: {
                 start: "",
@@ -741,25 +754,31 @@ export default {
 
                 //this.userid = data.userid;
                 this.updateForm("userid", this.userid);
-                if (this.form.email && !+this.form.anonymous) {
-                    isEmailorId = true;
-                } else {
-                    this.isModalOpen = true;
-                }
+                this.isModalOpen = true;
                 if (isEmailorId) {
                     this.storeReport(password);
                 }
             } else {
+                this.$forceUpdate();
                 this.$refs.makereport.reportValidity();
             }
         },
         updateForm(input, value) {
-            this.form[input] = value;
+            let res = value.trim();
+            this.form[input] = res;
 
             let storedForm = this.getLocalStorage(); // extract stored form
             if (!storedForm) storedForm = {}; // if none exists, default to empty object
+            if (res) {
+                storedForm[input] = res; // store new value
+            }
+            for (const [key, value] of Object.entries(storedForm)) {
+                if (value.trim() === "") {
+                    console.log(`${key}: ${value}`);
+                    delete storedForm[key];
+                }
+            }
 
-            storedForm[input] = value; // store new value
             this.saveStorage(storedForm); // save changes into localStorage
         },
         getLocalStorage() {
@@ -770,12 +789,22 @@ export default {
         },
         async getToken() {
             let data = null;
-            let token = "";
-            let userDetails = {
-                userid: this.userid,
-                password: this.password,
-            };
-
+            let resp = "";
+            let userDetails = {};
+            if (this.email) {
+                userDetails = {
+                    email: this.email,
+                    password: this.userid,
+                    firstname: this.firstname,
+                    middlename: this.middlename,
+                    lastname: this.lastname,
+                };
+            } else {
+                userDetails = {
+                    userid: this.userid,
+                    password: this.password,
+                };
+            }
             try {
                 const res = await fetch("http://localhost:8000/api/register", {
                     method: "POST",
@@ -785,9 +814,18 @@ export default {
                     body: JSON.stringify(userDetails),
                 });
                 data = await res.json();
-                token = data.authorisation.token;
+                if (data.status === "200") {
+                    resp = {
+                        token: data.authorisation.token,
+                        id: data.user.id,
+                    };
+                    return resp;
+                } else {
+                    this.msg["warning"] =
+                        "The email provided has already been used, please select 'Yes' to remain anonymous and submit report";
 
-                return token;
+                    setTimeout(() => (this.msg = {}), 5000);
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -795,26 +833,41 @@ export default {
         async storeReport(password) {
             let data = null;
             this.password = password;
-            let token = await this.getToken();
-            console.log(token);
-            let headers = new Headers();
-            headers.append("Authorization", "bearer " + token);
-            headers.append("Content-type", "application/json");
-            try {
-                const res = await fetch(
-                    "http://localhost:8000/api/complaints",
-                    {
-                        method: "POST",
-                        headers: headers,
-                        body: JSON.stringify(this.form),
+            let resp = await this.getToken();
+            if (resp.token) {
+                let headers = new Headers();
+                headers.append("Authorization", "bearer " + resp.token);
+                headers.append("Content-type", "application/json");
+                this.form["user_id"] = resp.id;
+
+                try {
+                    const res = await fetch(
+                        "http://localhost:8000/api/complaints",
+                        {
+                            method: "POST",
+                            headers: headers,
+                            body: JSON.stringify(this.form),
+                        }
+                    );
+                    data = await res.json();
+                    if (data.status === "200") {
+                        this.msg["success"] =
+                            "The complaint has been saved successfully.";
+                        window.scrollTo(0, 0);
+                        setTimeout(() => {
+                            console.log("settimeout");
+                            this.msg = {};
+                            this.cancelreport();
+                        }, 5000);
+                        //this.cancelreport();
+                    } else {
+                        this.msg["warning"] =
+                            "The complaint has NOT been saved. Try again later";
+                        setTimeout(() => (this.msg = {}), 5000);
                     }
-                );
-                data = await res.json();
-                if (data.status === "200") {
-                    this.cancelreport();
+                } catch (err) {
+                    console.log(err);
                 }
-            } catch (err) {
-                console.log(err);
             }
         },
         async getAnonymousID() {
@@ -827,7 +880,6 @@ export default {
                 let userid = data.userid;
                 return userid;
             } catch (err) {
-                console.log("error");
                 console.log(err);
             }
         },

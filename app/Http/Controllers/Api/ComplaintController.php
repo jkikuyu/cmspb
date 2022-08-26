@@ -37,13 +37,16 @@ class ComplaintController extends Controller
     {
         $resp = "";
         try {
+            error_log($request['user_id']);
             $validated = $request->validated();
+
             $complaint = Complaint::create($validated);
             $resp = [
                 'status' => '200',
                 'message' => 'Record saved successfully',
             ];
         } catch (Exception $ex) {
+            error_log($ex->getMessage());
             $resp = [
                 'status' => '400',
                 'message' => 'Unauthorized request',
