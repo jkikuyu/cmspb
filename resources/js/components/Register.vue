@@ -138,10 +138,10 @@
                         />
                         I have read and understood
                         <a
-                            href="#"
+                            href="javascript:void(0)"
                             class="link-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#userManual"
+                            data-bs-target="#userManualModal"
                             >the steps and guidelines</a
                         >
                     </div>
@@ -170,9 +170,9 @@
     </div>
     <div
         class="modal"
-        id="userManual"
+        id="userManualModal"
         aria-hidden="true"
-        aria-labelledby="userManual"
+        aria-labelledby="userManualModal"
         tabindex="-1"
     >
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -188,34 +188,7 @@
                         aria-label="Close"
                     ></button>
                 </div>
-                <div class="modal-body">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Eveniet, nostrum doloribus quis mollitia nisi inventore.
-                    Rerum iure eaque saepe natus, provident sequi consectetur
-                    ipsam expedita omnis dicta voluptatem officia illum quaerat
-                    ullam repellat quos vero debitis nesciunt voluptas. Adipisci
-                    ut corporis rerum quo sit soluta aliquid, at eligendi quia
-                    odit laboriosam enim tempora possimus nemo autem, veniam a
-                    voluptatem nihil dolores ullam velit quidem sequi! Iure
-                    accusamus culpa voluptatem id repudiandae, nihil vel
-                    repellat quia odio quae distinctio, dolore consequatur quis
-                    ducimus numquam praesentium maiores labore eaque maxime
-                    excepturi? Ipsum error a ipsa nemo porro. Consequatur
-                    perspiciatis modi veritatis ullam! Lorem ipsum dolor sit
-                    amet consectetur adipisicing elit. Eveniet, nostrum
-                    doloribus quis mollitia nisi inventore. Rerum iure eaque
-                    saepe natus, provident sequi consectetur ipsam expedita
-                    omnis dicta voluptatem officia illum quaerat ullam repellat
-                    quos vero debitis nesciunt voluptas. Adipisci ut corporis
-                    rerum quo sit soluta aliquid, at eligendi quia odit
-                    laboriosam enim tempora possimus nemo autem, veniam a
-                    voluptatem nihil dolores ullam velit quidem sequi! Iure
-                    accusamus culpa voluptatem id repudiandae, nihil vel
-                    repellat quia odio quae distinctio, dolore consequatur quis
-                    ducimus numquam praesentium maiores labore eaque maxime
-                    excepturi? Ipsum error a ipsa nemo porro. Consequatur
-                    perspiciatis modi veritatis ullam!
-                </div>
+                <div class="modal-body">111</div>
                 <div class="modal-footer">
                     <button
                         type="button"
@@ -257,7 +230,19 @@ export default {
         modelValue: String,
     },
     components: { Button, Input, Label, LoginPassword },
+    mounted() {
+        const userManalModal = document.querySelector("#userManualModal");
+        userManalModal.addEventListener("show.bs.modal", (event) => {
+            const link = "http://localhost/demo.html";
 
+            fetch(link)
+                .then((res) => res.text())
+                .then((html) => {
+                    userManalModal.querySelector(".modal-body").innerHTML =
+                        html;
+                });
+        });
+    },
     watch: {
         showModal: function (val) {
             if (val === true) {
@@ -286,6 +271,16 @@ export default {
                 }
             );
             this.loginFormModal.show();
+        },
+        launchUserManual: function () {
+            console.log("here");
+            this.userManualModal = new Modal(
+                document.getElementById("userManualModal"),
+                {
+                    target: "#userManualModal",
+                }
+            );
+            this.userManualModal.show();
         },
         hideLoginModal: function () {
             this.loginFormModal.hide();

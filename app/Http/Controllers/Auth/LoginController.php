@@ -49,7 +49,7 @@ class LoginController extends Controller
             if ($request->userid) {
                 error_log($request->userid);
                 $request->validate([
-                    'userid' => 'required|string|userid',
+                    'userid' => 'required|string',
                     'password' => 'required|string',
                 ]);
                 $credentials = $request->only('userid', 'password');
@@ -63,7 +63,6 @@ class LoginController extends Controller
                 $credentials = $request->only('email', 'password');
                 error_log(implode($credentials));
             }
-
             $token = Auth::attempt($credentials);
 
             if (!$token) {

@@ -71,7 +71,7 @@ import Label from "./Label";
 import Button from "./Button";
 import axios from "axios";
 import { useRouter } from "vue-router";
-
+import { reactive } from "vue";
 export default {
     name: "LoginPassword",
     components: {
@@ -82,7 +82,7 @@ export default {
         return {
             response: "",
             isVisiblePassword: false,
-            msg: [],
+            //msg: [],
             userid: "",
             password: "",
             label: {
@@ -105,9 +105,10 @@ export default {
     },
     setup() {
         const router = new useRouter();
+        const msg = reactive({ password: "" });
+
         const loginform = async (e) => {
             let userDetails = {};
-
             const form = new FormData(e.target);
             const inputs = Object.fromEntries(form.entries());
             if (
@@ -128,14 +129,18 @@ export default {
             const { data } = await axios.post("login", userDetails, {
                 withCredentials: true,
             });
-
-            axios.defaults.headers.common[
-                "Authorization"
-            ] = `Bearer ${data.authorisation.token}`;
-            router.push({ path: "/dashboard" });
+            if (data.status === "200") {
+                axios.defaults.headers.common[
+                    "Authorization"
+                ] = `Bearer ${data.authorisation.token}`;
+                router.push({ path: "/dashboard" });
+            } else {
+                msg.password = "user details provided are incorrect";
+            }
         };
         return {
             loginform,
+            msg,
         };
     },
     methods: {
@@ -149,7 +154,7 @@ export default {
                 this.$router.push({ path: "/dashboard" });
             }
         },
- */
+
         validatePassword: async function () {
             let data = null;
             let token = "";
@@ -193,7 +198,7 @@ export default {
             } catch (err) {
                 console.log(err);
             }
-        },
+        },*/
     },
 };
 </script>
