@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8000/api";
+axios.defaults.baseURL = "https://cmspb.herokuapp.com/api";
 
 let refresh = false;
 

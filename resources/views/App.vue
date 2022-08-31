@@ -59,7 +59,7 @@ export default {
             let data = null;
             try {
                 const res = await fetch(
-                    "http://127.0.0.1:8000/api/pagecontents/",
+                    "https://cmspb.herokuapp.com/api/pagecontents/",
                     { credentials: "include" }
                 );
                 data = await res.json();

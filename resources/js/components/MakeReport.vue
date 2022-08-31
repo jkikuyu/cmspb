@@ -842,7 +842,7 @@ export default {
 
                 try {
                     const res = await fetch(
-                        "http://localhost:8000/api/complaints",
+                        "https://cmspb.herokuapp.com/api/complaints",
                         {
                             method: "POST",
                             headers: headers,
