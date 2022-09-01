@@ -806,7 +806,7 @@ export default {
                 };
             }
             try {
-                const res = await fetch("http://localhost:8000/api/register", {
+                const res = await fetch("api/register", {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
@@ -841,14 +841,11 @@ export default {
                 this.form["user_id"] = resp.id;
 
                 try {
-                    const res = await fetch(
-                        "https://cmspb.herokuapp.com/api/complaints",
-                        {
-                            method: "POST",
-                            headers: headers,
-                            body: JSON.stringify(this.form),
-                        }
-                    );
+                    const res = await fetch("api/complaints", {
+                        method: "POST",
+                        headers: headers,
+                        body: JSON.stringify(this.form),
+                    });
                     data = await res.json();
                     if (data.status === "200") {
                         this.msg["success"] =
@@ -873,9 +870,7 @@ export default {
         async getAnonymousID() {
             let data = null;
             try {
-                const res = await fetch(
-                    "http://localhost:8000/api/user/randomuserid"
-                );
+                const res = await fetch("api/user/randomuserid");
                 data = await res.json();
                 let userid = data.userid;
                 return userid;
