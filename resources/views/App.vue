@@ -58,9 +58,12 @@ export default {
         async fetchPageContents() {
             let data = null;
             try {
-                const res = await fetch("api/pagecontents", {
-                    credentials: "include",
-                });
+                const res = await fetch(
+                    "https://cmspb.herokuapp.com/apiapi/pagecontents",
+                    {
+                        credentials: "include",
+                    }
+                );
                 data = await res.json();
                 //console.log(data.data);
                 return data.data;
