@@ -17,7 +17,7 @@
                     >
                         <li class="nav-item">
                             <a href="#" class="align-middle px-0 text-white">
-                                <i class="fs-4 bi-house"></i>
+                                <i class="nav-icon fa fa-edit"></i>
                                 <span class="ms-1 d-none d-sm-inline"
                                     >Complaints</span
                                 >
@@ -29,7 +29,7 @@
                                 href="#"
                                 class="nav-link px-0 align-middle text-white"
                             >
-                                <i class="nav-icon fas fa-folder"></i>
+                                <i class="nav-icon far fa-question-circle"></i>
                                 <span class="ms-1 d-none d-sm-inline"
                                     >User Manual</span
                                 ></a
@@ -41,7 +41,9 @@
                                 @click="logout"
                                 class="nav-link px-0 align-middle text-white"
                             >
-                                <i class="fs-4 bi-people"></i>
+                                <i
+                                    class="nav-icon fas fa-fw fa-sign-out-alt"
+                                ></i>
                                 <span class="ms-1 d-none d-sm-inline"
                                     >Logout</span
                                 >
@@ -150,7 +152,7 @@ export default {
     methods: {
         getComplaints: async function (id) {
             const res = await fetch(
-                "http://localhost:8000/api/complaints/' +id"
+                process.env.VUE_APP_WB_API + "/api/complaints/' +id"
             );
             data = await res.json();
             return data;

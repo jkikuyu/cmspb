@@ -1,5 +1,4 @@
 require("./bootstrap");
-
 import { createApp } from "vue";
 import router from "../js/router";
 import axios from "../js/interceptors/axios";

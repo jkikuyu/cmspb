@@ -281,6 +281,8 @@
                                             :value="form.reported"
                                         />
                                     </div>
+                                </div>
+                                <div class="row mb-3">
                                     <div
                                         v-show="!!+form.reported"
                                         class="col-sm-auto"
@@ -291,7 +293,7 @@
 
                                     <div
                                         v-show="!!+form.reported"
-                                        class="col-sm-3"
+                                        class="col-sm-5"
                                     >
                                         <Input
                                             @input="
@@ -300,6 +302,7 @@
                                                     $event.target.value
                                                 )
                                             "
+                                            class="col-sm-9"
                                             :elementId="fields.towhom.name"
                                             :value="form.towhom"
                                         />
@@ -581,7 +584,7 @@ export default {
                 },
                 towhom: {
                     name: "towhom",
-                    title: "If yes, enter name of person",
+                    title: "If yes, enter name of person or institution",
                     placeholder: "",
                     description: "Enter complainant type",
                 },
@@ -806,13 +809,16 @@ export default {
                 };
             }
             try {
-                const res = await fetch("api/register", {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(userDetails),
-                });
+                const res = await fetch(
+                    process.env.VUE_APP_WB_API_ENDPOINT + "/api/register",
+                    {
+                        method: "POST",
+                        headers: {
+                            "content-type": "application/json",
+                        },
+                        body: JSON.stringify(userDetails),
+                    }
+                );
                 data = await res.json();
                 if (data.status === "200") {
                     resp = {
@@ -841,18 +847,20 @@ export default {
                 this.form["user_id"] = resp.id;
 
                 try {
-                    const res = await fetch("api/complaints", {
-                        method: "POST",
-                        headers: headers,
-                        body: JSON.stringify(this.form),
-                    });
+                    const res = await fetch(
+                        process.env.VUE_APP_WB_API_ENDPOINT + "/api/complaints",
+                        {
+                            method: "POST",
+                            headers: headers,
+                            body: JSON.stringify(this.form),
+                        }
+                    );
                     data = await res.json();
                     if (data.status === "200") {
                         this.msg["success"] =
                             "The complaint has been saved successfully.";
                         window.scrollTo(0, 0);
                         setTimeout(() => {
-                            console.log("settimeout");
                             this.msg = {};
                             this.cancelreport();
                         }, 5000);
@@ -870,7 +878,10 @@ export default {
         async getAnonymousID() {
             let data = null;
             try {
-                const res = await fetch("api/user/randomuserid");
+                const randomuserid =
+                    process.env.VUE_APP_WB_API_ENDPOINT +
+                    "/api/user/randomuserid";
+                const res = await fetch(randomuserid);
                 data = await res.json();
                 let userid = data.userid;
                 return userid;

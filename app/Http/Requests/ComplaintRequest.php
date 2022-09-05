@@ -65,8 +65,8 @@ class ComplaintRequest extends FormRequest
         $strwithtimetoday = strtotime($dttostr);
         $datetoday = date('Y-m-d', $strwithtimetoday);
         $strtoday = strtotime($datetoday);
-        $startday = unixtojd(strtotime(substr($datetoday, 0, 5) . "01-01"));
-        $endday = unixtojd($strtoday);
+        $startday = \unixtojd(strtotime(substr($datetoday, 0, 5) . "01-01"));
+        $endday = \unixtojd($strtoday);
         $juliandate = str_pad($endday - $startday, 3, '0', STR_PAD_LEFT);
         $compliantno = substr($datetoday, 0, 1) . $juliandate . date('H', $strwithtimetoday) .
             date('i', $strwithtimetoday) . $counter;

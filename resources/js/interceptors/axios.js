@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://cmspb.herokuapp.com/api";
+axios.defaults.baseURL = process.env.VUE_APP_WB_API_ENDPOINT + "/api/";
 
 let refresh = false;
 
