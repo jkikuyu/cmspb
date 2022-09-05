@@ -809,16 +809,13 @@ export default {
                 };
             }
             try {
-                const res = await fetch(
-                    process.env.VUE_APP_WB_API_ENDPOINT + "/api/register",
-                    {
-                        method: "POST",
-                        headers: {
-                            "content-type": "application/json",
-                        },
-                        body: JSON.stringify(userDetails),
-                    }
-                );
+                const res = await fetch("api/register", {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(userDetails),
+                });
                 data = await res.json();
                 if (data.status === "200") {
                     resp = {
@@ -847,14 +844,11 @@ export default {
                 this.form["user_id"] = resp.id;
 
                 try {
-                    const res = await fetch(
-                        process.env.VUE_APP_WB_API_ENDPOINT + "/api/complaints",
-                        {
-                            method: "POST",
-                            headers: headers,
-                            body: JSON.stringify(this.form),
-                        }
-                    );
+                    const res = await fetch("api/complaints", {
+                        method: "POST",
+                        headers: headers,
+                        body: JSON.stringify(this.form),
+                    });
                     data = await res.json();
                     if (data.status === "200") {
                         this.msg["success"] =
@@ -878,9 +872,7 @@ export default {
         async getAnonymousID() {
             let data = null;
             try {
-                const randomuserid =
-                    process.env.VUE_APP_WB_API_ENDPOINT +
-                    "/api/user/randomuserid";
+                const randomuserid = "api/user/randomuserid";
                 const res = await fetch(randomuserid);
                 data = await res.json();
                 let userid = data.userid;

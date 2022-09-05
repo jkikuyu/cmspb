@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = process.env.VUE_APP_WB_API_ENDPOINT + "/api/";
+axios.defaults.baseURL = "api/";
 
 let refresh = false;
 
