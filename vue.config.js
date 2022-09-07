@@ -10,4 +10,6 @@ module.exports = {
             },
         },
     },
+    outputDir: path.resolve(__dirname, "static/pb"),
+    assetsDir: "pb/assets",
 };

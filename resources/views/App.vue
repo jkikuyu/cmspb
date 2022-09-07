@@ -58,8 +58,6 @@ export default {
         async fetchPageContents() {
             let data = null;
             try {
-                console.log(process.env.VUE_APP_WB_API_ENDPOINT);
-
                 const res = await fetch("api/pagecontents", {
                     credentials: "include",
                 });
