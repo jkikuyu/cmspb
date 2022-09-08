@@ -231,14 +231,14 @@ export default {
     },
     components: { Button, Input, Label, LoginPassword },
     mounted() {
-        const userManalModal = document.querySelector("#userManualModal");
-        userManalModal.addEventListener("show.bs.modal", (event) => {
+        const userManualModal = document.querySelector("#userManualModal");
+        userManualModal.addEventListener("show.bs.modal", (event) => {
             const link = "http://project.dev/docs/";
 
             fetch(link)
                 .then((res) => res.text())
                 .then((html) => {
-                    userManalModal.querySelector(".modal-body").innerHTML =
+                    userManualModal.querySelector(".modal-body").innerHTML =
                         html;
                 });
         });

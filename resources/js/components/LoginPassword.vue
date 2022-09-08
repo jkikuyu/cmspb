@@ -133,7 +133,10 @@ export default {
                 axios.defaults.headers.common[
                     "Authorization"
                 ] = `Bearer ${data.authorisation.token}`;
-                router.push({ path: "/dashboard" });
+                router.push({
+                    name: "Dashboard",
+                    params: { id: data.user.id },
+                });
             } else {
                 msg.password = "user details provided are incorrect";
             }

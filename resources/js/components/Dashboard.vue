@@ -56,6 +56,8 @@
             <div class="col py-3">
                 <DataTable
                     class="table table-hover table-striped"
+                    :data="data"
+                    :columns="columns"
                     :options="{
                         select: true,
                         bLengthChange: false,
@@ -90,17 +92,13 @@
 
 <script>
 import DataTable from "datatables.net-vue3";
-import { onMounted, ref } from "vue";
+import { onMounted, reactive } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 export default {
     name: "Dashboard",
-    data() {
-        return {
-            retoken: "",
-        };
-    },
+
     components: {
         DataTable,
     },
@@ -109,34 +107,48 @@ export default {
         isExpired: Boolean,
     },
 
-    /*     created() {
-        if (this.resp.token) {
-            console.log(this.resp);
-            this.$emit("isTokenExpired", this.resp.token);
-            if (this.isExpired) {
-                console.log("mounted");
-                this.$emit("refreshToken");
-            } else {
-                console.log(this.isExpired);
-                console.log("here");
-                //this.getComplaints(resp.id);
-            }
-        }
-    }, */
     setup() {
         const router = new useRouter();
+        const route = new useRoute();
+        let data = reactive([]);
+
+        const columns = [
+            { data: "complaintno" },
+            { data: "complainanttype" },
+            { data: "allegetype" },
+            { data: "reported" },
+            { data: "towhom" },
+            { data: "description" },
+            { data: "detail" },
+            { data: "threat" },
+            { data: "elaborate" },
+            { data: "evidence" },
+            { data: "datefrom" },
+            { data: "dateto" },
+            { data: "status" },
+        ];
+
         onMounted(async () => {
             try {
                 if (!axios.defaults.headers.common["Authorization"]) {
                     await router.push("/login");
                 }
-
-                //const {data} = await axios.get('user');
-                //message.value = `Hi ${data.name}`;
+                console.log(axios.defaults.headers.common["Authorization"]);
+                await getComplaints(route.params.id);
             } catch (e) {
-                await router.push("/login");
+                console.log("error");
+                console.log(e);
+                //await router.push("/login");
             }
         });
+        const getComplaints = async (id) => {
+            const dt = await axios.get("complaints/" + id, {
+                Authorization: axios.defaults.headers.common["Authorization"],
+            });
+            data.push(dt.data.data);
+            console.log(data);
+        };
+
         const logout = async (e) => {
             await axios.post("logout", {}, { withCredentials: true });
 
@@ -146,22 +158,9 @@ export default {
 
         return {
             logout,
+            data,
+            columns,
         };
-    },
-
-    methods: {
-        getComplaints: async function (id) {
-            const res = await fetch(
-                process.env.VUE_APP_WB_API + "/api/complaints/' +id"
-            );
-            data = await res.json();
-            return data;
-        },
-        /*         logout: async function () {
-            localStorage.removeItem("resp");
-            const res = await fetch("http://localhost:8000/api/logout");
-            this.$router.push("/");
-        }, */
     },
 };
 </script>

@@ -657,57 +657,6 @@ export default {
                     description: "Enter complainant type",
                 },
             },
-
-            allegetypelist: [
-                {
-                    name: "Fraud",
-                    id: 1,
-                },
-                {
-                    name: "Corruption",
-                    id: 2,
-                },
-                {
-                    name: "Theft",
-                    id: 3,
-                },
-                {
-                    name: "Unethical Behaviour",
-                    id: 4,
-                },
-            ],
-            complainantlist: [
-                {
-                    name: "Contractor",
-                    id: 1,
-                },
-                {
-                    name: "Former Employee",
-                    id: 2,
-                },
-                {
-                    name: "Contract Employee",
-                    id: 3,
-                },
-                {
-                    name: "Citizen",
-                    id: 4,
-                },
-                {
-                    name: "Supplier",
-                    id: 5,
-                },
-            ],
-            yesno: [
-                {
-                    name: "No",
-                    id: 0,
-                },
-                {
-                    name: "Yes",
-                    id: 1,
-                },
-            ],
         };
     },
     components: {
@@ -719,6 +668,7 @@ export default {
         Button,
         Register,
     },
+
     created() {
         const storedForm = this.getLocalStorage();
         if (storedForm) {
@@ -730,7 +680,9 @@ export default {
             this.range.end = storedForm.dateto;
         }
     },
-
+    props: {
+        dropdownList: String,
+    },
     watch: {
         range: function (value) {
             this.updateForm(

@@ -48,7 +48,15 @@
             <div class="col-sm-1"></div>
             <div class="col-sm-4">
                 <div class="whistle">
-                    <router-link class="makereportlink" to="/makereport">
+                    <router-link
+                        class="makereportlink"
+                        :to="{
+                            name: 'MakeReport',
+                            params: {
+                                dropdownList: JSON.stringify(dropdowns),
+                            },
+                        }"
+                    >
                         <img
                             src="../../assets/whistlewithsound.png"
                             alt="Whistle Blow"
@@ -82,6 +90,58 @@ export default {
     data() {
         return {
             newpassword: "",
+            dropdowns: {
+                allegetypelist: [
+                    {
+                        name: "Fraud",
+                        id: 1,
+                    },
+                    {
+                        name: "Corruption",
+                        id: 2,
+                    },
+                    {
+                        name: "Theft",
+                        id: 3,
+                    },
+                    {
+                        name: "Unethical Behaviour",
+                        id: 4,
+                    },
+                ],
+                complainantlist: [
+                    {
+                        name: "Contractor",
+                        id: 1,
+                    },
+                    {
+                        name: "Former Employee",
+                        id: 2,
+                    },
+                    {
+                        name: "Contract Employee",
+                        id: 3,
+                    },
+                    {
+                        name: "Citizen",
+                        id: 4,
+                    },
+                    {
+                        name: "Supplier",
+                        id: 5,
+                    },
+                ],
+                yesno: [
+                    {
+                        name: "No",
+                        id: 0,
+                    },
+                    {
+                        name: "Yes",
+                        id: 1,
+                    },
+                ],
+            },
         };
     },
     props: {
