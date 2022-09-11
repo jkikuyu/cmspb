@@ -1,6 +1,12 @@
 <template>
-    <Header :menuitems="menuitems"></Header>
-    <router-view :menuitems="menuitems"></router-view>
+    <Header
+        :menuitems="menuitems"
+        @saveDropDownList="saveDropDownList"
+    ></Header>
+    <router-view
+        :menuitems="menuitems"
+        @saveDropDownList="saveDropDownList"
+    ></router-view>
     <Footer></Footer>
 </template>
 
@@ -14,6 +20,58 @@ export default {
             resp: {},
             isExpired: false,
             menuitems: [],
+            dropdowns: {
+                allegetypelist: [
+                    {
+                        name: "Fraud",
+                        id: 1,
+                    },
+                    {
+                        name: "Corruption",
+                        id: 2,
+                    },
+                    {
+                        name: "Theft",
+                        id: 3,
+                    },
+                    {
+                        name: "Unethical Behaviour",
+                        id: 4,
+                    },
+                ],
+                complainantlist: [
+                    {
+                        name: "Contractor",
+                        id: 1,
+                    },
+                    {
+                        name: "Former Employee",
+                        id: 2,
+                    },
+                    {
+                        name: "Contract Employee",
+                        id: 3,
+                    },
+                    {
+                        name: "Citizen",
+                        id: 4,
+                    },
+                    {
+                        name: "Supplier",
+                        id: 5,
+                    },
+                ],
+                yesno: [
+                    {
+                        name: "No",
+                        id: 0,
+                    },
+                    {
+                        name: "Yes",
+                        id: 1,
+                    },
+                ],
+            },
             /*             menuitems: [
                 {
                     name: "Home",
@@ -50,9 +108,9 @@ export default {
         Header,
         Footer,
     },
+
     async created() {
         this.menuitems = await this.fetchPageContents();
-        console.log(this.menuitems);
     },
     methods: {
         async fetchPageContents() {
@@ -88,6 +146,12 @@ export default {
         },
         refreshToken: async function () {
             console.log("dash");
+        },
+        saveDropDownList: function () {
+            localStorage.setItem(
+                "dropdownlist",
+                JSON.stringify(this.dropdowns)
+            );
         },
         getStoredToken: function () {
             console.log("gettoken");

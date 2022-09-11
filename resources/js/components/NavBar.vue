@@ -39,7 +39,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="float-end loginpos">
-                <router-link class="text-muted login" to="/login"
+                <router-link
+                    class="text-muted login"
+                    :to="{
+                        name: 'Login',
+                    }"
                     >Log in</router-link
                 >
             </div>
@@ -52,9 +56,6 @@
                         class="makereportlink"
                         :to="{
                             name: 'MakeReport',
-                            params: {
-                                dropdownList: JSON.stringify(dropdowns),
-                            },
                         }"
                     >
                         <img
@@ -79,7 +80,6 @@
     </h4> -->
 </template>
 <script>
-import { valuesIn } from "lodash";
 import Button from "../components/Button";
 import MenuItem from "../components/MenuItem";
 export default {
@@ -87,69 +87,25 @@ export default {
         Button,
         MenuItem,
     },
+    emits: ["saveDropDownList"],
     data() {
         return {
             newpassword: "",
-            dropdowns: {
-                allegetypelist: [
-                    {
-                        name: "Fraud",
-                        id: 1,
-                    },
-                    {
-                        name: "Corruption",
-                        id: 2,
-                    },
-                    {
-                        name: "Theft",
-                        id: 3,
-                    },
-                    {
-                        name: "Unethical Behaviour",
-                        id: 4,
-                    },
-                ],
-                complainantlist: [
-                    {
-                        name: "Contractor",
-                        id: 1,
-                    },
-                    {
-                        name: "Former Employee",
-                        id: 2,
-                    },
-                    {
-                        name: "Contract Employee",
-                        id: 3,
-                    },
-                    {
-                        name: "Citizen",
-                        id: 4,
-                    },
-                    {
-                        name: "Supplier",
-                        id: 5,
-                    },
-                ],
-                yesno: [
-                    {
-                        name: "No",
-                        id: 0,
-                    },
-                    {
-                        name: "Yes",
-                        id: 1,
-                    },
-                ],
-            },
         };
     },
+
     props: {
         menuitems: Array,
+        dropdownitems: Object,
     },
     watch: {
         newpassword: function (val) {
             console.log(val);
+        },
+    },
+    methods: {
+        saveDropDownList: function () {
+            this.$emit("saveDropDownList");
         },
     },
 };

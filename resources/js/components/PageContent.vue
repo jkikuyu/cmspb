@@ -33,6 +33,8 @@ export default {
         ContentDescription,
         ContentImage,
     },
+    emits: ["saveDropDownList"],
+
     props: {
         menuitems: Array,
     },

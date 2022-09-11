@@ -20,7 +20,6 @@ export default {
         LoginPassword,
         ContentImage,
     },
-
     data() {
         return {
             response: {},
@@ -55,6 +54,9 @@ export default {
             }
         }
     }, */
+    props: {
+        dropdownList: String,
+    },
     watch: {
         $route: function (value) {
             // lets watch for route changes on our
@@ -69,8 +71,6 @@ export default {
         getStoredToken: function () {
             return JSON.parse(localStorage.getItem("resp"));
         },
-
-        logout: async function () {},
     },
 };
 </script>

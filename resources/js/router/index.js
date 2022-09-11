@@ -52,11 +52,13 @@ const routes = [
         path: "/login",
         name: "Login",
         component: Login,
+        props: true,
     },
     {
         path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
+        props: true,
     },
 ];
 const router = createRouter({

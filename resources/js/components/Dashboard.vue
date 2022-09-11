@@ -98,20 +98,22 @@ import { useRouter, useRoute } from "vue-router";
 
 export default {
     name: "Dashboard",
+    emits: ["saveDropDownList"],
 
     components: {
         DataTable,
     },
     props: {
-        resp: Object,
         isExpired: Boolean,
+        id: String,
     },
 
-    setup() {
+    setup(props, { emit }) {
         const router = new useRouter();
         const route = new useRoute();
         let data = reactive([]);
-
+        let id = props.id;
+        let dropdownList = reactive({});
         const columns = [
             { data: "complaintno" },
             { data: "complainanttype" },
@@ -129,24 +131,34 @@ export default {
         ];
 
         onMounted(async () => {
+            dropdownList = getDropDownList();
             try {
                 if (!axios.defaults.headers.common["Authorization"]) {
-                    await router.push("/login");
+                    const token = localStorage.getItem("user_token");
+                    if (token) {
+                        axios.defaults.headers.common["Authorization"] =
+                            "Bearer " + token;
+                    }
+                    //await router.push("/login");
                 }
-                console.log(axios.defaults.headers.common["Authorization"]);
-                await getComplaints(route.params.id);
+                if (id) {
+                    saveUserId(id);
+                } else {
+                    id = getUserId();
+                }
+
+                await getComplaints(id);
             } catch (e) {
-                console.log("error");
                 console.log(e);
                 //await router.push("/login");
             }
         });
+
         const getComplaints = async (id) => {
             const dt = await axios.get("complaints/" + id, {
                 Authorization: axios.defaults.headers.common["Authorization"],
             });
             data.push(dt.data.data);
-            console.log(data);
         };
 
         const logout = async (e) => {
@@ -155,9 +167,26 @@ export default {
             axios.defaults.headers.common["Authorization"] = "";
             router.push({ path: "/" });
         };
+        const getDropDownList = () => {
+            let dropdownlist = JSON.parse(localStorage.getItem("dropdownlist"));
+            console.log(dropdownlist);
+
+            if (!dropdownlist) {
+                emit("saveDropDownList");
+
+                //dropdownlist = getDropDownList();
+            }
+        };
+        const getUserId = () => {
+            return localStorage.getItem("id");
+        };
+        const saveUserId = (id) => {
+            localStorage.setItem("id", id);
+        };
 
         return {
             logout,
+            getDropDownList,
             data,
             columns,
         };

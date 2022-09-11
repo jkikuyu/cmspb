@@ -47,7 +47,7 @@
                                                         fields.anonymous.name
                                                     ],
                                             }"
-                                            :dropdownitems="yesno"
+                                            :dropdownitems="dropdownList.yesno"
                                             :elementId="fields.anonymous.name"
                                             :value="form.anonymous"
                                         />
@@ -229,7 +229,9 @@
                                             :elementId="
                                                 fields.complainanttype.name
                                             "
-                                            :dropdownitems="complainantlist"
+                                            :dropdownitems="
+                                                dropdownList.complainantlist
+                                            "
                                             :value="form.complainanttype"
                                         />
                                     </div>
@@ -253,7 +255,9 @@
                                                         fields.allegetype.name
                                                     ],
                                             }"
-                                            :dropdownitems="allegetypelist"
+                                            :dropdownitems="
+                                                dropdownList.allegetypelist
+                                            "
                                             :elementId="fields.allegetype.name"
                                             :value="form.allegetype"
                                         />
@@ -276,7 +280,7 @@
                                                 'border border-danger':
                                                     !form[fields.reported.name],
                                             }"
-                                            :dropdownitems="yesno"
+                                            :dropdownitems="dropdownList.yesno"
                                             :elementId="fields.reported.name"
                                             :value="form.reported"
                                         />
@@ -370,7 +374,7 @@
                                                     $event.target.value
                                                 )
                                             "
-                                            :dropdownitems="yesno"
+                                            :dropdownitems="dropdownList.yesno"
                                             :elementId="fields.threat.name"
                                             :value="form.threat"
                                         />
@@ -404,7 +408,7 @@
                                                     $event.target.value
                                                 )
                                             "
-                                            :dropdownitems="yesno"
+                                            :dropdownitems="dropdownList.yesno"
                                             :elementId="fields.evidence.name"
                                             :value="form.evidence"
                                         />
@@ -424,7 +428,7 @@
                                                     $event.target.value
                                                 )
                                             "
-                                            :dropdownitems="yesno"
+                                            :dropdownitems="dropdownList.yesno"
                                             :elementId="
                                                 fields.nopossession.name
                                             "
@@ -500,7 +504,7 @@ export default {
             },
             datefrom: Date(),
             dateto: Date(),
-
+            dropdownList: {},
             fields: {
                 anonymous: {
                     name: "anonymous",
@@ -668,9 +672,17 @@ export default {
         Button,
         Register,
     },
-
+    emits: ["saveDropDownList"],
     created() {
-        const storedForm = this.getLocalStorage();
+        let dropdownList = localStorage.getItem("dropdownlist");
+        if (!dropdownList) {
+            console.log("emit saveDropDown");
+            this.$emit("saveDropDownList");
+            dropdownList = localStorage.getItem("dropdownlist");
+        }
+        this.dropdownList = JSON.parse(dropdownList);
+
+        const storedForm = this.getFormData();
         if (storedForm) {
             this.form = {
                 ...this.form,
@@ -680,9 +692,7 @@ export default {
             this.range.end = storedForm.dateto;
         }
     },
-    props: {
-        dropdownList: String,
-    },
+
     watch: {
         range: function (value) {
             this.updateForm(
@@ -722,26 +732,33 @@ export default {
             let res = value.trim();
             this.form[input] = res;
 
-            let storedForm = this.getLocalStorage(); // extract stored form
+            let storedForm = this.getFormData(); // extract stored form
             if (!storedForm) storedForm = {}; // if none exists, default to empty object
             if (res) {
                 storedForm[input] = res; // store new value
             }
             for (const [key, value] of Object.entries(storedForm)) {
                 if (value.trim() === "") {
-                    console.log(`${key}: ${value}`);
                     delete storedForm[key];
                 }
             }
 
-            this.saveStorage(storedForm); // save changes into localStorage
+            this.saveFormData(storedForm); // save changes into localStorage
         },
-        getLocalStorage() {
+
+        getFormData() {
             return JSON.parse(localStorage.getItem("form"));
         },
-        saveStorage(form) {
+        getDropDownList() {
+            console.log("Dropdownlist");
+            //let dropdownlist = JSON.parse(localStorage.getItem("dropdownlist"));
+            this.$emit("saveDropDownList");
+            //dropdownlist = this.getDropDownList();
+        },
+        saveFormData(form) {
             localStorage.setItem("form", JSON.stringify(form));
         },
+
         async getToken() {
             let data = null;
             let resp = "";
