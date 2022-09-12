@@ -92,7 +92,7 @@
 
 <script>
 import DataTable from "datatables.net-vue3";
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
 import { useRouter, useRoute } from "vue-router";
 
@@ -113,25 +113,101 @@ export default {
         const route = new useRoute();
         let data = reactive([]);
         let id = props.id;
-        let dropdownList = reactive({});
+        let dropdownList = {};
         const columns = [
             { data: "complaintno" },
-            { data: "complainanttype" },
-            { data: "allegetype" },
-            { data: "reported" },
+            {
+                data: "complainanttype",
+                render: function (data, type, row, meta) {
+                    return dropdownList.complainantlist
+                        .filter((d) => {
+                            return d.id == data;
+                        })
+                        .map((d) => {
+                            return d.name;
+                        });
+                },
+            },
+            {
+                data: "allegetype",
+                render: function (data, type, row, meta) {
+                    return dropdownList.allegetypelist
+                        .filter((a) => {
+                            return a.id == data;
+                        })
+                        .map((a) => {
+                            return a.name;
+                        });
+                },
+            },
+            {
+                data: "reported",
+                render: function (data, type, row, meta) {
+                    return dropdownList.yesno
+                        .filter((yesno) => {
+                            return yesno.id === data;
+                        })
+                        .map((yesno) => {
+                            return yesno.name;
+                        });
+                },
+            },
             { data: "towhom" },
             { data: "description" },
             { data: "detail" },
-            { data: "threat" },
-            { data: "elaborate" },
-            { data: "evidence" },
+            {
+                data: "threat",
+                render: function (data, type, row, meta) {
+                    return dropdownList.yesno
+                        .filter((yesno) => {
+                            return yesno.id === data;
+                        })
+                        .map((yesno) => {
+                            return yesno.name;
+                        });
+                },
+            },
+            {
+                data: "elaborate",
+                render: function (data, type, row, meta) {
+                    return dropdownList.yesno
+                        .filter((yesno) => {
+                            return yesno.id === data;
+                        })
+                        .map((yesno) => {
+                            return yesno.name;
+                        });
+                },
+            },
+            {
+                data: "evidence",
+                render: function (data, type, row, meta) {
+                    return dropdownList.yesno
+                        .filter((yesno) => {
+                            return yesno.id === data;
+                        })
+                        .map((yesno) => {
+                            return yesno.name;
+                        });
+                },
+            },
             { data: "datefrom" },
             { data: "dateto" },
-            { data: "status" },
+            {
+                data: "status",
+                render: function (data, type, row, meta) {
+                    let status = "Pending";
+                    if (data) {
+                    } else {
+                        status = "Processing";
+                    }
+                    return status;
+                },
+            },
         ];
 
         onMounted(async () => {
-            dropdownList = getDropDownList();
+            getDropDownList();
             try {
                 if (!axios.defaults.headers.common["Authorization"]) {
                     const token = localStorage.getItem("user_token");
@@ -168,14 +244,13 @@ export default {
             router.push({ path: "/" });
         };
         const getDropDownList = () => {
-            let dropdownlist = JSON.parse(localStorage.getItem("dropdownlist"));
-            console.log(dropdownlist);
+            let dropdownitems = localStorage.getItem("dropdownlist");
 
-            if (!dropdownlist) {
+            if (!dropdownitems) {
                 emit("saveDropDownList");
-
-                //dropdownlist = getDropDownList();
+                dropdownitems = localStorage.getItem("dropdownlist");
             }
+            dropdownList = JSON.parse(dropdownitems);
         };
         const getUserId = () => {
             return localStorage.getItem("id");
@@ -187,6 +262,7 @@ export default {
         return {
             logout,
             getDropDownList,
+            dropdownList,
             data,
             columns,
         };
