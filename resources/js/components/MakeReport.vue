@@ -778,15 +778,16 @@ export default {
                     password: this.password,
                 };
             }
+            let strUserDetails = JSON.stringify(userDetails);
+
             try {
-                const res = await fetch("register", {
-                    method: "POST",
-                    headers: {
+                const { data } = await axios.post(
+                    "register",
+                    { strUserDetails },
+                    {
                         "content-type": "application/json",
-                    },
-                    body: JSON.stringify(userDetails),
-                });
-                data = await res.json();
+                    }
+                );
                 if (data.status === "200") {
                     resp = {
                         token: data.authorisation.token,
