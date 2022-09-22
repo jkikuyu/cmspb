@@ -233,7 +233,7 @@ export default {
     mounted() {
         const userManualModal = document.querySelector("#userManualModal");
         userManualModal.addEventListener("show.bs.modal", (event) => {
-            const link = "http://project.dev/docs/";
+            const link = "http://project.tests/pb/docs";
 
             fetch(link)
                 .then((res) => res.text())
@@ -273,7 +273,6 @@ export default {
             this.loginFormModal.show();
         },
         launchUserManual: function () {
-            console.log("here");
             this.userManualModal = new Modal(
                 document.getElementById("userManualModal"),
                 {

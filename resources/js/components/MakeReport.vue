@@ -476,6 +476,7 @@ import DateTimePicker from "./DateTimePicker";
 import Button from "./Button";
 import Register from "./Register";
 import moment from "moment-timezone";
+import axios from "axios";
 export default {
     data() {
         return {
@@ -674,11 +675,11 @@ export default {
     },
     emits: ["saveDropDownList"],
     created() {
-        let dropdownList = localStorage.getItem("dropdownlist");
+        let dropdownList = sessionStorage.getItem("dropdownlist");
         if (!dropdownList) {
             console.log("emit saveDropDown");
             this.$emit("saveDropDownList");
-            dropdownList = localStorage.getItem("dropdownlist");
+            dropdownList = sessionStorage.getItem("dropdownlist");
         }
         this.dropdownList = JSON.parse(dropdownList);
 
@@ -708,7 +709,7 @@ export default {
 
     methods: {
         cancelreport() {
-            localStorage.clear(0);
+            sessionStorage.clear(0);
             history.back();
         },
         async submitreport(password) {
@@ -743,20 +744,20 @@ export default {
                 }
             }
 
-            this.saveFormData(storedForm); // save changes into localStorage
+            this.saveFormData(storedForm); // save changes into sessionStorage
         },
 
         getFormData() {
-            return JSON.parse(localStorage.getItem("form"));
+            return JSON.parse(sessionStorage.getItem("form"));
         },
         getDropDownList() {
             console.log("Dropdownlist");
-            //let dropdownlist = JSON.parse(localStorage.getItem("dropdownlist"));
+            //let dropdownlist = JSON.parse(sessionStorage.getItem("dropdownlist"));
             this.$emit("saveDropDownList");
             //dropdownlist = this.getDropDownList();
         },
         saveFormData(form) {
-            localStorage.setItem("form", JSON.stringify(form));
+            sessionStorage.setItem("form", JSON.stringify(form));
         },
 
         async getToken() {
@@ -778,7 +779,7 @@ export default {
                 };
             }
             try {
-                const res = await fetch("api/register", {
+                const res = await fetch("register", {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
@@ -813,11 +814,13 @@ export default {
                 this.form["user_id"] = resp.id;
 
                 try {
-                    const res = await fetch("api/complaints", {
-                        method: "POST",
-                        headers: headers,
-                        body: JSON.stringify(this.form),
-                    });
+                    const data = await axios.post(
+                        "api/complaints",
+                        {
+                            body: JSON.stringify(this.form),
+                        },
+                        { headers }
+                    );
                     data = await res.json();
                     if (data.status === "200") {
                         this.msg["success"] =
@@ -841,9 +844,9 @@ export default {
         async getAnonymousID() {
             let data = null;
             try {
-                const randomuserid = "api/user/randomuserid";
-                const res = await fetch(randomuserid);
-                data = await res.json();
+                const { data } = await axios.get("user/randomuserid", {
+                    withCredentials: true,
+                });
                 let userid = data.userid;
                 return userid;
             } catch (err) {

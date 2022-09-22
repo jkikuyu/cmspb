@@ -30,4 +30,12 @@ class Complaint extends Model
         'user_id',
         'complaintno'
     ];
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
+    }
+    public function getRouteKeyName()
+    {
+        return 'user_id';
+    }
 }

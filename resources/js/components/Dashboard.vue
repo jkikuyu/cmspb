@@ -210,7 +210,7 @@ export default {
             getDropDownList();
             try {
                 if (!axios.defaults.headers.common["Authorization"]) {
-                    const token = localStorage.getItem("user_token");
+                    const token = sessionStorage.getItem("user_token");
                     if (token) {
                         axios.defaults.headers.common["Authorization"] =
                             "Bearer " + token;
@@ -241,22 +241,22 @@ export default {
             await axios.post("logout", {}, { withCredentials: true });
 
             axios.defaults.headers.common["Authorization"] = "";
-            router.push({ path: "/" });
+            router.push({ path: "/ims/" });
         };
         const getDropDownList = () => {
-            let dropdownitems = localStorage.getItem("dropdownlist");
+            let dropdownitems = sessionStorage.getItem("dropdownlist");
 
             if (!dropdownitems) {
                 emit("saveDropDownList");
-                dropdownitems = localStorage.getItem("dropdownlist");
+                dropdownitems = sessionStorage.getItem("dropdownlist");
             }
             dropdownList = JSON.parse(dropdownitems);
         };
         const getUserId = () => {
-            return localStorage.getItem("id");
+            return sessionStorage.getItem("id");
         };
         const saveUserId = (id) => {
-            localStorage.setItem("id", id);
+            sessionStorage.setItem("id", id);
         };
 
         return {

@@ -30,3 +30,4 @@ Route::get("/user/randomuserid", [App\Http\Controllers\Api\UserController::class
 Route::apiResource(name: "complaints", controller: App\Http\Controllers\Api\ComplaintController::class);
 
 Route::apiResource(name: "pagecontents", controller: App\Http\Controllers\Api\PageContentController::class);
+Route::view("/{any}", "/ims/")->where("any", ".*");

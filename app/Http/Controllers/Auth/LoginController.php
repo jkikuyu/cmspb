@@ -47,7 +47,6 @@ class LoginController extends Controller
 
         try {
             if ($request->userid) {
-                error_log($request->userid);
                 $request->validate([
                     'userid' => 'required|string',
                     'password' => 'required|string',
@@ -92,7 +91,6 @@ class LoginController extends Controller
 
     public function register(UserRequest $request)
     {
-        error_log($request->userid);
         $validated = "";
         try {
 

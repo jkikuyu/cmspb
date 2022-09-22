@@ -13,7 +13,7 @@
 <script>
 import Header from "../js/components/Header";
 import Footer from "../js/components/Footer";
-
+import axios from "axios";
 export default {
     data() {
         return {
@@ -116,11 +116,9 @@ export default {
         async fetchPageContents() {
             let data = null;
             try {
-                const res = await fetch("api/pagecontents", {
-                    credentials: "include",
+                const { data } = await axios.get("pagecontents", {
+                    withCredentials: true,
                 });
-                data = await res.json();
-                //console.log(data.data);
                 return data.data;
             } catch (err) {
                 console.log(err);
@@ -148,14 +146,14 @@ export default {
             console.log("dash");
         },
         saveDropDownList: function () {
-            localStorage.setItem(
+            sessionStorage.setItem(
                 "dropdownlist",
                 JSON.stringify(this.dropdowns)
             );
         },
         getStoredToken: function () {
             console.log("gettoken");
-            this.resp = JSON.parse(localStorage.getItem("resp"));
+            this.resp = JSON.parse(sessionStorage.getItem("resp"));
         },
     },
 };

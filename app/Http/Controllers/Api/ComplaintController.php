@@ -14,7 +14,7 @@ class ComplaintController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     * 
+     *
      */
     public function __construct()
     {
@@ -23,6 +23,7 @@ class ComplaintController extends Controller
     public function index()
     {
         //
+        error_log("index");
         return ComplaintResource::collection(Complaint::all());
     }
 
@@ -37,7 +38,6 @@ class ComplaintController extends Controller
     {
         $resp = "";
         try {
-            error_log($request['user_id']);
             $validated = $request->validated();
 
             $complaint = Complaint::create($validated);
@@ -64,6 +64,7 @@ class ComplaintController extends Controller
      */
     public function show(Complaint $complaint)
     {
+        error_log("show");
         return new ComplaintResource($complaint);
     }
 

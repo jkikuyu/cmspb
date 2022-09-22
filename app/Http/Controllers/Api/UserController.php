@@ -75,7 +75,6 @@ class UserController extends Controller
 
             $id = $this->generateRandomUserId();
         }
-        error_log($id);
         return response()->json(['userid' => $id]);
     }
 }

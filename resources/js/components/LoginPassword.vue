@@ -99,7 +99,7 @@ export default {
     },
     mounted() {
         if (axios.defaults.headers.common["Authorization"]) {
-            this.$router.push("/dashboard");
+            this.$router.push("/ims/dashboard");
         }
     },
     setup() {
@@ -132,7 +132,7 @@ export default {
                 axios.defaults.headers.common[
                     "Authorization"
                 ] = `Bearer ${data.authorisation.token}`;
-                localStorage.setItem("user_token", data.authorisation.token);
+                sessionStorage.setItem("user_token", data.authorisation.token);
                 router.push({
                     name: "Dashboard",
                     params: { id: data.user.id },
