@@ -781,14 +781,16 @@ export default {
             let strUserDetails = JSON.stringify(userDetails);
 
             try {
-                const { data } = await axios.post(
-                    "register",
-                    { strUserDetails },
-                    {
-                        "content-type": "application/json",
-                    }
-                );
+                const { data } = await axios.post("register", userDetails, {
+                    withCredentials: true,
+                });
                 if (data.status === "200") {
+                    axios.defaults.headers.common[
+                        "Authorization"
+                    ] = `Bearer ${data.authorisation.token}`;
+                    /*                     axios.defaults.headers.common["X-CSRF-TOKEN"] =
+                        data.authorisation.x_csrf_token;
+ */
                     resp = {
                         token: data.authorisation.token,
                         id: data.user.id,
@@ -815,14 +817,22 @@ export default {
                 this.form["user_id"] = resp.id;
 
                 try {
-                    const data = await axios.post(
-                        "api/complaints",
+                    /*                     const res = await fetch(
+                        "http://localhost:8000/api/complaints",
                         {
+                            method: "POST",
+                            headers: headers,
                             body: JSON.stringify(this.form),
-                        },
-                        { headers }
+                        }
                     );
                     data = await res.json();
+
+ */ const { data } = await axios.post("complaints", this.form, {
+                        headers: {
+                            headers,
+                        },
+                    });
+
                     if (data.status === "200") {
                         this.msg["success"] =
                             "The complaint has been saved successfully.";
@@ -856,6 +866,11 @@ export default {
         },
     },
 };
+/* const { data } = await axios.post("api/complaints", this.form, {
+    headers: {
+        Authorization: `Bearer ${resp.token}`,
+    },
+}); */
 /* const date = Date();
 date.value.setDate(Number(date.value.getDate()) + 35);
 const range = reactive({

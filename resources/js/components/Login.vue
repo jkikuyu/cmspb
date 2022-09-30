@@ -66,10 +66,10 @@ export default {
 
     methods: {
         storeToken: function (resp) {
-            localStorage.setItem("resp", JSON.stringify(resp));
+            sessionStorage.setItem("resp", JSON.stringify(resp));
         },
         getStoredToken: function () {
-            return JSON.parse(localStorage.getItem("resp"));
+            return JSON.parse(sessionStorage.getItem("resp"));
         },
     },
 };

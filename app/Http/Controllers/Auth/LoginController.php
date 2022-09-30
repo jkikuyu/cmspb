@@ -72,11 +72,14 @@ class LoginController extends Controller
             }
 
             $user = Auth::user();
+            $csrf = csrf_token();
+            error_log($csrf);
             return response()->json([
                 'status' => '200',
                 'user' => $user,
                 'authorisation' => [
                     'token' => $token,
+                    'x_csrf_token' => $csrf,
                     'type' => 'bearer',
                 ]
             ]);
@@ -92,6 +95,8 @@ class LoginController extends Controller
     public function register(UserRequest $request)
     {
         $validated = "";
+        error_log($request->userid);
+        error_log($request->password);
         try {
 
             if ($request->userid) {
