@@ -37,6 +37,7 @@ class ComplaintController extends Controller
 
     {
         $resp = "";
+        info($request->all());
         try {
             $validated = $request->validated();
 
@@ -64,7 +65,6 @@ class ComplaintController extends Controller
      */
     public function show(Complaint $complaint)
     {
-        error_log("show");
         return new ComplaintResource($complaint);
     }
 

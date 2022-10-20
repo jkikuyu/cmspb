@@ -6,7 +6,7 @@
                     <form ref="makereport">
                         <div class="card-body">
                             <div class="container">
-                                <h2 class="fs-2 mb-3 fw-bold text-center">
+                                <h2 class="fs-2 mb-2 fw-bold text-center">
                                     Report Incident
                                 </h2>
                                 <div class="alert alert-primary" role="alert">
@@ -27,12 +27,12 @@
                                     {{ msg.success ? msg.success : "" }}
                                 </div>
 
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.anonymous"></Label
                                         ><span style="color: #ff0000"> * </span>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 p-0">
                                         <Select
                                             required
                                             @change="
@@ -53,7 +53,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div v-if="!+form.anonymous" class="row mb-3">
+                                <div v-if="!+form.anonymous" class="row mb-2">
                                     <div class="row">
                                         <div class="col-sm-auto">
                                             <Label :label="fields.first" />
@@ -65,9 +65,9 @@
 
                                     <div
                                         v-if="!+form.anonymous"
-                                        class="row mb-3"
+                                        class="row mb-2"
                                     >
-                                        <div class="col-sm-2 me-3">
+                                        <div class="col-sm-2 p-0 me-3">
                                             <Input
                                                 :required="!+form.anonymous"
                                                 pattern="[^\s]+"
@@ -91,7 +91,7 @@
                                             />
                                         </div>
 
-                                        <div class="col-sm-2 me-3">
+                                        <div class="col-sm-2 p-0 me-3">
                                             <Input
                                                 @input="
                                                     updateForm(
@@ -106,7 +106,7 @@
                                                 :value="form.middlename"
                                             />
                                         </div>
-                                        <div class="col-sm-2 me-3">
+                                        <div class="col-sm-2 p-0 me-3">
                                             <Input
                                                 :required="!+form.anonymous"
                                                 pattern="[^\s]+"
@@ -133,7 +133,7 @@
                                             <Label :label="fields.workid" />
                                         </div>
 
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-2 p-0">
                                             <Input
                                                 @input="
                                                     updateForm(
@@ -148,11 +148,11 @@
                                                 :value="form.wid"
                                             />
                                         </div>
-                                        <div class="col-sm-auto ms-4">
+                                        <div class="col-sm-auto ms-5">
                                             <Label :label="fields.nationalid" />
                                         </div>
 
-                                        <div class="col-sm-2 me-4">
+                                        <div class="col-sm-2 p-0 me-4">
                                             <Input
                                                 @input="
                                                     updateForm(
@@ -170,15 +170,39 @@
                                                 :value="form.nid"
                                             />
                                         </div>
-
+                                    </div>
+                                    <div class="row mb-2">
                                         <div class="col-sm-auto">
+                                            <Label :label="fields.phoneno" />
+                                            <span style="color: #ff0000">
+                                                *
+                                            </span>
+                                        </div>
+
+                                        <div class="p-0 col-sm-2">
+                                            <Input
+                                                :required="!+form.anonymous"
+                                                @input="
+                                                    updateForm(
+                                                        fields.phoneno.name,
+                                                        $event.target.value
+                                                    )
+                                                "
+                                                :elementId="fields.phoneno.name"
+                                                :placeholder="
+                                                    fields.phoneno.placeholder
+                                                "
+                                                :value="form.phoneno"
+                                            />
+                                        </div>
+                                        <div class="col-sm-auto ms-4">
                                             <Label :label="fields.email" />
                                             <span style="color: #ff0000">
                                                 *
                                             </span>
                                         </div>
 
-                                        <div class="col-sm-2">
+                                        <div class="p-0 col-sm-2">
                                             <Input
                                                 :required="!+form.anonymous"
                                                 type="email"
@@ -211,8 +235,9 @@
                                         />
                                         <span style="color: #ff0000"> * </span>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 p-0">
                                         <Select
+                                            required
                                             @change="
                                                 updateForm(
                                                     fields.complainanttype.name,
@@ -236,13 +261,14 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.allegetype" />
                                         <span style="color: #ff0000"> * </span>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 p-0">
                                         <Select
+                                            required
                                             @change="
                                                 updateForm(
                                                     fields.allegetype.name,
@@ -263,13 +289,14 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.reported" />
                                         <span style="color: #ff0000"> * </span>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 p-0">
                                         <Select
+                                            required
                                             @change="
                                                 updateForm(
                                                     fields.reported.name,
@@ -286,7 +313,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <div
                                         v-show="!!+form.reported"
                                         class="col-sm-auto"
@@ -300,6 +327,7 @@
                                         class="col-sm-5"
                                     >
                                         <Input
+                                            :required="!!+form.reported"
                                             @input="
                                                 updateForm(
                                                     fields.towhom.name,
@@ -307,19 +335,24 @@
                                                 )
                                             "
                                             class="col-sm-9"
+                                            :class="{
+                                                'border border-danger':
+                                                    !form[fields.towhom.name],
+                                            }"
                                             :elementId="fields.towhom.name"
                                             :value="form.towhom"
                                         />
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.describe" />
                                         <span style="color: #ff0000"> * </span>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <TextArea
+                                        required
                                         @input="
                                             updateForm(
                                                 fields.describe.name,
@@ -335,14 +368,15 @@
                                     />
                                 </div>
 
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.subjectdetail" />
                                         <span style="color: #ff0000"> * </span>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <TextArea
+                                        required
                                         @input="
                                             updateForm(
                                                 fields.subjectdetail.name,
@@ -359,14 +393,14 @@
                                         :value="form.detail"
                                     />
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <DateTimePicker v-model="range" />
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.threat" />
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 p-0">
                                         <Select
                                             @change="
                                                 updateForm(
@@ -380,12 +414,12 @@
                                         />
                                     </div>
                                 </div>
-                                <div v-if="!!+form.threat" class="row mb-3">
+                                <div v-if="!!+form.threat" class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.elaborate" />
                                     </div>
                                 </div>
-                                <div v-if="!!+form.threat" class="row mb-3">
+                                <div v-if="!!+form.threat" class="row mb-2">
                                     <TextArea
                                         @input="
                                             updateForm(
@@ -396,11 +430,11 @@
                                         :elementId="fields.elaborate.name"
                                     />
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.evidence"></Label>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 p-0">
                                         <Select
                                             @change="
                                                 updateForm(
@@ -414,13 +448,13 @@
                                         />
                                     </div>
                                 </div>
-                                <div v-show="!+form.evidence" class="row mb-3">
+                                <div v-show="!+form.evidence" class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label
                                             :label="fields.nopossession"
                                         ></Label>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 p-0">
                                         <Select
                                             @change="
                                                 updateForm(
@@ -436,19 +470,54 @@
                                         />
                                     </div>
                                 </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="col-sm-auto">
+                                            <Label
+                                                :label="fields.uploadfile"
+                                            ></Label>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="col-sm-4">
+                                            <input
+                                                type="file"
+                                                class="form-control-file"
+                                                name="fileList"
+                                                multiple
+                                                id="uploadfiles"
+                                                @change="fileUploadList"
+                                                aria-describedby="fileHelp"
+                                            />
+                                        </div>
+                                        <div class="form-group">
+                                            <small
+                                                id="fileHelp"
+                                                class="form-text text-muted"
+                                                >Please upload a file i.e .pdf,
+                                                .jpg, .png, .docx. Size of image
+                                                should not be more than
+                                                2MB.</small
+                                            >
+                                        </div>
+                                        <div id="fileNames= "></div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <Button
+                                        class="mx-2"
+                                        type="button"
+                                        @click="submitreport"
+                                        button="submit"
+                                        >Submit</Button
+                                    >
+                                    <Button
+                                        button="cancel"
+                                        @click="cancelreport"
+                                        >Cancel</Button
+                                    >
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <Button
-                                class="mx-2"
-                                type="button"
-                                @click="submitreport"
-                                button="submit"
-                                >Submit</Button
-                            >
-                            <Button button="cancel" @click="cancelreport"
-                                >Cancel</Button
-                            >
                         </div>
                     </form>
                 </div>
@@ -506,6 +575,7 @@ export default {
             datefrom: Date(),
             dateto: Date(),
             dropdownList: {},
+            fileList: [],
             fields: {
                 anonymous: {
                     name: "anonymous",
@@ -569,6 +639,13 @@ export default {
                     title: "Phone number",
                     placeholder: "phone number",
                     description: "phone number of the complainant",
+                    order: 1,
+                },
+                phoneno: {
+                    name: "phoneno",
+                    title: "Phone Number",
+                    placeholder: "Phone Number",
+                    description: "Phone number of the complainant",
                     order: 1,
                 },
 
@@ -660,6 +737,12 @@ export default {
                     title: "The end date when the incident occurred",
                     placeholder: "",
                     description: "Enter complainant type",
+                },
+                uploadfile: {
+                    name: "uploadefile",
+                    title: "Select file to upload",
+                    placeholder: "",
+                    description: "Please select file to upload",
                 },
             },
         };
@@ -809,6 +892,7 @@ export default {
         async storeReport(password) {
             let data = null;
             this.password = password;
+            let formdata = new FormData();
             let resp = await this.getToken();
             if (resp.token) {
                 let headers = new Headers();
@@ -816,23 +900,33 @@ export default {
                 headers.append("Content-type", "application/json");
                 this.form["user_id"] = resp.id;
 
+                for (const [key, value] of Object.entries(this.form)) {
+                    formdata.append(key, value);
+                }
+                for (let i = 0; i < this.fileList.length; i++) {
+                    formdata.append("files[]", this.fileList[i]);
+                }
+
                 try {
-                    /*                     const res = await fetch(
+                    const { data } = await axios.post("complaints", formdata, {
+                        withCredentials: true,
+                    });
+
+                    /* const res = await fetch(
                         "http://localhost:8000/api/complaints",
                         {
                             method: "POST",
                             headers: headers,
-                            body: JSON.stringify(this.form),
+                            body: formdata,
                         }
                     );
                     data = await res.json();
-
- */ const { data } = await axios.post("complaints", this.form, {
+                                        const { data } = await axios.post("complaints", this.form, {
                         headers: {
                             headers,
                         },
                     });
-
+ */
                     if (data.status === "200") {
                         this.msg["success"] =
                             "The complaint has been saved successfully.";
@@ -863,6 +957,13 @@ export default {
             } catch (err) {
                 console.log(err);
             }
+        },
+        fileUploadList(event) {
+            if (event.target.files.length == 0) {
+                return;
+            }
+            this.fileList = event.target.files;
+            console.log(this.fileList);
         },
     },
 };

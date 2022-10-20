@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('complainanttype', 2)->nullable(false);
             $table->bigInteger('user_id')->unsigned();
             $table->string('complaintno', 11)->unique();
-
+            $table->string('controlno', 11)->nullable();
             $table->string('allegetype', 2)->nullable(false);
             $table->string('nid', 256)->nullable();
             $table->string('wid', 256)->nullable();
