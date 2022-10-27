@@ -54,12 +54,12 @@
                 </div>
             </div>
             <div class="col py-3">
+
                 <DataTable
                     class="table table-hover table-striped"
                     :data="data"
                     :columns="columns"
                     :options="{
-                        select: true,
                         bLengthChange: false,
                         bPaginate: false,
                         bFilter: false,
@@ -85,6 +85,7 @@
                         </tr>
                     </thead>
                 </DataTable>
+
             </div>
         </div>
     </div>
@@ -95,6 +96,7 @@ import DataTable from "datatables.net-vue3";
 import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
 import { useRouter, useRoute } from "vue-router";
+
 
 export default {
     name: "Dashboard",
@@ -111,7 +113,7 @@ export default {
     setup(props, { emit }) {
         const router = new useRouter();
         const route = new useRoute();
-        let data = reactive([]);
+        let data=ref([]);
         let id = props.id;
         let dropdownList = {};
         const columns = [
@@ -226,15 +228,19 @@ export default {
                 await getComplaints(id);
             } catch (e) {
                 console.log(e);
-                //await router.push("/login");
             }
         });
 
         const getComplaints = async (id) => {
-            const dt = await axios.get("complaints/" + id, {
+            let dt= await axios.get("complaints/" + id, {
                 Authorization: axios.defaults.headers.common["Authorization"],
             });
-            data.push(dt.data.data);
+            if(Array.isArray(dt.data.data)){
+                data.value.push(...dt.data.data);
+            }
+            else{
+                data.value.push(dt.data.data);
+            }
         };
 
         const logout = async (e) => {
@@ -251,6 +257,7 @@ export default {
                 dropdownitems = sessionStorage.getItem("dropdownlist");
             }
             dropdownList = JSON.parse(dropdownitems);
+
         };
         const getUserId = () => {
             return sessionStorage.getItem("id");
@@ -258,12 +265,12 @@ export default {
         const saveUserId = (id) => {
             sessionStorage.setItem("id", id);
         };
-
         return {
             logout,
             getDropDownList,
-            dropdownList,
+            getComplaints,
             data,
+            dropdownList,
             columns,
         };
     },

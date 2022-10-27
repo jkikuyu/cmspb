@@ -22,8 +22,6 @@ class ComplaintController extends Controller
     }
     public function index()
     {
-        //
-        error_log("index");
         return ComplaintResource::collection(Complaint::all());
     }
 
@@ -65,21 +63,12 @@ class ComplaintController extends Controller
      */
     public function show(Complaint $complaint)
     {
-        return new ComplaintResource($complaint);
+            return new ComplaintResource($complaint);
+
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Complaint  $complaint
-     * @return \Illuminate\Http\Response
-     */
-    public function update(ComplaintRequest $request, Complaint $complaint)
-    {
-        $complaint->udate($request);
-        return new ComplaintResource($complaint);
-    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -92,4 +81,5 @@ class ComplaintController extends Controller
         $complaint->delete();
         return response()->noContent();
     }
+
 }
