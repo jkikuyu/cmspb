@@ -44,11 +44,11 @@ export default {
             masks: { L: "YYYY-MM-DD" },
             start: {
                 name: "datefrom",
-                title: "Date From",
+                title: "Date of Occurrance",
             },
             end: {
                 name: "dateto",
-                title: "Date To",
+                title: "Date Reported",
             },
         };
     },

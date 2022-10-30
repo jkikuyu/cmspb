@@ -68,6 +68,7 @@
                 >
                     <thead>
                         <tr>
+                            <th>action</th>
                             <th>Complaint No</th>
                             <th>Complaint Type</th>
                             <th>Allegation</th>
@@ -88,15 +89,32 @@
 
             </div>
         </div>
+        <view-complaint
+            :showModal="isModalOpen"
+            @hideLoginModal="isModalOpen = false"
+        >
+            <template #formname> Complaint  </template>
+        </view-complaint>
     </div>
 </template>
 
 <script>
 import DataTable from "datatables.net-vue3";
+import Select from 'datatables.net-select';
+
+import $ from "jquery";
 import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
 import { useRouter, useRoute } from "vue-router";
-
+import ViewComplaint from "./ViewComplaint";
+/* $(document).ready(function() {
+      $('#viewcomplaint tbody').on( 'click', 'tr', function () {
+           modal.id = table.row(this).data().id;
+           modal.name = table.row(this).data().name;
+           modals.showModalEdit = true;
+      });
+ } );;
+ */
 
 export default {
     name: "Dashboard",
@@ -104,6 +122,8 @@ export default {
 
     components: {
         DataTable,
+        ViewComplaint,
+
     },
     props: {
         isExpired: Boolean,
@@ -115,8 +135,16 @@ export default {
         const route = new useRoute();
         let data=ref([]);
         let id = props.id;
+        let isModalOpen = false;
         let dropdownList = {};
+
         const columns = [
+            {data: null,
+                render: function (data, type, row, meta) {
+                    return '<button class="fa-solid fa-ellipsis" "id=viewcomplaint"></button>';
+                },
+                orderable: false
+            },
             { data: "complaintno" },
             {
                 data: "complainanttype",
@@ -259,16 +287,23 @@ export default {
             dropdownList = JSON.parse(dropdownitems);
 
         };
+
         const getUserId = () => {
             return sessionStorage.getItem("id");
         };
         const saveUserId = (id) => {
             sessionStorage.setItem("id", id);
         };
+        const showViewComplaint = () =>{
+            console.log("showviewcomplaint")
+            isModalOpen = true
+        };
         return {
             logout,
             getDropDownList,
             getComplaints,
+            showViewComplaint,
+            isModalOpen,
             data,
             dropdownList,
             columns,
@@ -277,4 +312,7 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+@import 'datatables.net-dt';
+
+</style>

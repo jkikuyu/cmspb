@@ -210,7 +210,7 @@ import Label from "./Label";
 import LoginPassword from "./LoginPassword";
 import { Modal } from "bootstrap";
 export default {
-    name: "Login",
+    name: "Register",
     data: () => ({
         loginFormModal: null,
         confirmpassword: "",
