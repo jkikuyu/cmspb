@@ -834,7 +834,6 @@ export default {
             return JSON.parse(sessionStorage.getItem("form"));
         },
         getDropDownList() {
-            console.log("Dropdownlist");
             //let dropdownlist = JSON.parse(sessionStorage.getItem("dropdownlist"));
             this.$emit("saveDropDownList");
             //dropdownlist = this.getDropDownList();

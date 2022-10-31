@@ -64,7 +64,9 @@
                         bPaginate: false,
                         bFilter: false,
                         bInfo: false,
+                        select:true,
                     }"
+                    ref="table"
                 >
                     <thead>
                         <tr>
@@ -91,6 +93,7 @@
         </div>
         <view-complaint
             :showModal="isModalOpen"
+            :complaintData = "data"
             @hideLoginModal="isModalOpen = false"
         >
             <template #formname> Complaint  </template>
@@ -99,24 +102,15 @@
 </template>
 
 <script>
-import DataTable from "datatables.net-vue3";
-import Select from 'datatables.net-select';
 
+import DataTable from "datatables.net-vue3";
+import Select from "datatables.net-dt";
+DataTable.use(Select);
 import $ from "jquery";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, ref } from "vue";
 import axios from "axios";
 import { useRouter, useRoute } from "vue-router";
 import ViewComplaint from "./ViewComplaint";
- $(document).ready(function() {
-    console.log("ready");
-      $('#lstcomplaints tbody').on( 'click', 'button', function () {
-        console.log('herer');
-/*            modal.id = table.row(this).data().id;
-           modal.name = table.row(this).data().name;
-           modals.showModalEdit = true;
- */      });
- } );;
-
 
 export default {
     name: "Dashboard",
@@ -135,9 +129,13 @@ export default {
     setup(props, { emit }) {
         const router = new useRouter();
         const route = new useRoute();
-        let data=ref([]);
+        let dt;
+
+        const data=ref([]);
+        const table = ref();
+
         let id = props.id;
-        let isModalOpen = false;
+        let isModalOpen = ref(false);
         let dropdownList = {};
 
         const columns = [
@@ -239,6 +237,16 @@ export default {
         ];
 
         onMounted(async () => {
+            dt = table.value.dt();
+            dt.rows({ selected: true }).every(function () {
+                console.log(this.data());
+            });
+
+            $('#lstcomplaints tbody').on( 'click', 'tr', ()=> {
+                console.log( dt.row( this ).data() );
+            //showViewComplaint();
+            });
+
             getDropDownList();
             try {
                 if (!axios.defaults.headers.common["Authorization"]) {
@@ -298,7 +306,7 @@ export default {
         };
         const showViewComplaint = () =>{
             console.log("showviewcomplaint")
-            isModalOpen = true
+            isModalOpen.value = true
         };
         return {
             logout,
@@ -307,6 +315,7 @@ export default {
             showViewComplaint,
             isModalOpen,
             data,
+            table,
             dropdownList,
             columns,
         };
