@@ -55,7 +55,7 @@
             </div>
             <div class="col py-3">
 
-                <DataTable
+                <DataTable id="lstcomplaints"
                     class="table table-hover table-striped"
                     :data="data"
                     :columns="columns"
@@ -79,8 +79,8 @@
                             <th>Threat</th>
                             <th>Elaborate</th>
                             <th>Evidence</th>
-                            <th>Date from</th>
-                            <th>Date to</th>
+                            <th>Date Occurred</th>
+                            <th>Date Reported</th>
 
                             <th>Status</th>
                         </tr>
@@ -107,14 +107,16 @@ import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
 import { useRouter, useRoute } from "vue-router";
 import ViewComplaint from "./ViewComplaint";
-/* $(document).ready(function() {
-      $('#viewcomplaint tbody').on( 'click', 'tr', function () {
-           modal.id = table.row(this).data().id;
+ $(document).ready(function() {
+    console.log("ready");
+      $('#lstcomplaints tbody').on( 'click', 'button', function () {
+        console.log('herer');
+/*            modal.id = table.row(this).data().id;
            modal.name = table.row(this).data().name;
            modals.showModalEdit = true;
-      });
+ */      });
  } );;
- */
+
 
 export default {
     name: "Dashboard",
@@ -141,7 +143,7 @@ export default {
         const columns = [
             {data: null,
                 render: function (data, type, row, meta) {
-                    return '<button class="fa-solid fa-ellipsis" "id=viewcomplaint"></button>';
+                    return '<button class="fa-solid fa-ellipsis"></button>';
                 },
                 orderable: false
             },

@@ -23,7 +23,7 @@ export default {
             dropdowns: {
                 allegetypelist: [
                     {
-                        name: "Fraud",
+                        name: "Bribery",
                         id: 1,
                     },
                     {
@@ -31,34 +31,48 @@ export default {
                         id: 2,
                     },
                     {
-                        name: "Theft",
+                        name: "Fraud",
                         id: 3,
                     },
+
                     {
-                        name: "Unethical Behaviour",
+                        name: "Theft",
                         id: 4,
+                    },
+                    {
+                        name: "Other Unethical Behaviour",
+                        id: 5,
                     },
                 ],
                 complainantlist: [
                     {
-                        name: "Contractor",
+                        name: "Employee",
                         id: 1,
                     },
                     {
-                        name: "Former Employee",
+                        name: "Ex- Employee",
                         id: 2,
                     },
                     {
-                        name: "Contract Employee",
+                        name: "Contractor",
                         id: 3,
                     },
+
                     {
-                        name: "Citizen",
+                        name: "Contract Employee",
                         id: 4,
                     },
                     {
-                        name: "Supplier",
+                        name: "Visitor",
                         id: 5,
+                    },
+                    {
+                        name: "Supplier",
+                        id: 6,
+                    },
+                    {
+                        name: "Other",
+                        id: 7,
                     },
                 ],
                 yesno: [
