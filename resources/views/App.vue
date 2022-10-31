@@ -50,7 +50,7 @@ export default {
                         id: 1,
                     },
                     {
-                        name: "Ex- Employee",
+                        name: "Ex-Employee",
                         id: 2,
                     },
                     {
