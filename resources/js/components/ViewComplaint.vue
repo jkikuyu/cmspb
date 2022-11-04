@@ -16,8 +16,11 @@
                 </h5>
             </div>
             <div class="modal-body">
-                <make-report>
-                </make-report>
+                <MakeReport
+                    :isNewComplaint=false
+                    @hideViewComplaint="hideViewComplaintModal"
+                >
+                </MakeReport>
             </div>
         </div>
     </div>
@@ -34,11 +37,11 @@ export default {
     name:"ViewComplaint",
     props: {
         showModal: Boolean,
-        complaintData: Array,
+        complaintData: Object,
     },
     setup(props, { emit }) {
         let viewComplaintFormModal= ref(null);
-
+        let isNewComplaint = false;
         const modalActive = ()=>{
             viewComplaintFormModal = new Modal(
                 document.getElementById("viewcomplaint"),
@@ -53,7 +56,21 @@ export default {
             if (newval === true) {
                 modalActive();
             }
-        });
+        },
+        ()=>props.complaintData,(newval,oldval)=>{
+            console.log(newval);
+        }
+        );
+        const hideViewComplaintModal=()=>{
+            viewComplaintFormModal.hide();
+            emit('hideComplaintModal');
+        };
+        return {
+            isNewComplaint,
+            hideViewComplaintModal
+
+        };
+
     },
 }
 

@@ -513,7 +513,7 @@
                                     >
                                     <Button
                                         button="cancel"
-                                        @click="cancelreport"
+                                        @click="(isNewComplaint==true)?cancelreport():hideViewComplaint()"
                                         >Cancel</Button
                                     >
                                 </div>
@@ -756,7 +756,13 @@ export default {
         Button,
         Register,
     },
-    emits: ["saveDropDownList"],
+    props:{
+        isNewComplaint:{
+            type:Boolean,
+            default:true
+        }
+    },
+    emits: ["saveDropDownList","hideViewComplaint"],
     created() {
         let dropdownList = sessionStorage.getItem("dropdownlist");
         if (!dropdownList) {
@@ -794,6 +800,10 @@ export default {
         cancelreport() {
             sessionStorage.clear(0);
             history.back();
+        },
+        hideViewComplaint(){
+            console.log("hideViewComplaint");
+            this.$emit("hideViewComplaint");
         },
         async submitreport(password) {
             let isEmailorId = false;

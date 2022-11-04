@@ -91,22 +91,21 @@
 
             </div>
         </div>
-        <view-complaint
+        <ViewComplaint
             :showModal="isModalOpen"
-            :complaintData = "data"
-            @hideLoginModal="isModalOpen = false"
+            :complaintData = "selectedComplaint"
+            @hideComplaintModal="isModalOpen=false"
         >
             <template #formname> Complaint  </template>
-        </view-complaint>
+        </ViewComplaint>
+
     </div>
 </template>
 
 <script>
+import $ from "jquery";
 
 import DataTable from "datatables.net-vue3";
-import Select from "datatables.net-dt";
-DataTable.use(Select);
-import $ from "jquery";
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import { useRouter, useRoute } from "vue-router";
@@ -133,7 +132,7 @@ export default {
 
         const data=ref([]);
         const table = ref();
-
+        let selectedComplaint={};
         let id = props.id;
         let isModalOpen = ref(false);
         let dropdownList = {};
@@ -238,15 +237,21 @@ export default {
 
         onMounted(async () => {
             dt = table.value.dt();
-            dt.rows({ selected: true }).every(function () {
+            $('#lstcomplaints tbody').on( 'click', 'button', function() {
+                var row = dt.row($(this).parents('tr')).data();
+                selectedComplaint = row.complaintno;
+                showViewComplaint();
+
+            });
+
+/*             dt.rows({ selected: true }).every(function () {
                 console.log(this.data());
             });
 
             $('#lstcomplaints tbody').on( 'click', 'tr', ()=> {
                 console.log( dt.row( this ).data() );
-            //showViewComplaint();
             });
-
+ */
             getDropDownList();
             try {
                 if (!axios.defaults.headers.common["Authorization"]) {
@@ -316,6 +321,7 @@ export default {
             isModalOpen,
             data,
             table,
+            selectedComplaint,
             dropdownList,
             columns,
         };
@@ -325,5 +331,6 @@ export default {
 
 <style>
 @import 'datatables.net-dt';
+@import 'datatables.net-select-dt';
 
 </style>
