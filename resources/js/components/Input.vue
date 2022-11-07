@@ -10,6 +10,8 @@
 
 <script>
 export default {
+    name: "Input",
+
     props: {
         elementId: String,
         modelValue: String,

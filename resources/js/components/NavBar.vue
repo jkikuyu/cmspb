@@ -64,6 +64,7 @@
                             class="whistlesize"
                         />
                         <div class="makereport">Report Incident</div>
+
                     </router-link>
                 </div>
             </div>
@@ -83,6 +84,7 @@
 import Button from "../components/Button";
 import MenuItem from "../components/MenuItem";
 export default {
+    name: "NavBar",
     components: {
         Button,
         MenuItem,
@@ -98,11 +100,7 @@ export default {
         menuitems: Array,
         dropdownitems: Object,
     },
-    watch: {
-        newpassword: function (val) {
-            console.log(val);
-        },
-    },
+
     methods: {
         saveDropDownList: function () {
             this.$emit("saveDropDownList");

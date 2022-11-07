@@ -19,6 +19,7 @@
 
 <script>
 export default {
+    name: "Select",
     components: {},
     props: {
         dropdownitems: Array,

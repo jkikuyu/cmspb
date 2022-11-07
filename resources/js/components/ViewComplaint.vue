@@ -12,15 +12,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ViewComplaintFormLabel">
-                    <slot name="formname" />
                 </h5>
             </div>
             <div class="modal-body">
-                <MakeReport
+                <make-report
                     :isNewComplaint=false
+                    :complaintData="complaintData"
                     @hideViewComplaint="hideViewComplaintModal"
+                    @saveDropDownList="saveDropDownList"
+                    :pagetitle="pagetitle"
                 >
-                </MakeReport>
+               </make-report>
             </div>
         </div>
     </div>
@@ -29,18 +31,20 @@
 </template>
 
 <script>
-import { watch, ref } from "vue";
+import { watch, ref, onMounted } from "vue";
 import { Modal } from "bootstrap";
 import MakeReport from './MakeReport.vue';
 export default {
   components: { MakeReport },
     name:"ViewComplaint",
+    emits: ["saveDropDownList","hideComplaintModal" ],
     props: {
         showModal: Boolean,
         complaintData: Object,
     },
     setup(props, { emit }) {
         let viewComplaintFormModal= ref(null);
+        const pagetitle = "Complaint Details"
         let isNewComplaint = false;
         const modalActive = ()=>{
             viewComplaintFormModal = new Modal(
@@ -53,22 +57,23 @@ export default {
             viewComplaintFormModal.show();
         };
         watch(() => props.showModal, (newval,oldval) => {
-            if (newval === true) {
-                modalActive();
+            if(newval==true){
+                modalActive()
             }
-        },
-        ()=>props.complaintData,(newval,oldval)=>{
-            console.log(newval);
+        });
+        const saveDropDownList=()=>{
+                console.log("viewcomplaint");
+                emit('saveDropDownList');
         }
-        );
         const hideViewComplaintModal=()=>{
             viewComplaintFormModal.hide();
             emit('hideComplaintModal');
         };
         return {
             isNewComplaint,
-            hideViewComplaintModal
-
+            pagetitle,
+            hideViewComplaintModal,
+            saveDropDownList
         };
 
     },

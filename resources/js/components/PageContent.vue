@@ -29,6 +29,7 @@ import ContentDescription from "./ContentDescription";
 import ContentImage from "./ContentImage";
 
 export default {
+    name: "PageContent",
     components: {
         ContentDescription,
         ContentImage,

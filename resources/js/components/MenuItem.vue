@@ -7,6 +7,8 @@
 </template>
 <script>
 export default {
+    name: "MenuItem",
+
     props: {
         menuitem: Object,
     },

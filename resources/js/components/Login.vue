@@ -6,7 +6,7 @@
         <div class="col-sm-6">
             <h2>{{ page }}</h2>
             <hr />
-            <LoginPassword />
+            <LoginPassword @saveDropDownList="saveDropDownList"/>
         </div>
     </div>
 </template>
@@ -16,6 +16,8 @@ import LoginPassword from "./LoginPassword";
 import ContentImage from "./ContentImage";
 
 export default {
+    name: "Login",
+
     components: {
         LoginPassword,
         ContentImage,
@@ -54,15 +56,6 @@ export default {
             }
         }
     }, */
-    props: {
-        dropdownList: String,
-    },
-    watch: {
-        $route: function (value) {
-            // lets watch for route changes on our
-            console.log("dash");
-        },
-    },
 
     methods: {
         storeToken: function (resp) {
@@ -71,6 +64,9 @@ export default {
         getStoredToken: function () {
             return JSON.parse(sessionStorage.getItem("resp"));
         },
+        saveDropDownList: function (){
+            console.log("Login....")
+        }
     },
 };
 </script>

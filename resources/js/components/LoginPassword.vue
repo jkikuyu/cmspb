@@ -78,6 +78,8 @@ export default {
         Label,
         Button,
     },
+    emits: ["saveDropDownList"],
+
     data() {
         return {
             response: "",
@@ -102,10 +104,9 @@ export default {
             this.$router.push("/ims/dashboard");
         }
     },
-    setup() {
+    setup(props, { emit }) {
         const router = new useRouter();
         const msg = reactive({ password: "" });
-
         const loginform = async (e) => {
             let userDetails = {};
             const form = new FormData(e.target);
@@ -137,10 +138,24 @@ export default {
                     name: "Dashboard",
                     params: { id: data.user.id },
                 });
+                //setDropDownList();
             } else {
                 msg.password = "user details provided are incorrect";
             }
         };
+    /*          const setDropDownList = () => {
+                let dropdownitems = sessionStorage.getItem("dropdownlist");
+                console.log(dropdownitems);
+                if (!dropdownitems) {
+                    console.log("loginpassword.....");
+                    emit("saveDropDownList");
+                    dropdownitems = sessionStorage.getItem("dropdownlist");
+                }
+
+                dropdownList = JSON.parse(dropdownitems);
+
+            }; */
+
         return {
             loginform,
             msg,

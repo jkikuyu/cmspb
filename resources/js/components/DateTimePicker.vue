@@ -36,6 +36,8 @@ import Input from "./Input";
 export default {
     data() {
         return {
+            name: "DateTimePicker",
+
             modeConfig: {
                 type: "string",
                 mask: "YYYY-MM-DD HH:mm",
@@ -66,7 +68,12 @@ export default {
         Label,
         Input,
     },
-
+    props:{
+        isDisable : {
+            type: Boolean,
+            default: false
+        }
+    }
     /* watch: {
         inputValue: function (val) {
             console.log("input value ", val.start);

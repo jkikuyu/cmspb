@@ -95,8 +95,8 @@
             :showModal="isModalOpen"
             :complaintData = "selectedComplaint"
             @hideComplaintModal="isModalOpen=false"
+            @saveDropDownList="saveDropDownList"
         >
-            <template #formname> Complaint  </template>
         </ViewComplaint>
 
     </div>
@@ -129,14 +129,17 @@ export default {
         const router = new useRouter();
         const route = new useRoute();
         let dt;
+        const dropdownitems = sessionStorage.getItem("dropdownlist");
 
         const data=ref([]);
         const table = ref();
-        let selectedComplaint={};
+        let selectedComplaint=ref(null);
         let id = props.id;
         let isModalOpen = ref(false);
         let dropdownList = {};
-
+        if(dropdownitems){
+            dropdownList = JSON.parse(dropdownitems);
+        }
         const columns = [
             {data: null,
                 render: function (data, type, row, meta) {
@@ -238,8 +241,7 @@ export default {
         onMounted(async () => {
             dt = table.value.dt();
             $('#lstcomplaints tbody').on( 'click', 'button', function() {
-                var row = dt.row($(this).parents('tr')).data();
-                selectedComplaint = row.complaintno;
+                selectedComplaint.value = dt.row($(this).parents('tr')).data();
                 showViewComplaint();
 
             });
@@ -252,7 +254,6 @@ export default {
                 console.log( dt.row( this ).data() );
             });
  */
-            getDropDownList();
             try {
                 if (!axios.defaults.headers.common["Authorization"]) {
                     const token = sessionStorage.getItem("user_token");
@@ -292,16 +293,6 @@ export default {
             axios.defaults.headers.common["Authorization"] = "";
             router.push({ path: "/ims/" });
         };
-        const getDropDownList = () => {
-            let dropdownitems = sessionStorage.getItem("dropdownlist");
-
-            if (!dropdownitems) {
-                emit("saveDropDownList");
-                dropdownitems = sessionStorage.getItem("dropdownlist");
-            }
-            dropdownList = JSON.parse(dropdownitems);
-
-        };
 
         const getUserId = () => {
             return sessionStorage.getItem("id");
@@ -310,14 +301,18 @@ export default {
             sessionStorage.setItem("id", id);
         };
         const showViewComplaint = () =>{
-            console.log("showviewcomplaint")
             isModalOpen.value = true
         };
+        const saveDropDownList = ()=>{
+            console.log("dashboard ...");
+
+            emit("saveDropDownList");
+        }
         return {
             logout,
-            getDropDownList,
             getComplaints,
             showViewComplaint,
+            saveDropDownList,
             isModalOpen,
             data,
             table,
