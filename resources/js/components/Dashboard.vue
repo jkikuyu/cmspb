@@ -26,7 +26,7 @@
 
                         <li>
                             <a
-                                href="http://cmspb.herokuapp.com/pb/docs" target="_blank"
+                                href="#"
                                 class="nav-link px-0 align-middle text-white"
                             >
                                 <i class="nav-icon far fa-question-circle"></i>
@@ -34,8 +34,6 @@
                                     >User Manual</span
                                 ></a
                             >
-
-
                         </li>
                         <li>
                             <a
@@ -56,20 +54,23 @@
                 </div>
             </div>
             <div class="col py-3">
-                <DataTable
+
+                <DataTable id="lstcomplaints"
                     class="table table-hover table-striped"
                     :data="data"
                     :columns="columns"
                     :options="{
-                        select: true,
                         bLengthChange: false,
                         bPaginate: false,
                         bFilter: false,
                         bInfo: false,
+                        select:true,
                     }"
+                    ref="table"
                 >
                     <thead>
                         <tr>
+                            <th>action</th>
                             <th>Complaint No</th>
                             <th>Complaint Type</th>
                             <th>Allegation</th>
@@ -80,23 +81,35 @@
                             <th>Threat</th>
                             <th>Elaborate</th>
                             <th>Evidence</th>
-                            <th>Date from</th>
-                            <th>Date to</th>
+                            <th>Date Occurred</th>
+                            <th>Date Reported</th>
 
                             <th>Status</th>
                         </tr>
                     </thead>
                 </DataTable>
+
             </div>
         </div>
+        <ViewComplaint
+            :showModal="isModalOpen"
+            :complaintData = "selectedComplaint"
+            @hideComplaintModal="isModalOpen=false"
+            @saveDropDownList="saveDropDownList"
+        >
+        </ViewComplaint>
+
     </div>
 </template>
 
 <script>
+import $ from "jquery";
+
 import DataTable from "datatables.net-vue3";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, ref } from "vue";
 import axios from "axios";
 import { useRouter, useRoute } from "vue-router";
+import ViewComplaint from "./ViewComplaint";
 
 export default {
     name: "Dashboard",
@@ -104,6 +117,8 @@ export default {
 
     components: {
         DataTable,
+        ViewComplaint,
+
     },
     props: {
         isExpired: Boolean,
@@ -113,10 +128,25 @@ export default {
     setup(props, { emit }) {
         const router = new useRouter();
         const route = new useRoute();
-        let data = reactive([]);
+        let dt;
+        const dropdownitems = sessionStorage.getItem("dropdownlist");
+
+        const data=ref([]);
+        const table = ref();
+        let selectedComplaint=ref(null);
         let id = props.id;
+        let isModalOpen = ref(false);
         let dropdownList = {};
+        if(dropdownitems){
+            dropdownList = JSON.parse(dropdownitems);
+        }
         const columns = [
+            {data: null,
+                render: function (data, type, row, meta) {
+                    return '<button class="fa-solid fa-ellipsis"></button>';
+                },
+                orderable: false
+            },
             { data: "complaintno" },
             {
                 data: "complainanttype",
@@ -209,7 +239,21 @@ export default {
         ];
 
         onMounted(async () => {
-            getDropDownList();
+            dt = table.value.dt();
+            $('#lstcomplaints tbody').on( 'click', 'button', function() {
+                selectedComplaint.value = dt.row($(this).parents('tr')).data();
+                showViewComplaint();
+
+            });
+
+/*             dt.rows({ selected: true }).every(function () {
+                console.log(this.data());
+            });
+
+            $('#lstcomplaints tbody').on( 'click', 'tr', ()=> {
+                console.log( dt.row( this ).data() );
+            });
+ */
             try {
                 if (!axios.defaults.headers.common["Authorization"]) {
                     const token = sessionStorage.getItem("user_token");
@@ -228,15 +272,19 @@ export default {
                 await getComplaints(id);
             } catch (e) {
                 console.log(e);
-                //await router.push("/login");
             }
         });
 
         const getComplaints = async (id) => {
-            const dt = await axios.get("complaints/" + id, {
+            let dt= await axios.get("complaints/" + id, {
                 Authorization: axios.defaults.headers.common["Authorization"],
             });
-            data.push(dt.data.data);
+            if(Array.isArray(dt.data.data)){
+                data.value.push(...dt.data.data);
+            }
+            else{
+                data.value.push(dt.data.data);
+            }
         };
 
         const logout = async (e) => {
@@ -245,31 +293,39 @@ export default {
             axios.defaults.headers.common["Authorization"] = "";
             router.push({ path: "/ims/" });
         };
-        const getDropDownList = () => {
-            let dropdownitems = sessionStorage.getItem("dropdownlist");
 
-            if (!dropdownitems) {
-                emit("saveDropDownList");
-                dropdownitems = sessionStorage.getItem("dropdownlist");
-            }
-            dropdownList = JSON.parse(dropdownitems);
-        };
         const getUserId = () => {
             return sessionStorage.getItem("id");
         };
         const saveUserId = (id) => {
             sessionStorage.setItem("id", id);
         };
+        const showViewComplaint = () =>{
+            isModalOpen.value = true
+        };
+        const saveDropDownList = ()=>{
+            console.log("dashboard ...");
 
+            emit("saveDropDownList");
+        }
         return {
             logout,
-            getDropDownList,
-            dropdownList,
+            getComplaints,
+            showViewComplaint,
+            saveDropDownList,
+            isModalOpen,
             data,
+            table,
+            selectedComplaint,
+            dropdownList,
             columns,
         };
     },
 };
 </script>
 
-<style></style>
+<style>
+@import 'datatables.net-dt';
+@import 'datatables.net-select-dt';
+
+</style>
