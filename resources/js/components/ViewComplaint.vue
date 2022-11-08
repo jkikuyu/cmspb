@@ -46,7 +46,6 @@ export default {
         let viewComplaintFormModal= ref(null);
         const pagetitle = "Complaint Details"
         let isNewComplaint = false;
-        console.log("viewcomplaint");
         const modalActive = ()=>{
             viewComplaintFormModal = new Modal(
                 document.getElementById("viewcomplaint"),
