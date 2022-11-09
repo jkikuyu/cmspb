@@ -3,8 +3,10 @@ import { createApp } from "vue";
 import App from "../resources/views/App.vue";
 import router from "../resources/js/router";
 import axios from "../resources/js/interceptors/axios";
-
+import VueClientRecaptcha from "vue-client-recaptcha";
+const app = createApp(App);
+app.component("VueClientRecaptcha", VueClientRecaptcha);
 import "v-calendar/dist/style.css";
-
-createApp(App).use(router).mount("#app");
+//import 'vue-client-recaptcha/dist/style.css';
+app.use(router).mount("#app");
 import "bootstrap/dist/js/bootstrap.bundle.min.js";

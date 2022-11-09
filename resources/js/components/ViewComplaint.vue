@@ -1,5 +1,5 @@
 <template>
-      <div
+    <div
         ref="modal"
         class="modal fade"
         id="viewcomplaint"
@@ -8,45 +8,48 @@
         aria-labelledby="ViewComplaintFormLabel"
         aria-hidden="true"
     >
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ViewComplaintFormLabel">
-                </h5>
-            </div>
-            <div class="modal-body">
-                <make-report
-                    :isNewComplaint=false
-                    :complaintData="complaintData"
-                    @hideViewComplaint="hideViewComplaintModal"
-                    @saveDropDownList="saveDropDownList"
-                    :pagetitle="pagetitle"
-                >
-               </make-report>
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2
+                        class="col-12 fs-2 mb-2 fw-bold text-center modal-title"
+                        id="ViewComplaintFormLabel"
+                    >
+                        {{ pagetitle }}
+                    </h2>
+                </div>
+                <div class="modal-body">
+                    <make-report
+                        :isNewComplaint="false"
+                        :complaintData="complaintData"
+                        @hideViewComplaint="hideViewComplaintModal"
+                        @saveDropDownList="saveDropDownList"
+                        :pagetitle="pagetitle"
+                    >
+                    </make-report>
+                </div>
             </div>
         </div>
-    </div>
-
     </div>
 </template>
 
 <script>
 import { watch, ref, onMounted } from "vue";
 import { Modal } from "bootstrap";
-import MakeReport from './MakeReport.vue';
+import MakeReport from "./MakeReport.vue";
 export default {
-  components: { MakeReport },
-    name:"ViewComplaint",
-    emits: ["saveDropDownList","hideComplaintModal" ],
+    components: { MakeReport },
+    name: "ViewComplaint",
+    emits: ["saveDropDownList", "hideComplaintModal"],
     props: {
         showModal: Boolean,
         complaintData: Object,
     },
     setup(props, { emit }) {
-        let viewComplaintFormModal= ref(null);
-        const pagetitle = "Complaint Details"
+        let viewComplaintFormModal = ref(null);
+        const pagetitle = "Complaint Details";
         let isNewComplaint = false;
-        const modalActive = ()=>{
+        const modalActive = () => {
             viewComplaintFormModal = new Modal(
                 document.getElementById("viewcomplaint"),
                 {
@@ -56,31 +59,30 @@ export default {
             );
             viewComplaintFormModal.show();
         };
-        watch(() => props.showModal, (newval,oldval) => {
-            if(newval==true){
-                modalActive()
+        watch(
+            () => props.showModal,
+            (newval, oldval) => {
+                if (newval == true) {
+                    modalActive();
+                }
             }
-        });
-        const saveDropDownList=()=>{
-                console.log("viewcomplaint");
-                emit('saveDropDownList');
-        }
-        const hideViewComplaintModal=()=>{
+        );
+        const saveDropDownList = () => {
+            console.log("viewcomplaint");
+            emit("saveDropDownList");
+        };
+        const hideViewComplaintModal = () => {
             viewComplaintFormModal.hide();
-            emit('hideComplaintModal');
+            emit("hideComplaintModal");
         };
         return {
             isNewComplaint,
             pagetitle,
             hideViewComplaintModal,
-            saveDropDownList
+            saveDropDownList,
         };
-
     },
-}
-
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

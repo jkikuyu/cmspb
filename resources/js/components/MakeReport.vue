@@ -6,8 +6,15 @@
                     <form ref="makereport">
                         <div class="card-body">
                             <div class="container">
-                                <report-title :pagetitle = "pagetitle"></report-title>
-                                <div v-if="isNewComplaint" class="alert alert-primary" role="alert">
+                                <report-title
+                                    v-if="isNewComplaint"
+                                    :pagetitle="pagetitle"
+                                ></report-title>
+                                <div
+                                    v-if="isNewComplaint"
+                                    class="alert alert-primary"
+                                    role="alert"
+                                >
                                     Please note: All fields marked (
                                     <span style="color: #ff0000"> * </span> )
                                     are required
@@ -26,13 +33,20 @@
                                 </div>
                                 <div v-if="!isNewComplaint" class="row mb-2">
                                     <div class="col-sm-auto">
-                                        <Label :label="fields.complaintno"></Label
-                                        >
+                                        <Label
+                                            :label="fields.complaintno"
+                                        ></Label>
                                     </div>
-                                     <div class="col-sm-2 p-0">
-                                        <h5 class="fw-bold">{{ (complaintData)? complaintData.complaintno:""}}</h5>
+                                    <div class="col-sm-2 p-0">
+                                        <h5 class="fw-bold">
+                                            {{
+                                                complaintData
+                                                    ? complaintData.complaintno
+                                                    : ""
+                                            }}
+                                        </h5>
                                     </div>
-                               </div>
+                                </div>
                                 <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.anonymous"></Label
@@ -49,7 +63,8 @@
                                                 )
                                             "
                                             :class="{
-                                                'border border-danger': isNewComplaint &&
+                                                'border border-danger':
+                                                    isNewComplaint &&
                                                     !form[
                                                         fields.anonymous.name
                                                     ],
@@ -74,11 +89,16 @@
                                         v-if="!+form.anonymous"
                                         class="row mb-2"
                                     >
-                                        <div class="col-sm-2 p-0 me-3">
+                                        <div
+                                            class="col-sm-2"
+                                            :class="{
+                                                'me-4': isNewComplaint,
+                                                'me-5': !isNewComplaint,
+                                            }"
+                                        >
                                             <Input
                                                 :required="!+form.anonymous"
                                                 :disabled="!isNewComplaint"
-
                                                 pattern="[^\s]+"
                                                 @input="
                                                     updateForm(
@@ -87,7 +107,8 @@
                                                     )
                                                 "
                                                 :class="{
-                                                    'border border-danger':isNewComplaint &&
+                                                    'border border-danger':
+                                                        isNewComplaint &&
                                                         !form[
                                                             fields.first.name
                                                         ],
@@ -100,7 +121,13 @@
                                             />
                                         </div>
 
-                                        <div class="col-sm-2 p-0 me-3">
+                                        <div
+                                            class="col-sm-2"
+                                            :class="{
+                                                'me-4': isNewComplaint,
+                                                'me-5': !isNewComplaint,
+                                            }"
+                                        >
                                             <Input
                                                 @input="
                                                     updateForm(
@@ -109,7 +136,6 @@
                                                     )
                                                 "
                                                 :disabled="!isNewComplaint"
-
                                                 :elementId="fields.middle.name"
                                                 :placeholder="
                                                     fields.middle.placeholder
@@ -117,11 +143,10 @@
                                                 :value="form.middlename"
                                             />
                                         </div>
-                                        <div class="col-sm-2 p-0 me-3">
+                                        <div class="col-sm-2">
                                             <Input
                                                 :required="!+form.anonymous"
                                                 :disabled="!isNewComplaint"
-
                                                 pattern="[^\s]+"
                                                 @input="
                                                     updateForm(
@@ -130,7 +155,8 @@
                                                     )
                                                 "
                                                 :class="{
-                                                    'border border-danger': isNewComplaint &&
+                                                    'border border-danger':
+                                                        isNewComplaint &&
                                                         !form[fields.last.name],
                                                 }"
                                                 :elementId="fields.last.name"
@@ -155,7 +181,6 @@
                                                     )
                                                 "
                                                 :disabled="!isNewComplaint"
-
                                                 :elementId="fields.workid.name"
                                                 :placeholder="
                                                     fields.workid.placeholder
@@ -176,7 +201,6 @@
                                                     )
                                                 "
                                                 :disabled="!isNewComplaint"
-
                                                 :elementId="
                                                     fields.nationalid.name
                                                 "
@@ -200,7 +224,6 @@
                                             <Input
                                                 :required="!+form.anonymous"
                                                 :disabled="!isNewComplaint"
-
                                                 @input="
                                                     updateForm(
                                                         fields.phoneno.name,
@@ -225,7 +248,6 @@
                                             <Input
                                                 :required="!+form.anonymous"
                                                 :disabled="!isNewComplaint"
-
                                                 type="email"
                                                 @input="
                                                     updateForm(
@@ -234,7 +256,8 @@
                                                     )
                                                 "
                                                 :class="{
-                                                    'border border-danger': isNewComplaint &&
+                                                    'border border-danger':
+                                                        isNewComplaint &&
                                                         !form[
                                                             fields.email.name
                                                         ],
@@ -260,7 +283,6 @@
                                         <Select
                                             required
                                             :disabled="!isNewComplaint"
-
                                             @change="
                                                 updateForm(
                                                     fields.complainanttype.name,
@@ -268,7 +290,8 @@
                                                 )
                                             "
                                             :class="{
-                                                'border border-danger': isNewComplaint &&
+                                                'border border-danger':
+                                                    isNewComplaint &&
                                                     !form[
                                                         fields.complainanttype
                                                             .name
@@ -293,7 +316,6 @@
                                         <Select
                                             required
                                             :disabled="!isNewComplaint"
-
                                             @change="
                                                 updateForm(
                                                     fields.allegetype.name,
@@ -301,7 +323,8 @@
                                                 )
                                             "
                                             :class="{
-                                                'border border-danger': isNewComplaint &&
+                                                'border border-danger':
+                                                    isNewComplaint &&
                                                     !form[
                                                         fields.allegetype.name
                                                     ],
@@ -323,7 +346,6 @@
                                         <Select
                                             required
                                             :disabled="!isNewComplaint"
-
                                             @change="
                                                 updateForm(
                                                     fields.reported.name,
@@ -331,7 +353,8 @@
                                                 )
                                             "
                                             :class="{
-                                                'border border-danger': isNewComplaint &&
+                                                'border border-danger':
+                                                    isNewComplaint &&
                                                     !form[fields.reported.name],
                                             }"
                                             :dropdownitems="dropdownList.yesno"
@@ -356,7 +379,6 @@
                                         <Input
                                             :required="!!+form.reported"
                                             :disabled="!isNewComplaint"
-
                                             @input="
                                                 updateForm(
                                                     fields.towhom.name,
@@ -365,7 +387,8 @@
                                             "
                                             class="col-sm-9"
                                             :class="{
-                                                'border border-danger': isNewComplaint &&
+                                                'border border-danger':
+                                                    isNewComplaint &&
                                                     !form[fields.towhom.name],
                                             }"
                                             :elementId="fields.towhom.name"
@@ -383,7 +406,6 @@
                                     <TextArea
                                         required
                                         :disabled="!isNewComplaint"
-
                                         @input="
                                             updateForm(
                                                 fields.describe.name,
@@ -391,7 +413,8 @@
                                             )
                                         "
                                         :class="{
-                                            'border border-danger': isNewComplaint &&
+                                            'border border-danger':
+                                                isNewComplaint &&
                                                 !form[fields.describe.name],
                                         }"
                                         :elementId="fields.describe.name"
@@ -409,7 +432,6 @@
                                     <TextArea
                                         required
                                         :disabled="!isNewComplaint"
-
                                         @input="
                                             updateForm(
                                                 fields.subjectdetail.name,
@@ -417,7 +439,8 @@
                                             )
                                         "
                                         :class="{
-                                            'border border-danger': isNewComplaint &&
+                                            'border border-danger':
+                                                isNewComplaint &&
                                                 !form[
                                                     fields.subjectdetail.name
                                                 ],
@@ -477,7 +500,6 @@
                                                 )
                                             "
                                             :disabled="!isNewComplaint"
-
                                             :dropdownitems="dropdownList.yesno"
                                             :elementId="fields.evidence.name"
                                             :value="form.evidence"
@@ -499,7 +521,6 @@
                                                 )
                                             "
                                             :disabled="!isNewComplaint"
-
                                             :dropdownitems="dropdownList.yesno"
                                             :elementId="
                                                 fields.nopossession.name
@@ -508,7 +529,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="card">
+                                <div class="card mb-2">
                                     <div class="card-header">
                                         <div class="col-sm-auto">
                                             <Label
@@ -542,6 +563,11 @@
                                         <div id="fileNames= "></div>
                                     </div>
                                 </div>
+                                <admin-update
+                                    :dropdownList="dropdownList"
+                                    :fields="fields"
+                                ></admin-update>
+
                                 <div class="card-footer">
                                     <Button
                                         class="mx-2"
@@ -552,7 +578,11 @@
                                     >
                                     <Button
                                         button="cancel"
-                                        @click="(isNewComplaint==true)?cancelreport():hideViewComplaint()"
+                                        @click="
+                                            isNewComplaint == true
+                                                ? cancelreport()
+                                                : hideViewComplaint()
+                                        "
                                         >Cancel</Button
                                     >
                                 </div>
@@ -579,11 +609,12 @@
 import Select from "./Select";
 import Label from "./Label";
 import Input from "./Input";
-import ReportTitle from "./ReportTitle"
+import ReportTitle from "./ReportTitle";
 import TextArea from "./TextArea";
 import DateTimePicker from "./DateTimePicker";
 import Button from "./Button";
 import Register from "./Register";
+import AdminUpdate from "./AdminUpdate";
 import moment from "moment-timezone";
 import axios from "axios";
 export default {
@@ -701,7 +732,7 @@ export default {
 
                 reported: {
                     name: "reported",
-                    title: "Has this issue been reported to any other party",
+                    title: "Have you reported this issue to any other party",
                     placeholder: "",
                     description: "Enter complainant type",
                     order: 3,
@@ -792,7 +823,18 @@ export default {
                     placeholder: "",
                     description: "Complaint No",
                 },
-
+                complaintstatus: {
+                    name: "complaintstatus",
+                    title: "Complaint Status.",
+                    placeholder: "",
+                    description: "Complaint Status",
+                },
+                complaintconclude: {
+                    name: "complaintconclude",
+                    title: "Complaint Conclusion.",
+                    placeholder: "",
+                    description: "Complaint Conclusion",
+                },
             },
         };
     },
@@ -804,17 +846,18 @@ export default {
         DateTimePicker,
         Button,
         Register,
-        ReportTitle
+        ReportTitle,
+        AdminUpdate,
     },
-    props:{
-        isNewComplaint:{
-            type:Boolean,
-            default:true
+    props: {
+        isNewComplaint: {
+            type: Boolean,
+            default: true,
         },
         complaintData: Object,
-        pagetitle: String
+        pagetitle: String,
     },
-    emits: ["saveDropDownList","hideViewComplaint"],
+    emits: ["saveDropDownList", "hideViewComplaint"],
     created() {
         let dropdownList = sessionStorage.getItem("dropdownlist");
         if (!dropdownList) {
@@ -846,10 +889,9 @@ export default {
                 moment(value.end).format("YYYY-MM-DD HH:mm")
             );
         },
-        complaintData: function(value){
-
-            this.form=value;
-        }
+        complaintData: function (value) {
+            this.form = value;
+        },
     },
 
     methods: {
@@ -857,7 +899,7 @@ export default {
             sessionStorage.clear(0);
             history.back();
         },
-        hideViewComplaint(){
+        hideViewComplaint() {
             this.$emit("hideViewComplaint");
         },
         async submitreport(password) {
@@ -1044,7 +1086,7 @@ const range = reactive({
 });*/
 </script>
 
-<style scoped>
+<style>
 label,
 a {
     font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont,

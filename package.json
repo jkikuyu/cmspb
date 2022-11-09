@@ -43,7 +43,8 @@
         "moment-timezone": "^0.5.34",
         "v-calendar": "^3.0.0-alpha.8",
         "vue": "^3.2.19",
-        "vue-cli": "^2.9.6",
+        "vue-cli": "^1.2.0",
+        "vue-client-recaptcha": "^1.0.5",
         "vue-loader": "^16.8.1",
         "vue-router": "^4.0.11",
         "vuex": "^4.0.2"

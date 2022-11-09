@@ -64,7 +64,6 @@
                             class="whistlesize"
                         />
                         <div class="makereport">Report Incident</div>
-
                     </router-link>
                 </div>
             </div>
@@ -135,7 +134,7 @@ h4 span {
     text-decoration: underline !important;
 }
 .loginpos {
-    z-index: 99999;
+    z-index: 0;
     position: absolute;
     width: 100%;
     top: 60px;

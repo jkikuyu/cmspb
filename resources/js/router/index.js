@@ -49,6 +49,7 @@ const routes = [
         component: MakeReport,
         props: true,
     },
+
     {
         path: "/ims/login",
         name: "Login",

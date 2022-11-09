@@ -53,12 +53,28 @@
                     </div>
                 </div>
                 <div class="row pt-2">
+                    <div class="col-sm-5">
+                        <VueClientRecaptcha
+                            :value="captchaValue"
+                            @getCode="getCaptchaCode"
+                            @isValid="checkValidCaptcha"
+                        />
+                    </div>
+                    <div class="col-sm-5 pt-4 input-group-append pb-captcha">
+                        <input
+                            class="form-control"
+                            type="text"
+                            v-model="captchaValue"
+                        />
+                    </div>
+                </div>
+                <div class="row pt-2">
                     <div class="col-8"></div>
 
                     <div class="col-sm-3">
-                        <Button class="btn btn-primary" type="submit">
+                        <button class="btn btn-primary" type="submit">
                             Submit
-                        </Button>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -71,10 +87,14 @@ import Label from "./Label";
 import Button from "./Button";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import { reactive } from "vue";
+import { ref, reactive } from "vue";
+import VueClientRecaptcha from "vue-client-recaptcha";
+
 export default {
     name: "LoginPassword",
     components: {
+        VueClientRecaptcha,
+
         Label,
         Button,
     },
@@ -107,6 +127,7 @@ export default {
     setup(props, { emit }) {
         const router = new useRouter();
         const msg = reactive({ password: "" });
+        const captchaValue = ref(null);
         const loginform = async (e) => {
             let userDetails = {};
             const form = new FormData(e.target);
@@ -143,80 +164,21 @@ export default {
                 msg.password = "user details provided are incorrect";
             }
         };
-    /*          const setDropDownList = () => {
-                let dropdownitems = sessionStorage.getItem("dropdownlist");
-                console.log(dropdownitems);
-                if (!dropdownitems) {
-                    console.log("loginpassword.....");
-                    emit("saveDropDownList");
-                    dropdownitems = sessionStorage.getItem("dropdownlist");
-                }
-
-                dropdownList = JSON.parse(dropdownitems);
-
-            }; */
-
+        const getCaptchaCode = (value) => {
+            console.log(value);
+        };
+        const checkValidCaptcha = (value) => {
+            /* expected return boolean if your value and captcha code are same return True otherwise return False */
+            console.log(value);
+        };
         return {
             loginform,
+            getCaptchaCode,
+            checkValidCaptcha,
+            captchaValue,
+
             msg,
         };
-    },
-    methods: {
-        /*         processRequest: async function () {
-            let resp = null;
-            if (this.isExpired) {
-                resp = await this.validatePassword();
-                if (resp) {
-                    this.$emit("storeToken", resp);
-                }
-                this.$router.push({ path: "/dashboard" });
-            }
-        },
-
-        validatePassword: async function () {
-            let data = null;
-            let token = "";
-            let userDetails = {};
-            if (
-                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-                    this.userid
-                )
-            ) {
-                userDetails = {
-                    email: this.userid,
-                    password: this.password,
-                };
-            } else {
-                userDetails = {
-                    userid: this.userid,
-                    password: this.password,
-                };
-            }
-
-            try {
-                console.log(this.resp);
-                const res = await fetch("http://localhost:8000/api/login", {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(userDetails),
-                });
-                data = await res.json();
-                if (data.status === "200") {
-                    let resp = {
-                        token: data.authorisation.token,
-                        id: data.user.id,
-                    };
-                    return resp;
-                } else {
-                    this.msg["password"] =
-                        "user details provided are incorrect";
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        },*/
     },
 };
 </script>

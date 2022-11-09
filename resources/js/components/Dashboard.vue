@@ -26,7 +26,7 @@
 
                         <li>
                             <a
-                                href="#"
+                                href="http://project.tests/pb/docs" target="_blank"
                                 class="nav-link px-0 align-middle text-white"
                             >
                                 <i class="nav-icon far fa-question-circle"></i>
