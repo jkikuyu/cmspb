@@ -230,6 +230,13 @@
                                                         $event.target.value
                                                     )
                                                 "
+                                                :class="{
+                                                    'border border-danger':
+                                                        isNewComplaint &&
+                                                        !form[
+                                                            fields.phoneno.name
+                                                        ],
+                                                }"
                                                 :elementId="fields.phoneno.name"
                                                 :placeholder="
                                                     fields.phoneno.placeholder
@@ -450,7 +457,10 @@
                                     />
                                 </div>
                                 <div class="row mb-2">
-                                    <DateTimePicker v-model="range" />
+                                    <!-- <DateTimePicker v-model="range" /> -->
+                                    <single-date-time-picker
+                                        v-model="selectedDate"
+                                    />
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-sm-auto">
@@ -543,9 +553,9 @@
                                                 type="file"
                                                 :disabled="!isNewComplaint"
                                                 class="form-control-file"
-                                                name="fileList"
+                                                name="selectedFiles"
                                                 multiple
-                                                id="uploadfiles"
+                                                id="selectedFiles"
                                                 @change="fileUploadList"
                                                 aria-describedby="fileHelp"
                                             />
@@ -554,16 +564,43 @@
                                             <small
                                                 id="fileHelp"
                                                 class="form-text text-muted"
-                                                >Please upload a file i.e .pdf,
-                                                .jpg, .png, .docx. Size of image
-                                                should not be more than
-                                                2MB.</small
+                                                >Please upload upto 5 files i.e
+                                                .pdf, .jpg, .png, .docx. .mpeg,
+                                                mp4. Size of file should be
+                                                maximum of 5MB.</small
                                             >
                                         </div>
-                                        <div id="fileNames= "></div>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div
+                                                            v-for="(
+                                                                selectedFile,
+                                                                index
+                                                            ) in selectedFiles"
+                                                            :key="index"
+                                                            class="m-0"
+                                                        >
+                                                            <ul>
+                                                                {{
+                                                                    index + 1
+                                                                }}
+                                                                {{
+                                                                    "." +
+                                                                    selectedFile.name
+                                                                }}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
                                 <admin-update
+                                    v-if="!isNewComplaint"
                                     :dropdownList="dropdownList"
                                     :fields="fields"
                                 ></admin-update>
@@ -602,6 +639,9 @@
             <template #formname> Create Anonymous User </template>
             <template #usertitle> Anonymous User ID </template>
         </Register>
+        <PasswordPDF>
+            :showModal = "isPdfModalOpen" :label="logintext" :user ="user"
+        </PasswordPDF>
     </div>
 </template>
 
@@ -612,17 +652,21 @@ import Input from "./Input";
 import ReportTitle from "./ReportTitle";
 import TextArea from "./TextArea";
 import DateTimePicker from "./DateTimePicker";
+import SingleDateTimePicker from "./SingleDateTimePicker";
+import PasswordPDF from "./PasswordPDF";
 import Button from "./Button";
 import Register from "./Register";
 import AdminUpdate from "./AdminUpdate";
 import moment from "moment-timezone";
 import axios from "axios";
+
 export default {
     name: "MakeReport",
 
     data() {
         return {
             isModalOpen: false,
+            isPdfModalOpen: false,
             userid: "",
             password: "",
             logintext: {
@@ -645,10 +689,13 @@ export default {
                 start: "",
                 end: "",
             },
+            selectedDate: "",
             datefrom: Date(),
             dateto: Date(),
             dropdownList: {},
-            fileList: [],
+            selectedFiles: [],
+            user: {},
+
             fields: {
                 anonymous: {
                     name: "anonymous",
@@ -844,10 +891,12 @@ export default {
         Input,
         TextArea,
         DateTimePicker,
+        SingleDateTimePicker,
         Button,
         Register,
         ReportTitle,
         AdminUpdate,
+        PasswordPDF,
     },
     props: {
         isNewComplaint: {
@@ -880,6 +929,7 @@ export default {
 
     watch: {
         range: function (value) {
+            console.log(value);
             this.updateForm(
                 "datefrom",
                 moment(value.start).format("YYYY-MM-DD HH:mm")
@@ -891,6 +941,9 @@ export default {
         },
         complaintData: function (value) {
             this.form = value;
+        },
+        selectedDate: function (value) {
+            console.log(value);
         },
     },
 
@@ -1009,8 +1062,8 @@ export default {
                 for (const [key, value] of Object.entries(this.form)) {
                     formdata.append(key, value);
                 }
-                for (let i = 0; i < this.fileList.length; i++) {
-                    formdata.append("files[]", this.fileList[i]);
+                for (let i = 0; i < this.selectedFiles.length; i++) {
+                    formdata.append("files[]", this.selectedFiles[i]);
                 }
 
                 try {
@@ -1018,21 +1071,6 @@ export default {
                         withCredentials: true,
                     });
 
-                    /* const res = await fetch(
-                        "http://localhost:8000/api/complaints",
-                        {
-                            method: "POST",
-                            headers: headers,
-                            body: formdata,
-                        }
-                    );
-                    data = await res.json();
-                                        const { data } = await axios.post("complaints", this.form, {
-                        headers: {
-                            headers,
-                        },
-                    });
- */
                     if (data.status === "200") {
                         this.msg["success"] =
                             "The complaint has been saved successfully.";
@@ -1068,8 +1106,11 @@ export default {
             if (event.target.files.length == 0) {
                 return;
             }
-            this.fileList = event.target.files;
-            console.log(this.fileList);
+            this.selectedFiles = event.target.files;
+            console.log(this.selectedFiles[0].name);
+            for (let i = 0; i < this.selectedFiles.length; i++) {
+                console.log(this.selectedFiles[i].name);
+            }
         },
     },
 };
@@ -1106,5 +1147,20 @@ a {
 }
 .content {
     padding: 0 0.5rem;
+}
+.list {
+    counter-reset: section;
+}
+ul.list,
+.fileselect {
+    list-style-type: none;
+}
+.number:after {
+    counter-increment: section;
+    content: " " counter(section) ". ";
+}
+label.uplist,
+.number {
+    font-weight: normal !important;
 }
 </style>

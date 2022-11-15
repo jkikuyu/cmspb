@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ComplaintResource;
 use App\Models\Complaint;
+use App\Models\Doc;
+
 use App\Http\Requests\ComplaintRequest;
 use Exception;
 
@@ -35,11 +37,27 @@ class ComplaintController extends Controller
 
     {
         $resp = "";
-        info($request->all());
+        $data = $request->all();
         try {
             $validated = $request->validated();
-
+            $files = $request->file("files");
             $complaint = Complaint::create($validated);
+            if (isset($files)) {
+                $upfiles = $this->upload($files);
+                $docs = [];
+                $file_no = $complaint->docs()->orderBy('file_no', 'desc')->value('file_no');
+                foreach ($upfiles as $file) {
+                    $file_no++;
+                    $doc = new Doc();
+                    $doc->file_no = $file_no;
+                    $doc->orig_name = $file['origName'];
+                    $doc->filename = $file['currName'];
+                    $doc->complaint_id = $complaint['id'];
+                    array_push($docs, $doc);
+                }
+
+                $complaint->docs()->saveMany($docs);
+            }
             $resp = [
                 'status' => '200',
                 'message' => 'Record saved successfully',
@@ -63,9 +81,7 @@ class ComplaintController extends Controller
      */
     public function show(Complaint $complaint)
     {
-            return new ComplaintResource($complaint);
-
-
+        return new ComplaintResource($complaint);
     }
 
 
@@ -81,5 +97,28 @@ class ComplaintController extends Controller
         $complaint->delete();
         return response()->noContent();
     }
+    public function upload($files)
+    {
 
+        $upFiles = [];
+
+        $len = count($files);
+        for ($i = 0; $i < $len; $i++) {
+            $file = $files[$i];
+            $path = $file->storePublicly('uploads');
+            $filename = $file->hashName();
+            $currName = pathinfo($filename, PATHINFO_FILENAME);
+            $origName = $file->getClientOriginalName();
+            $upFiles[] = ['origName' => $origName, 'currName' => $currName];
+        }
+
+
+        return $upFiles;
+    }
+    public function downloadfile($curr, $orig)
+    {
+        $ext = pathinfo($orig, PATHINFO_EXTENSION); // file
+        $file = $curr . "." . $ext;
+        return response()->download(storage_path("app/public/uploads/{$file}"), $orig);
+    }
 }

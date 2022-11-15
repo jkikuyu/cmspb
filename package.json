@@ -47,6 +47,7 @@
         "vue-client-recaptcha": "^1.0.5",
         "vue-loader": "^16.8.1",
         "vue-router": "^4.0.11",
+        "vue3-html2pdf": "^1.1.2",
         "vuex": "^4.0.2"
     }
 }

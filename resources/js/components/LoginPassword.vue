@@ -71,7 +71,7 @@
                 <div class="row pt-2">
                     <div class="col-8"></div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 ms-3">
                         <button class="btn btn-primary" type="submit">
                             Submit
                         </button>

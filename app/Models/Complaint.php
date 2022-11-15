@@ -34,6 +34,11 @@ class Complaint extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
+    public function docs()
+    {
+        return $this->hasMany(\App\Models\Doc::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'user_id';

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->unique(['complaint_id', 'file_no'], "complaintfile");
             $table->string('orig_name', 255)->nullable();
             $table->string('filename', 255)->nullable();
-            $table->date('filedate', 0)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

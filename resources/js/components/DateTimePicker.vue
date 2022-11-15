@@ -57,7 +57,7 @@ export default {
     watch: {
         range: {
             handler: function () {
-                console.log(this.range);
+                console.log("range", this.range);
             },
             deep: true,
         },
@@ -68,12 +68,12 @@ export default {
         Label,
         Input,
     },
-    props:{
-        isDisable : {
+    props: {
+        isDisable: {
             type: Boolean,
-            default: false
-        }
-    }
+            default: false,
+        },
+    },
     /* watch: {
         inputValue: function (val) {
             console.log("input value ", val.start);
