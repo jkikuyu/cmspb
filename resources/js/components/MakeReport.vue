@@ -495,6 +495,7 @@
                                             )
                                         "
                                         :elementId="fields.elaborate.name"
+                                        :value="form.elaborate"
                                     />
                                 </div>
                                 <div class="row mb-2">
@@ -639,9 +640,17 @@
             <template #formname> Create Anonymous User </template>
             <template #usertitle> Anonymous User ID </template>
         </Register>
-        <PasswordPDF>
-            :showModal = "isPdfModalOpen" :label="logintext" :user ="user"
-        </PasswordPDF>
+
+        <password-pdf
+            :showPasswordPDFModal="isPdfModalOpen"
+            :label="logintext"
+            :user="user"
+            @hidePasswordPDFModal="isPdfModalOpen = false"
+        >
+            <template #formname>
+                Download PDF with your anonymous user id and password
+            </template>
+        </password-pdf>
     </div>
 </template>
 
@@ -653,7 +662,7 @@ import ReportTitle from "./ReportTitle";
 import TextArea from "./TextArea";
 import DateTimePicker from "./DateTimePicker";
 import SingleDateTimePicker from "./SingleDateTimePicker";
-import PasswordPDF from "./PasswordPDF";
+import PasswordPdf from "./PasswordPdf";
 import Button from "./Button";
 import Register from "./Register";
 import AdminUpdate from "./AdminUpdate";
@@ -681,6 +690,10 @@ export default {
                 anonymousid: {
                     name: "anonymousid",
                     title: "Anonymous User ID",
+                },
+                password: {
+                    name: "password",
+                    title: "Password",
                 },
             },
             msg: {},
@@ -848,7 +861,7 @@ export default {
 
                 datefrom: {
                     name: "datefrom",
-                    title: "The start date when the inicident occurred",
+                    title: "The date when the inicident occurred",
                     placeholder: "",
                     description: "Enter complainant type",
                 },
@@ -896,7 +909,7 @@ export default {
         Register,
         ReportTitle,
         AdminUpdate,
-        PasswordPDF,
+        PasswordPdf,
     },
     props: {
         isNewComplaint: {
@@ -922,13 +935,15 @@ export default {
                 ...this.form,
                 ...storedForm,
             };
-            this.range.start = storedForm.datefrom;
+            /* this.range.start = storedForm.datefrom;
             this.range.end = storedForm.dateto;
+            */
+            this.selectedDate = storedForm.dateoccurred;
         }
     },
 
     watch: {
-        range: function (value) {
+        /*         range: function (value) {
             console.log(value);
             this.updateForm(
                 "datefrom",
@@ -939,11 +954,15 @@ export default {
                 moment(value.end).format("YYYY-MM-DD HH:mm")
             );
         },
+ */
         complaintData: function (value) {
             this.form = value;
         },
         selectedDate: function (value) {
-            console.log(value);
+            this.updateForm(
+                "dateoccurred",
+                moment(value).format("YYYY-MM-DD HH:mm")
+            );
         },
     },
 
@@ -1074,12 +1093,17 @@ export default {
                     if (data.status === "200") {
                         this.msg["success"] =
                             "The complaint has been saved successfully.";
-                        window.scrollTo(0, 0);
-                        setTimeout(() => {
+
+                        this.user["userid"] = this.userid;
+                        this.user["password"] = password;
+                        this.user["complaintno"] = data.complaintno;
+                        this.isPdfModalOpen = true;
+                        /*window.scrollTo(0, 0);
+                                                setTimeout(() => {
                             this.msg = {};
                             this.cancelreport();
                         }, 5000);
-                        //this.cancelreport();
+ */ //this.cancelreport();
                     } else {
                         this.msg["warning"] =
                             "The complaint has NOT been saved. Try again later";

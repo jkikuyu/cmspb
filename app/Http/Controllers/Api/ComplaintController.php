@@ -59,6 +59,7 @@ class ComplaintController extends Controller
                 $complaint->docs()->saveMany($docs);
             }
             $resp = [
+                'complaintno' => $complaint['complaintno'],
                 'status' => '200',
                 'message' => 'Record saved successfully',
             ];

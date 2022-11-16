@@ -41,9 +41,7 @@ return new class extends Migration
             $table->string('region', 256)->nullable();
             $table->string('station', 256)->nullable();
             $table->string('department', 256)->nullable();
-            $table->timestamp('datefrom', 0)->nullable();
-            $table->timestamp('dateto', 0)->nullable();
-
+            $table->timestamp('dateoccurred', 0)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
