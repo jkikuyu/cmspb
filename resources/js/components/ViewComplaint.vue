@@ -68,7 +68,6 @@ export default {
             }
         );
         const saveDropDownList = () => {
-            console.log("viewcomplaint");
             emit("saveDropDownList");
         };
         const hideViewComplaintModal = () => {

@@ -40,7 +40,6 @@ export default {
         const maxDate = new Date();
         const currentHr = maxDate.getHours();
         const maxHrs = currentHr > 0 ? currentHr - 1 : 0;
-        console.log(maxHrs);
         let dateOccurred = {
             name: "dateoccurred",
             title: "Date of Occurrance",

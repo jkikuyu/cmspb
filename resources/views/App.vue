@@ -91,16 +91,14 @@ export default {
                         id: 0,
                     },
                     {
-                        name:"On going",
+                        name: "On going",
                         id: 1,
                     },
                     {
                         name: "Completed",
-                        id : 2
-                    }
-
-                ]
-
+                        id: 2,
+                    },
+                ],
             },
             /*             menuitems: [
                 {
@@ -176,7 +174,6 @@ export default {
             console.log("dash");
         },
         saveDropDownList: function () {
-            console.log("saving dropdowns....");
             sessionStorage.setItem(
                 "dropdownlist",
                 JSON.stringify(this.dropdowns)

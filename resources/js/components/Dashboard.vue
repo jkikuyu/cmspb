@@ -26,7 +26,8 @@
 
                         <li>
                             <a
-                                href="http://project.tests/pb/docs" target="_blank"
+                                href="http://project.tests/pb/docs"
+                                target="_blank"
                                 class="nav-link px-0 align-middle text-white"
                             >
                                 <i class="nav-icon far fa-question-circle"></i>
@@ -54,17 +55,16 @@
                 </div>
             </div>
             <div class="col py-3">
-
-                <DataTable id="lstcomplaints"
+                <DataTable
+                    id="lstcomplaints"
                     class="table table-hover table-striped"
                     :data="data"
                     :columns="columns"
                     :options="{
                         bLengthChange: false,
-                        bPaginate: false,
                         bFilter: false,
                         bInfo: false,
-                        select:true,
+                        select: true,
                     }"
                     ref="table"
                 >
@@ -82,23 +82,20 @@
                             <th>Elaborate</th>
                             <th>Evidence</th>
                             <th>Date Occurred</th>
-                            <th>Date Reported</th>
 
                             <th>Status</th>
                         </tr>
                     </thead>
                 </DataTable>
-
             </div>
         </div>
         <ViewComplaint
             :showModal="isModalOpen"
-            :complaintData = "selectedComplaint"
-            @hideComplaintModal="isModalOpen=false"
+            :complaintData="selectedComplaint"
+            @hideComplaintModal="isModalOpen = false"
             @saveDropDownList="saveDropDownList"
         >
         </ViewComplaint>
-
     </div>
 </template>
 
@@ -118,7 +115,6 @@ export default {
     components: {
         DataTable,
         ViewComplaint,
-
     },
     props: {
         isExpired: Boolean,
@@ -131,21 +127,22 @@ export default {
         let dt;
         const dropdownitems = sessionStorage.getItem("dropdownlist");
 
-        const data=ref([]);
+        const data = ref([]);
         const table = ref();
-        let selectedComplaint=ref(null);
+        let selectedComplaint = ref(null);
         let id = props.id;
         let isModalOpen = ref(false);
         let dropdownList = {};
-        if(dropdownitems){
+        if (dropdownitems) {
             dropdownList = JSON.parse(dropdownitems);
         }
         const columns = [
-            {data: null,
+            {
+                data: null,
                 render: function (data, type, row, meta) {
                     return '<button class="fa-solid fa-ellipsis"></button>';
                 },
-                orderable: false
+                orderable: false,
             },
             { data: "complaintno" },
             {
@@ -223,8 +220,7 @@ export default {
                         });
                 },
             },
-            { data: "datefrom" },
-            { data: "dateto" },
+            { data: "dateoccurred" },
             {
                 data: "status",
                 render: function (data, type, row, meta) {
@@ -240,13 +236,12 @@ export default {
 
         onMounted(async () => {
             dt = table.value.dt();
-            $('#lstcomplaints tbody').on( 'click', 'button', function() {
-                selectedComplaint.value = dt.row($(this).parents('tr')).data();
+            $("#lstcomplaints tbody").on("click", "button", function () {
+                selectedComplaint.value = dt.row($(this).parents("tr")).data();
                 showViewComplaint();
-
             });
 
-/*             dt.rows({ selected: true }).every(function () {
+            /*             dt.rows({ selected: true }).every(function () {
                 console.log(this.data());
             });
 
@@ -276,13 +271,12 @@ export default {
         });
 
         const getComplaints = async (id) => {
-            let dt= await axios.get("complaints/" + id, {
+            let dt = await axios.get("complaints/" + id, {
                 Authorization: axios.defaults.headers.common["Authorization"],
             });
-            if(Array.isArray(dt.data.data)){
+            if (Array.isArray(dt.data.data)) {
                 data.value.push(...dt.data.data);
-            }
-            else{
+            } else {
                 data.value.push(dt.data.data);
             }
         };
@@ -300,14 +294,12 @@ export default {
         const saveUserId = (id) => {
             sessionStorage.setItem("id", id);
         };
-        const showViewComplaint = () =>{
-            isModalOpen.value = true
+        const showViewComplaint = () => {
+            isModalOpen.value = true;
         };
-        const saveDropDownList = ()=>{
-            console.log("dashboard ...");
-
+        const saveDropDownList = () => {
             emit("saveDropDownList");
-        }
+        };
         return {
             logout,
             getComplaints,
@@ -325,7 +317,6 @@ export default {
 </script>
 
 <style>
-@import 'datatables.net-dt';
-@import 'datatables.net-select-dt';
-
+@import "datatables.net-dt";
+@import "datatables.net-select-dt";
 </style>

@@ -642,14 +642,12 @@
         </Register>
 
         <password-pdf
-            :showPasswordPDFModal="isPdfModalOpen"
+            :showPasswordPdfModal="isPdfModalOpen"
             :label="logintext"
             :user="user"
-            @hidePasswordPDFModal="isPdfModalOpen = false"
+            @hidePasswordPdfModal="hidePasswordPdfModal"
         >
-            <template #formname>
-                Download PDF with your anonymous user id and password
-            </template>
+            <template #formname> {{ msg.success }} </template>
         </password-pdf>
     </div>
 </template>
@@ -923,7 +921,6 @@ export default {
     created() {
         let dropdownList = sessionStorage.getItem("dropdownlist");
         if (!dropdownList) {
-            console.log("emit saveDropDown");
             this.$emit("saveDropDownList");
             dropdownList = sessionStorage.getItem("dropdownlist");
         }
@@ -968,11 +965,20 @@ export default {
 
     methods: {
         cancelreport() {
-            sessionStorage.clear(0);
+            //sessionStorage.clear(0);
             history.back();
         },
         hideViewComplaint() {
             this.$emit("hideViewComplaint");
+        },
+        hidePasswordPdfModal() {
+            this.isPdfModalOpen = false;
+            axios.defaults.headers.common["Authorization"] = "";
+            window.scrollTo(0, 0);
+            setTimeout(() => {
+                this.msg = {};
+                this.cancelreport();
+            }, 5000);
         },
         async submitreport(password) {
             let isEmailorId = false;
@@ -1089,21 +1095,14 @@ export default {
                     const { data } = await axios.post("complaints", formdata, {
                         withCredentials: true,
                     });
+                    this.msg["success"] =
+                        "The complaint has been saved successfully.";
 
                     if (data.status === "200") {
-                        this.msg["success"] =
-                            "The complaint has been saved successfully.";
-
                         this.user["userid"] = this.userid;
                         this.user["password"] = password;
                         this.user["complaintno"] = data.complaintno;
                         this.isPdfModalOpen = true;
-                        /*window.scrollTo(0, 0);
-                                                setTimeout(() => {
-                            this.msg = {};
-                            this.cancelreport();
-                        }, 5000);
- */ //this.cancelreport();
                     } else {
                         this.msg["warning"] =
                             "The complaint has NOT been saved. Try again later";
