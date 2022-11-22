@@ -38,6 +38,7 @@ class ComplaintRequest extends FormRequest
             'description' => ['string'],
             'detail' => ['string'],
             'threat' => ['boolean'],
+            'elaborate' => ['string'],
             'evidence' => ['boolean'],
             'dateoccurred' => ['date'],
             'wid' => ['string'],

@@ -38,6 +38,7 @@ class ComplaintController extends Controller
     {
         $resp = "";
         $data = $request->all();
+        info($data);
         try {
             $validated = $request->validated();
             $files = $request->file("files");
@@ -64,7 +65,7 @@ class ComplaintController extends Controller
                 'message' => 'Record saved successfully',
             ];
         } catch (Exception $ex) {
-            error_log($ex->getMessage());
+            info($ex);
             $resp = [
                 'status' => '400',
                 'message' => 'Unauthorized request',

@@ -1131,10 +1131,11 @@ export default {
                     const { data } = await axios.post("complaints", formdata, {
                         withCredentials: true,
                     });
-                    this.msg["success"] =
-                        "The complaint has been saved successfully.";
 
                     if (data.status === "200") {
+                        this.msg["success"] =
+                            "The complaint has been saved successfully.";
+
                         this.user["userid"] = this.userid;
                         this.user["password"] = password;
                         this.user["complaintno"] = data.complaintno;
@@ -1142,7 +1143,10 @@ export default {
                     } else {
                         this.msg["warning"] =
                             "The complaint has NOT been saved. Try again later";
+                        window.scrollTo(0, 0);
+
                         setTimeout(() => (this.msg = {}), 5000);
+                        this.$forceUpdate();
                     }
                 } catch (err) {
                     console.log(err);

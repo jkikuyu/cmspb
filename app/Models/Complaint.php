@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
+//use Illuminate\Contracts\Encryption\DecryptException;
 
 class Complaint extends Model
 {
@@ -22,6 +25,7 @@ class Complaint extends Model
         'towhom',
         'detail',
         'threat',
+        'elaborate',
         'evidence',
         'dateocurred',
         'wid',
@@ -42,5 +46,88 @@ class Complaint extends Model
     public function getRouteKeyName()
     {
         return 'user_id';
+    }
+    protected function firstname(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),
+
+            set: fn ($value) => Crypt::encrypt($value),
+        );
+    }
+    protected function middlename(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),
+
+            set: fn ($value) => Crypt::encrypt($value),
+        );
+    }
+    protected function lastname(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),
+
+            set: fn ($value) => Crypt::encrypt($value),
+        );
+    }
+
+    protected function phone(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),
+
+            set: fn ($value) => Crypt::encrypt($value),
+        );
+    }
+    protected function email(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),
+            set: fn ($value) => Crypt::encrypt($value),
+
+        );
+    }
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),
+
+            set: fn ($value) => Crypt::encrypt($value),
+        );
+    }
+
+    protected function detail(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),
+
+            set: fn ($value) => Crypt::encrypt($value),
+        );
+    }
+
+    protected function elaborate(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),
+
+            set: fn ($value) => Crypt::encrypt($value),
+        );
+    }
+    protected function wid(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),
+
+            set: fn ($value) => Crypt::encrypt($value),
+        );
+    }
+    protected function nid(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),
+
+            set: fn ($value) => Crypt::encrypt($value),
+        );
     }
 }

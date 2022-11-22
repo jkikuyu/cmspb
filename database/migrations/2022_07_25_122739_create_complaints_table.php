@@ -22,13 +22,13 @@ return new class extends Migration
             $table->string('complaintno', 11)->unique();
             $table->string('controlno', 11)->nullable();
             $table->string('allegetype', 2)->nullable(false);
-            $table->string('nid', 256)->nullable();
-            $table->string('wid', 256)->nullable();
-            $table->string('firstname', 256)->nullable();
-            $table->string('middlename', 256)->nullable();
-            $table->string('lastname', 256)->nullable();
-            $table->string('phone', 256)->nullable();
-            $table->string('email', 256)->nullable();
+            $table->text('nid')->nullable();
+            $table->text('wid')->nullable();
+            $table->text('firstname')->nullable();
+            $table->text('middlename')->nullable();
+            $table->text('lastname')->nullable();
+            $table->text('phone')->nullable();
+            $table->text('email')->nullable();
             $table->boolean('reported', 1)->nullable();
             $table->string('towhom', 256)->nullable();
             $table->longText('description')->nullable();
@@ -38,9 +38,10 @@ return new class extends Migration
             $table->boolean('evidence')->nullable();
             $table->boolean('nopossession')->nullable();
 
-            $table->string('region', 256)->nullable();
+            /*             $table->string('region', 256)->nullable();
             $table->string('station', 256)->nullable();
             $table->string('department', 256)->nullable();
+ */
             $table->timestamp('dateoccurred', 0)->nullable();
             $table->softDeletes();
             $table->timestamps();
