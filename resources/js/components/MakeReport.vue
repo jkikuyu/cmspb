@@ -583,7 +583,11 @@
                                                             :key="index"
                                                             class="m-0"
                                                         >
-                                                            <ul>
+                                                            <ul
+                                                                v-if="
+                                                                    isNewComplaint
+                                                                "
+                                                            >
                                                                 {{
                                                                     index + 1
                                                                 }}
@@ -591,6 +595,32 @@
                                                                     "." +
                                                                     selectedFile.name
                                                                 }}
+                                                            </ul>
+                                                            <ul
+                                                                v-if="
+                                                                    !isNewComplaint
+                                                                "
+                                                            >
+                                                                {{
+                                                                    index + 1
+                                                                }}{{
+                                                                    "."
+                                                                }}
+                                                                <a
+                                                                    name="filedownload"
+                                                                    :href="
+                                                                        selectedFile.path +
+                                                                        selectedFile.name
+                                                                    "
+                                                                    @click.prevent="
+                                                                        downloadFile(
+                                                                            selectedFile
+                                                                        )
+                                                                    "
+                                                                    >{{
+                                                                        selectedFile.name
+                                                                    }}</a
+                                                                >
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -952,8 +982,14 @@ export default {
             );
         },
  */
-        complaintData: function (value) {
-            this.form = value;
+        complaintData: function (complaint) {
+            this.form = complaint;
+            let files = [];
+            /*             Object.entries(complaint.files).forEach(([key, value]) => {
+                files.push(value.orig_name);
+            });
+            this.selectedFiles.push(files); */
+            this.selectedFiles = complaint.files;
         },
         selectedDate: function (value) {
             this.updateForm(
@@ -1129,11 +1165,35 @@ export default {
             if (event.target.files.length == 0) {
                 return;
             }
+            console.log(selectedFiles);
             this.selectedFiles = event.target.files;
-            console.log(this.selectedFiles[0].name);
             for (let i = 0; i < this.selectedFiles.length; i++) {
                 console.log(this.selectedFiles[i].name);
             }
+        },
+        downloadFile(selectedFile) {
+            axios({
+                url:
+                    window.location.origin +
+                    "/" +
+                    selectedFile.path +
+                    selectedFile.filename +
+                    selectedFile.ext,
+                method: "GET",
+                responseType: "blob",
+            }).then((response) => {
+                var fileURL = window.URL.createObjectURL(
+                    new Blob([response.data])
+                );
+                var fileLink = document.createElement("a");
+
+                fileLink.href = fileURL;
+                fileLink.setAttribute("download", selectedFile.name);
+                document.body.appendChild(fileLink);
+
+                fileLink.click();
+            });
+            //window.location.origin+ this.selectedFiles.
         },
     },
 };
@@ -1160,6 +1220,12 @@ a {
     font-size: 1rem;
     text-align: left;
     color: #212529;
+}
+a.filedownload {
+    text-decoration: underline !important;
+}
+a.filedownload:hover {
+    text-decoration: underline !important;
 }
 .reporttitle {
     font-family: "futurabold";
