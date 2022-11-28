@@ -1128,9 +1128,13 @@ export default {
                 }
 
                 try {
-                    const { data } = await axios.post("complaints", formdata, {
-                        withCredentials: true,
-                    });
+                    const { data } = await axios
+                        .post("complaints", formdata, {
+                            withCredentials: true,
+                        })
+                        .catch(function (error) {
+                            console.log(error.toJSON());
+                        });
 
                     if (data.status === "200") {
                         this.msg["success"] =

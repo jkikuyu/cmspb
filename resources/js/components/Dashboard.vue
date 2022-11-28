@@ -55,9 +55,14 @@
                 </div>
             </div>
             <div class="col py-3">
+                <div>
+                    <h3 class="fw-bold">Complaint Listing</h3>
+                </div>
+
                 <DataTable
                     id="lstcomplaints"
-                    class="table table-hover table-striped"
+                    class="table table-hover table-striped nowrap"
+                    style="width: 85%"
                     :data="data"
                     :columns="columns"
                     :options="{
@@ -65,6 +70,7 @@
                         bFilter: false,
                         bInfo: false,
                         select: true,
+                        scrollX: true,
                     }"
                     ref="table"
                 >
@@ -136,6 +142,7 @@ export default {
         if (dropdownitems) {
             dropdownList = JSON.parse(dropdownitems);
         }
+
         const columns = [
             {
                 data: null,
@@ -236,11 +243,11 @@ export default {
 
         onMounted(async () => {
             dt = table.value.dt();
+            console.log(table);
             $("#lstcomplaints tbody").on("click", "button", function () {
                 selectedComplaint.value = dt.row($(this).parents("tr")).data();
                 showViewComplaint();
             });
-
             /*             dt.rows({ selected: true }).every(function () {
                 console.log(this.data());
             });
@@ -269,7 +276,6 @@ export default {
                 console.log(e);
             }
         });
-
         const getComplaints = async (id) => {
             let dt = await axios.get("complaints/" + id, {
                 Authorization: axios.defaults.headers.common["Authorization"],
@@ -298,6 +304,7 @@ export default {
             isModalOpen.value = true;
         };
         const saveDropDownList = () => {
+            console.log("dashboard");
             emit("saveDropDownList");
         };
         return {
@@ -316,7 +323,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+div.dataTables_wrapper {
+    width: 800px;
+    margin: 0 auto;
+}
+
 @import "datatables.net-dt";
 @import "datatables.net-select-dt";
 </style>

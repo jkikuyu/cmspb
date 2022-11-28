@@ -174,6 +174,7 @@ export default {
             console.log("dash");
         },
         saveDropDownList: function () {
+            console.log("app");
             sessionStorage.setItem(
                 "dropdownlist",
                 JSON.stringify(this.dropdowns)

@@ -6,7 +6,7 @@
         <div class="col-sm-6">
             <h2>{{ page }}</h2>
             <hr />
-            <LoginPassword @saveDropDownList="saveDropDownList"/>
+            <LoginPassword @saveDropDownList="saveDropDownList" />
         </div>
     </div>
 </template>
@@ -22,6 +22,7 @@ export default {
         LoginPassword,
         ContentImage,
     },
+    emits: ["saveDropDownList"],
     data() {
         return {
             response: {},
@@ -64,9 +65,11 @@ export default {
         getStoredToken: function () {
             return JSON.parse(sessionStorage.getItem("resp"));
         },
-        saveDropDownList: function (){
-            console.log("Login....")
-        }
+        saveDropDownList: function () {
+            this.$emit("saveDropDownList");
+
+            console.log("Login....");
+        },
     },
 };
 </script>

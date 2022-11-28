@@ -37,6 +37,8 @@ return new class extends Migration
             $table->longText('elaborate')->nullable();
             $table->boolean('evidence')->nullable();
             $table->boolean('nopossession')->nullable();
+            $table->tinyInteger('status')->nullable()->default(0);
+            $table->longtext('conclusion')->nullable();
 
             /*             $table->string('region', 256)->nullable();
             $table->string('station', 256)->nullable();

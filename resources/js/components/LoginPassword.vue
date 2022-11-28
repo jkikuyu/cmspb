@@ -58,6 +58,7 @@
                             :value="captchaValue"
                             @getCode="getCaptchaCode"
                             @isValid="checkValidCaptcha"
+                            :key="vueclientrecaptchakey"
                         />
                     </div>
                     <div class="col-sm-5 pt-4 input-group-append pb-captcha">
@@ -128,6 +129,9 @@ export default {
         const router = new useRouter();
         const msg = reactive({ password: "" });
         const captchaValue = ref(null);
+        let isValidCaptcha = ref("false");
+        let vueclientrecaptchakey = ref(0);
+
         const loginform = async (e) => {
             let userDetails = {};
             const form = new FormData(e.target);
@@ -147,36 +151,63 @@ export default {
                     password: inputs.password,
                 };
             }
-            const { data } = await axios.post("login", userDetails, {
-                withCredentials: true,
-            });
-            if (data.status === "200") {
-                axios.defaults.headers.common[
-                    "Authorization"
-                ] = `Bearer ${data.authorisation.token}`;
-                sessionStorage.setItem("user_token", data.authorisation.token);
-                router.push({
-                    name: "Dashboard",
-                    params: { id: data.user.id },
+            try {
+                const { data } = await axios.post("login", userDetails, {
+                    withCredentials: true,
                 });
-                //setDropDownList();
-            } else {
+                if (data.status === "200" && isValidCaptcha) {
+                    axios.defaults.headers.common[
+                        "Authorization"
+                    ] = `Bearer ${data.authorisation.token}`;
+                    sessionStorage.setItem(
+                        "user_token",
+                        data.authorisation.token
+                    );
+                    router.push({
+                        name: "Dashboard",
+                        params: { id: data.user.id },
+                    });
+                    //setDropDownList();
+                } else {
+                    // window.location.reload();
+                    if (vueclientrecaptchakey.value >= 3) {
+                        window.location.reload();
+                    }
+
+                    forceRerender();
+                    msg.password = "Enter the correct captcha code";
+                }
+            } catch (error) {
+                //window.location.reload();
+                if (vueclientrecaptchakey.value >= 3) {
+                    window.location.reload();
+                }
+
+                forceRerender();
                 msg.password = "user details provided are incorrect";
             }
         };
         const getCaptchaCode = (value) => {
-            console.log(value);
+            return value;
+        };
+        const forceRerender = () => {
+            vueclientrecaptchakey.value += 1;
         };
         const checkValidCaptcha = (value) => {
-            /* expected return boolean if your value and captcha code are same return True otherwise return False */
-            console.log(value);
+            isValidCaptcha = value;
+        };
+        const saveDropDownList = () => {
+            console.log("loginpasword");
+            emit("saveDropDownList");
+
+            console.log("Login....");
         };
         return {
             loginform,
             getCaptchaCode,
             checkValidCaptcha,
             captchaValue,
-
+            vueclientrecaptchakey,
             msg,
         };
     },
