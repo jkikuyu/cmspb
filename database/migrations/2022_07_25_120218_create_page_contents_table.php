@@ -15,11 +15,13 @@ return new class extends Migration
     {
         Schema::create('page_contents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title',100)->nullable(false);
-            $table->longtext('content',1)->nullable(false);
-            $table->string('imagepath',255)->nullable();
+            $table->string('name', 40)->nullable(false);
+
+            $table->string('title', 100)->nullable(false);
+            $table->longtext('content', 1)->nullable(false);
+            $table->string('imagepath', 255)->nullable();
             $table->smallinteger('position')->nullable();
-            $table->timestamp('expiry',0)->nullable();
+            $table->timestamp('expiry', 0)->nullable();
 
             $table->softDeletes();
             $table->timestamps();
