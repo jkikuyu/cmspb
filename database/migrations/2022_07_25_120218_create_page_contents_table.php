@@ -23,7 +23,7 @@ return new class extends Migration
             $table->smallinteger('position')->nullable();
             $table->timestamp('expiry', 0)->nullable();
             $table->boolean('active', 1)->nullable();
-
+            $table->string('resource_path', 100)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
