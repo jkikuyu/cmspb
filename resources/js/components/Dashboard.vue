@@ -189,8 +189,22 @@ export default {
                 },
             },
             { data: "towhom" },
-            { data: "description" },
-            { data: "detail" },
+            {
+                data: "description",
+                render: function (data, type, row) {
+                    return type === "display" && data.length > 15
+                        ? data.substr(0, 20) + "…"
+                        : data;
+                },
+            },
+            {
+                data: "detail",
+                render: function (data, type, row) {
+                    return type === "display" && data.length > 15
+                        ? data.substr(0, 20) + "…"
+                        : data;
+                },
+            },
             {
                 data: "threat",
                 render: function (data, type, row, meta) {
