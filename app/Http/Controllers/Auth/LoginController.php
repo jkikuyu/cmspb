@@ -129,6 +129,7 @@ class LoginController extends Controller
                 ]
             ]);
         } catch (Exception $ex) {
+            info($ex->getMessage);
             error_log($ex->getMessage());
 
             return response()->json([

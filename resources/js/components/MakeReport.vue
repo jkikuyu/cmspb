@@ -740,7 +740,7 @@ export default {
                 end: "",
             },
             selectedDate: "",
-            datereported: moment(Date()).format("DD/MM/YYYY HH:mm A"),
+            datereported: Date(),
             dateto: Date(),
             dropdownList: {},
             selectedFiles: [],
@@ -964,7 +964,10 @@ export default {
             dropdownList = sessionStorage.getItem("dropdownlist");
         }
         this.dropdownList = JSON.parse(dropdownList);
-
+        const isodate = new Date();
+        this.datereported = moment(isodate.toISOString()).format(
+            "DD/MM/YYYY HH:mm A"
+        );
         const storedForm = this.getFormData();
         if (storedForm) {
             this.form = {
@@ -1123,6 +1126,7 @@ export default {
             this.password = password;
             let formdata = new FormData();
             let resp = await this.getToken();
+            console.log(resp);
             if (resp.token) {
                 let headers = new Headers();
                 headers.append("Authorization", "bearer " + resp.token);
