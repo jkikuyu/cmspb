@@ -8,7 +8,7 @@ import axios from "axios";
 
 const routes = [
     {
-        path: "/ims",
+        path: "/",
         name: "Welcome",
         component: PageContent,
     },
@@ -18,46 +18,46 @@ const routes = [
         component: PageContent,
     },
     {
-        path: "/ims/confidentiality_name_identity",
+        path: "/confidentiality_name_identity",
         name: "UseWebsite",
         component: PageContent,
     },
     {
-        path: "/ims/reporting_irregularities",
+        path: "/reporting_irregularities",
         name: "ReportingIrregularities",
         component: PageContent,
     },
     {
-        path: "/ims/follow_up",
+        path: "/follow_up",
         name: "FollowUp",
         component: PageContent,
     },
 
     {
-        path: "/ims/faqs",
+        path: "/faqs",
         name: "FAQs",
         component: PageContent,
     },
     {
-        path: "/ims/contact_us",
+        path: "/contact_us",
         name: "Contacts",
         component: PageContent,
     },
     {
-        path: "/ims/makereport",
+        path: "/makereport",
         name: "MakeReport",
         component: MakeReport,
         props: true,
     },
 
     {
-        path: "/ims/login",
+        path: "/login",
         name: "Login",
         component: Login,
         props: true,
     },
     {
-        path: "/ims/dashboard",
+        path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
         props: true,
@@ -65,7 +65,7 @@ const routes = [
             if (axios.defaults.headers.common["Authorization"]) {
                 next();
             } else {
-                next("/ims/login");
+                next("/cis/login");
             }
         },
     },
@@ -73,7 +73,7 @@ const routes = [
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         beforeEnter: (to, from, next) => {
-            next("/ims/");
+            next("/");
         },
     },
 ];

@@ -31,6 +31,14 @@
                                     {{ msg.warning ? msg.warning : "" }}
                                     {{ msg.success ? msg.success : "" }}
                                 </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.datereported" />
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        {{ datereported }}
+                                    </div>
+                                </div>
                                 <div v-if="!isNewComplaint" class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label
@@ -458,6 +466,7 @@
                                 </div>
                                 <div class="row mb-2">
                                     <!-- <DateTimePicker v-model="range" /> -->
+
                                     <single-date-time-picker
                                         v-model="selectedDate"
                                     />
@@ -731,7 +740,7 @@ export default {
                 end: "",
             },
             selectedDate: "",
-            datefrom: Date(),
+            datereported: moment(Date()).format("DD/MM/YYYY HH:mm A"),
             dateto: Date(),
             dropdownList: {},
             selectedFiles: [],
@@ -776,7 +785,7 @@ export default {
 
                 first: {
                     name: "firstname",
-                    title: "Ener your (first, middle, last) names",
+                    title: "Enter your (first, middle, last) names",
                     placeholder: "First Name",
                     description: "Enter your first name",
                     order: 1,
@@ -887,9 +896,9 @@ export default {
                     description: "Enter complainant type",
                 },
 
-                datefrom: {
-                    name: "datefrom",
-                    title: "The date when the inicident occurred",
+                datereported: {
+                    name: "datereported",
+                    title: "Report Date",
                     placeholder: "",
                     description: "Enter complainant type",
                 },

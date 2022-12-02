@@ -50,7 +50,7 @@
         </div>
         <div class="row hline">
             <div class="col-sm-1"></div>
-            <div class="col-sm-4">
+            <!--             <div class="col-sm-4">
                 <div class="whistle">
                     <router-link
                         class="makereportlink"
@@ -67,7 +67,8 @@
                     </router-link>
                 </div>
             </div>
-            <div class="col-sm-6 m-0 p-0">
+ -->
+            <div class="col-sm-10 m-0 p-0">
                 <h5 class="float-end tollfree">Toll Free:</h5>
 
                 <h2 class="float-end makereport pt-4">0800 5970000</h2>
