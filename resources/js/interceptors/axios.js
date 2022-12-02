@@ -6,8 +6,9 @@ let baseUrl = "";
 if (window.location.hostname === "localhost") {
     baseUrl = "http://localhost:8000/api/";
 } else {
-    baseUrl = window.location.href + "cis/api/";
+    baseUrl = "http://" + window.location.hostname + "/cis/api/";
 }
+
 axios.defaults.baseURL = baseUrl;
 
 let refresh = false;
