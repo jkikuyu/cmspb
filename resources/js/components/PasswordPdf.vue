@@ -22,21 +22,41 @@
                             Credentials
                         </h5>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-5 pt-2">
+                    <div class="row mb-2">
+                        <div class="col-sm-5">
                             <Label :label="label.anonymousid" />
                         </div>
-                        <div class="col-sm-4 pt-2">
+                        <div class="col-sm-4">
                             {{ user.userid }}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-5 pt-2">
+                        <div class="col-sm-5">
                             <Label :label="label.password" />
                         </div>
-                        <div class="col-sm-4 pt-2">
+                        <div class="col-sm-4">
                             {{ user.password }}
                         </div>
+                    </div>
+                    <hr />
+                    <div class="row mb-2">
+                        <div class="col-sm-auto">
+                            <Label :label="fields.datereported" />
+                        </div>
+                        <div class="col-sm-auto">
+                            {{ form.datereported }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-5">
+                            <Label :label="label.anonymousid" />
+                        </div>
+                        <div class="col-sm-4">
+                            {{ form.anonymous == 0 ? "Yes" : "No" }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <Label :label="fields.first" />
                     </div>
                 </div>
 
@@ -81,6 +101,8 @@ export default {
         label: Object,
         user: Object,
         showPasswordPdfModal: Boolean,
+        fields: Object,
+        form: Object,
     },
     setup(props, { emit }) {
         const filename = props.user.complaintno;

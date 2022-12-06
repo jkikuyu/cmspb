@@ -40,8 +40,16 @@ export default {
                         id: 4,
                     },
                     {
-                        name: "Other Unethical Behaviour",
+                        name: "Embezzlement",
                         id: 5,
+                    },
+                    {
+                        name: "Misuse of resources",
+                        id: 6,
+                    },
+                    {
+                        name: "Other Unethical Behaviour",
+                        id: 0,
                     },
                 ],
                 complainantlist: [

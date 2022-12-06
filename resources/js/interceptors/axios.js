@@ -2,11 +2,16 @@ import axios from "axios";
 
 //axios.defaults.baseURL = "http://cmspb.herokuapp.com/api/";
 //axios.defaults.baseURL = "http://localhost:8000/api/";
+
 let baseUrl = "";
 if (window.location.hostname === "localhost") {
     baseUrl = "http://localhost:8000/api/";
 } else {
-    baseUrl = "http://" + window.location.hostname + "/cis/api/";
+    baseUrl =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        "/cis/api/";
 }
 
 axios.defaults.baseURL = baseUrl;

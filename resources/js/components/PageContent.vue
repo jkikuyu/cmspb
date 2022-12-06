@@ -10,7 +10,7 @@
         <div class="row">
             <div v-if="menuitem.id === 1" class="col-sm-1 d-block d-sm-none">
                 <router-link
-                    class="btn btn-kws px-5 py-3 fs-3"
+                    class="btn-kws px-5 py-3 fs-3"
                     :to="{
                         name: 'MakeReport',
                     }"
@@ -28,7 +28,7 @@
                 <div class="col-sm-6 float-end">
                     <div v-if="menuitem.id === 1">
                         <router-link
-                            class="btn btn-kws px-5 py-3 fs-3"
+                            class="btn-kws px-5 py-3 fs-3"
                             :to="{
                                 name: 'MakeReport',
                             }"
@@ -76,12 +76,42 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../../css/shared";
-.btn-kws {
+<style scoped>
+/* .btn-kws {
     background-color: $green-kws;
     text-decoration: none;
     color: #fff;
+} */
+.btn-kws {
+    background-color: #1c87c9;
+    -webkit-border-radius: 40px;
+    border-radius: 40px;
+    border: none;
+    color: #eeeeee;
+    cursor: pointer;
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: 20px;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+}
+@keyframes glowing {
+    0% {
+        background-color: #819900;
+        box-shadow: 0 0 5px #819900;
+    }
+    50% {
+        background-color: #819900;
+        box-shadow: 0 0 20px #819900;
+    }
+    100% {
+        background-color: #5d6d07;
+        box-shadow: 0 0 5px #5d6d07;
+    }
+}
+.btn-kws {
+    animation: glowing 1500ms infinite;
 }
 .container {
     flex: 1 0 auto;

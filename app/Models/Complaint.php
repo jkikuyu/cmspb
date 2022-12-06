@@ -16,10 +16,12 @@ class Complaint extends Model
         'firstname',
         'middlename',
         'lastname',
+        'contactyou',
         'email',
-        'phone',
+        'phoneno',
         'complainanttype',
         'allegetype',
+        'specify',
         'reported',
         'description',
         'towhom',
@@ -72,7 +74,7 @@ class Complaint extends Model
         );
     }
 
-    protected function phone(): Attribute
+    protected function phoneno(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => is_null($value) ? $value : Crypt::decrypt($value),

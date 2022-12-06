@@ -157,15 +157,10 @@ class LoginController extends Controller
     public function refresh()
     {
         error_log("refresh....");
-        $user = Auth::user();
-        error_log($user->id);
+        $newtoken = Auth::refresh();
         return response()->json([
-            'status' => '200',
-            'user' => Auth::user(),
-            'authorisation' => [
-                'token' => Auth::refresh(),
-                'type' => 'bearer',
-            ]
+            'token' => Auth::refresh(),
+            'type' => 'bearer',
         ]);
     }
 }

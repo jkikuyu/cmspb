@@ -22,15 +22,20 @@ return new class extends Migration
             $table->string('complaintno', 11)->unique();
             $table->string('controlno', 11)->nullable();
             $table->string('allegetype', 2)->nullable(false);
+            $table->string('specify', 100)->nullable();
+
             $table->text('nid')->nullable();
             $table->text('wid')->nullable();
             $table->text('firstname')->nullable();
             $table->text('middlename')->nullable();
             $table->text('lastname')->nullable();
-            $table->text('phone')->nullable();
+            $table->text('phoneno')->nullable();
             $table->text('email')->nullable();
+            $table->boolean('contactyou', 1)->nullable();
+
             $table->boolean('reported', 1)->nullable();
-            $table->string('towhom', 256)->nullable();
+            $table->string('towhom', 100)->nullable();
+
             $table->longText('description')->nullable();
             $table->longText('detail')->nullable();
             $table->boolean('threat', 1)->nullable();

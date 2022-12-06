@@ -175,116 +175,6 @@
                                             />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-auto">
-                                            <Label :label="fields.workid" />
-                                        </div>
-
-                                        <div class="col-sm-2 p-0">
-                                            <Input
-                                                @input="
-                                                    updateForm(
-                                                        fields.workid.name,
-                                                        $event.target.value
-                                                    )
-                                                "
-                                                :disabled="!isNewComplaint"
-                                                :elementId="fields.workid.name"
-                                                :placeholder="
-                                                    fields.workid.placeholder
-                                                "
-                                                :value="form.wid"
-                                            />
-                                        </div>
-                                        <div class="col-sm-auto ms-5">
-                                            <Label :label="fields.nationalid" />
-                                        </div>
-
-                                        <div class="col-sm-2 p-0 me-4">
-                                            <Input
-                                                @input="
-                                                    updateForm(
-                                                        fields.nationalid.name,
-                                                        $event.target.value
-                                                    )
-                                                "
-                                                :disabled="!isNewComplaint"
-                                                :elementId="
-                                                    fields.nationalid.name
-                                                "
-                                                :placeholder="
-                                                    fields.nationalid
-                                                        .placeholder
-                                                "
-                                                :value="form.nid"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-auto">
-                                            <Label :label="fields.phoneno" />
-                                            <span style="color: #ff0000">
-                                                *
-                                            </span>
-                                        </div>
-
-                                        <div class="p-0 col-sm-2">
-                                            <Input
-                                                :required="!+form.anonymous"
-                                                :disabled="!isNewComplaint"
-                                                @input="
-                                                    updateForm(
-                                                        fields.phoneno.name,
-                                                        $event.target.value
-                                                    )
-                                                "
-                                                :class="{
-                                                    'border border-danger':
-                                                        isNewComplaint &&
-                                                        !form[
-                                                            fields.phoneno.name
-                                                        ],
-                                                }"
-                                                :elementId="fields.phoneno.name"
-                                                :placeholder="
-                                                    fields.phoneno.placeholder
-                                                "
-                                                :value="form.phoneno"
-                                            />
-                                        </div>
-                                        <div class="col-sm-auto ms-4">
-                                            <Label :label="fields.email" />
-                                            <span style="color: #ff0000">
-                                                *
-                                            </span>
-                                        </div>
-
-                                        <div class="p-0 col-sm-2">
-                                            <Input
-                                                :required="!+form.anonymous"
-                                                :disabled="!isNewComplaint"
-                                                type="email"
-                                                @input="
-                                                    updateForm(
-                                                        fields.email.name,
-                                                        $event.target.value
-                                                    )
-                                                "
-                                                :class="{
-                                                    'border border-danger':
-                                                        isNewComplaint &&
-                                                        !form[
-                                                            fields.email.name
-                                                        ],
-                                                }"
-                                                :elementId="fields.email.name"
-                                                :placeholder="
-                                                    fields.email.placeholder
-                                                "
-                                                :value="form.email"
-                                            />
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div class="row mb-2">
@@ -322,6 +212,157 @@
                                         />
                                     </div>
                                 </div>
+
+                                <div v-if="!+form.anonymous" class="row mb-2">
+                                    <div
+                                        v-if="form.complainanttype == 1"
+                                        class="col-sm-auto"
+                                    >
+                                        <Label :label="fields.workid" />
+                                    </div>
+
+                                    <div
+                                        v-if="form.complainanttype == 1"
+                                        class="col-sm-2 p-0"
+                                    >
+                                        <Input
+                                            @input="
+                                                updateForm(
+                                                    fields.workid.name,
+                                                    $event.target.value
+                                                )
+                                            "
+                                            :disabled="!isNewComplaint"
+                                            :elementId="fields.workid.name"
+                                            :placeholder="
+                                                fields.workid.placeholder
+                                            "
+                                            :value="form.wid"
+                                        />
+                                    </div>
+                                    <div
+                                        v-if="form.complainanttype == 1"
+                                        class="col-sm-auto ms-5"
+                                    >
+                                        <Label :label="fields.nationalid" />
+                                    </div>
+
+                                    <div
+                                        v-if="form.complainanttype == 1"
+                                        class="col-sm-2 p-0 me-4"
+                                    >
+                                        <Input
+                                            @input="
+                                                updateForm(
+                                                    fields.nationalid.name,
+                                                    $event.target.value
+                                                )
+                                            "
+                                            :disabled="!isNewComplaint"
+                                            :elementId="fields.nationalid.name"
+                                            :placeholder="
+                                                fields.nationalid.placeholder
+                                            "
+                                            :value="form.nid"
+                                        />
+                                    </div>
+                                </div>
+                                <div v-if="!+form.anonymous" class="row mb-2">
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.contactyou" />
+                                        <span style="color: #ff0000"> * </span>
+                                    </div>
+                                    <div class="col-sm-2 p-0">
+                                        <Select
+                                            required
+                                            :disabled="!isNewComplaint"
+                                            @change="
+                                                updateForm(
+                                                    fields.contactyou.name,
+                                                    $event.target.value
+                                                )
+                                            "
+                                            :class="{
+                                                'border border-danger':
+                                                    isNewComplaint &&
+                                                    !form[
+                                                        fields.contactyou.name
+                                                    ],
+                                            }"
+                                            :dropdownitems="dropdownList.yesno"
+                                            :elementId="fields.contactyou.name"
+                                            :value="form.contactyou"
+                                        />
+                                    </div>
+                                </div>
+                                <div
+                                    v-if="
+                                        !+form.anonymous && !!+form.contactyou
+                                    "
+                                    class="row mb-2"
+                                >
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.phoneno" />
+                                        <span style="color: #ff0000"> * </span>
+                                    </div>
+
+                                    <div class="p-0 col-sm-2">
+                                        <Input
+                                            :required="
+                                                !+form.anonymous &&
+                                                !!+form.contactyou
+                                            "
+                                            :disabled="!isNewComplaint"
+                                            @input="
+                                                updateForm(
+                                                    fields.phoneno.name,
+                                                    $event.target.value
+                                                )
+                                            "
+                                            :class="{
+                                                'border border-danger':
+                                                    isNewComplaint &&
+                                                    !form[fields.phoneno.name],
+                                            }"
+                                            :elementId="fields.phoneno.name"
+                                            :placeholder="
+                                                fields.phoneno.placeholder
+                                            "
+                                            :value="form.phoneno"
+                                        />
+                                    </div>
+                                    <div class="col-sm-auto ms-4">
+                                        <Label :label="fields.email" />
+                                        <span style="color: #ff0000"> * </span>
+                                    </div>
+
+                                    <div class="p-0 col-sm-2">
+                                        <Input
+                                            :required="
+                                                !+form.anonymous &&
+                                                !!+form.contactyou
+                                            "
+                                            :disabled="!isNewComplaint"
+                                            type="email"
+                                            @input="
+                                                updateForm(
+                                                    fields.email.name,
+                                                    $event.target.value
+                                                )
+                                            "
+                                            :class="{
+                                                'border border-danger':
+                                                    isNewComplaint &&
+                                                    !form[fields.email.name],
+                                            }"
+                                            :elementId="fields.email.name"
+                                            :placeholder="
+                                                fields.email.placeholder
+                                            "
+                                            :value="form.email"
+                                        />
+                                    </div>
+                                </div>
                                 <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.allegetype" />
@@ -352,6 +393,39 @@
                                         />
                                     </div>
                                 </div>
+                                <div
+                                    v-if="form.allegetype == 0"
+                                    class="row mb-2"
+                                >
+                                    <div class="col-sm-auto">
+                                        <Label :label="fields.specify" />
+                                        <span style="color: #ff0000"> * </span>
+                                    </div>
+                                    <div
+                                        v-if="form.allegetype == 0"
+                                        class="col-sm-5"
+                                    >
+                                        <Input
+                                            :required="form.allegetype == 0"
+                                            :disabled="!isNewComplaint"
+                                            @input="
+                                                updateForm(
+                                                    fields.specify.name,
+                                                    $event.target.value
+                                                )
+                                            "
+                                            class="col-sm-9"
+                                            :class="{
+                                                'border border-danger':
+                                                    isNewComplaint &&
+                                                    !form[fields.specify.name],
+                                            }"
+                                            :elementId="fields.specify.name"
+                                            :value="form.specify"
+                                        />
+                                    </div>
+                                </div>
+
                                 <div class="row mb-2">
                                     <div class="col-sm-auto">
                                         <Label :label="fields.reported" />
@@ -526,30 +600,8 @@
                                         />
                                     </div>
                                 </div>
-                                <div v-show="!+form.evidence" class="row mb-2">
-                                    <div class="col-sm-auto">
-                                        <Label
-                                            :label="fields.nopossession"
-                                        ></Label>
-                                    </div>
-                                    <div class="col-sm-2 p-0">
-                                        <Select
-                                            @change="
-                                                updateForm(
-                                                    fields.nopossession.name,
-                                                    $event.target.value
-                                                )
-                                            "
-                                            :disabled="!isNewComplaint"
-                                            :dropdownitems="dropdownList.yesno"
-                                            :elementId="
-                                                fields.nopossession.name
-                                            "
-                                            :value="form.nopossession"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="card mb-2">
+
+                                <div v-if="!!+form.evidence" class="card mb-2">
                                     <div class="card-header">
                                         <div class="col-sm-auto">
                                             <Label
@@ -638,7 +690,29 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div v-show="!+form.evidence" class="row mb-2">
+                                    <div class="col-sm-auto">
+                                        <Label
+                                            :label="fields.nopossession"
+                                        ></Label>
+                                    </div>
+                                    <div class="col-sm-2 p-0">
+                                        <Select
+                                            @change="
+                                                updateForm(
+                                                    fields.nopossession.name,
+                                                    $event.target.value
+                                                )
+                                            "
+                                            :disabled="!isNewComplaint"
+                                            :dropdownitems="dropdownList.yesno"
+                                            :elementId="
+                                                fields.nopossession.name
+                                            "
+                                            :value="form.nopossession"
+                                        />
+                                    </div>
+                                </div>
                                 <admin-update
                                     v-if="!isNewComplaint"
                                     :dropdownList="dropdownList"
@@ -684,6 +758,8 @@
             :showPasswordPdfModal="isPdfModalOpen"
             :label="logintext"
             :user="user"
+            :form="form"
+            :fields="fields"
             @hidePasswordPdfModal="hidePasswordPdfModal"
         >
             <template #formname> {{ msg.success }} </template>
@@ -826,17 +902,24 @@ export default {
                     description: "Email address of the complainant",
                     order: 1,
                 },
+                contactyou: {
+                    name: "contactyou",
+                    title: "Would you like to be contacted?",
+                    placeholder: "Contact You",
+                    description: "Email address of the complainant",
+                    order: 1,
+                },
 
                 reported: {
                     name: "reported",
-                    title: "Have you reported this issue to any other party",
+                    title: "Have you reported this issue to any other party?",
                     placeholder: "",
                     description: "Enter complainant type",
                     order: 3,
                 },
                 towhom: {
                     name: "towhom",
-                    title: "If yes, enter name of person or institution",
+                    title: "If yes, enter name of institution",
                     placeholder: "",
                     description: "Enter complainant type",
                 },
@@ -931,6 +1014,12 @@ export default {
                     title: "Complaint Conclusion.",
                     placeholder: "",
                     description: "Complaint Conclusion",
+                },
+                specify: {
+                    name: "specify",
+                    title: "Specify",
+                    placeholder: "",
+                    description: "Specify",
                 },
             },
         };
@@ -1048,7 +1137,6 @@ export default {
         updateForm(input, value) {
             let res = value.trim();
             this.form[input] = res;
-
             let storedForm = this.getFormData(); // extract stored form
             if (!storedForm) storedForm = {}; // if none exists, default to empty object
             if (res) {
@@ -1151,7 +1239,7 @@ export default {
 
                     if (data.status === "200") {
                         this.msg["success"] =
-                            "The complaint has been saved successfully.";
+                            "The complaint has been submitted successfully.";
 
                         this.user["userid"] = this.userid;
                         this.user["password"] = password;
@@ -1186,7 +1274,6 @@ export default {
             if (event.target.files.length == 0) {
                 return;
             }
-            console.log(selectedFiles);
             this.selectedFiles = event.target.files;
             for (let i = 0; i < this.selectedFiles.length; i++) {
                 console.log(this.selectedFiles[i].name);
