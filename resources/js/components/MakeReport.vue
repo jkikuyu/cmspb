@@ -625,6 +625,17 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
+                                        <div
+                                            v-if="msg.warning"
+                                            class="alert"
+                                            :class="{
+                                                'alert-warning': msg.warning,
+                                            }"
+                                            role="alert"
+                                        >
+                                            {{ msg.warning ? msg.warning : "" }}
+                                        </div>
+
                                         <div class="col-sm-4">
                                             <input
                                                 type="file"
@@ -831,6 +842,10 @@ export default {
                 end: "",
             },
             selectedDate: "",
+            fileSize: 0,
+            fileCount: 0,
+            maxFileSize: 26214400,
+            maxFileCount: 5,
             datereported: Date(),
             dateto: Date(),
             dropdownList: {},
@@ -1138,13 +1153,19 @@ export default {
         },
         async submitreport(password) {
             let isEmailorId = false;
-
             if (this.$refs.makereport.checkValidity()) {
                 this.userid = await this.getAnonymousID();
 
                 //this.userid = data.userid;
                 this.updateForm("userid", this.userid);
+                if (this.fileCount > 5 || this.fileSize > this.maxFileSize) {
+                    alert(
+                        "File count or size exceeded. Maximum of 5 files total 25MB"
+                    );
+                    return;
+                }
                 this.isModalOpen = true;
+
                 if (isEmailorId) {
                     this.storeReport(password);
                 }
@@ -1233,7 +1254,6 @@ export default {
             this.password = password;
             let formdata = new FormData();
             let resp = await this.getToken();
-            console.log(resp);
             if (resp.token) {
                 let headers = new Headers();
                 headers.append("Authorization", "bearer " + resp.token);
@@ -1294,10 +1314,23 @@ export default {
                 return;
             }
             this.selectedFiles = event.target.files;
+            this.fileSize = 0;
+            this.fileCount = this.selectedFiles.length;
+            this.msg["warning"] = "";
+
+            if (this.selectedFiles.length > this.maxFileCount) {
+                this.msg["warning"] =
+                    "Files selected exceed the maximum 5 files requirement";
+            }
             for (let i = 0; i < this.selectedFiles.length; i++) {
-                console.log(this.selectedFiles[i].name);
+                this.fileSize += this.selectedFiles[i].size;
+            }
+            if (this.fileSize > this.maxFileSize) {
+                this.msg["warning"] =
+                    "Files selected exceed the maximum 25mb total file size requirement";
             }
         },
+
         downloadFile(selectedFile) {
             axios({
                 url:
