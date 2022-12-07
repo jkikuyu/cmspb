@@ -29,7 +29,7 @@ class Complaint extends Model
         'threat',
         'elaborate',
         'evidence',
-        'dateocurred',
+        'dateoccurred',
         'wid',
         'nid',
         'nopossession',

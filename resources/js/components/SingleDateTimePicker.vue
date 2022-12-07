@@ -7,9 +7,6 @@
     >
         <template v-slot="{ inputValue, inputEvents }">
             <div class="row">
-                <div class="col-sm-auto">
-                    <Label :label="dateOccurred"></Label>
-                </div>
                 <div class="col-sm-2">
                     <Input
                         :elementId="dateOccurred.name"

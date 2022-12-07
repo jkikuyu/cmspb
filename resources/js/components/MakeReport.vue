@@ -539,11 +539,26 @@
                                     />
                                 </div>
                                 <div class="row mb-2">
-                                    <!-- <DateTimePicker v-model="range" /> -->
+                                    <div class="col-sm-auto">
+                                        <Label
+                                            :label="fields.dateOccurred"
+                                        ></Label>
+                                    </div>
+                                    <div
+                                        class="row mb-2"
+                                        v-if="!isNewComplaint"
+                                    >
+                                        {{ form.dateOccurred }}
+                                        <!-- <DateTimePicker v-model="range" /> -->
+                                    </div>
 
-                                    <single-date-time-picker
-                                        v-model="selectedDate"
-                                    />
+                                    <div class="col-sm-3" v-if="isNewComplaint">
+                                        <!-- <DateTimePicker v-model="range" /> -->
+
+                                        <single-date-time-picker
+                                            v-model="selectedDate"
+                                        />
+                                    </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-sm-auto">
@@ -985,9 +1000,9 @@ export default {
                     placeholder: "",
                     description: "Enter complainant type",
                 },
-                dateto: {
-                    name: "dateto",
-                    title: "The end date when the incident occurred",
+                dateOccurred: {
+                    name: "dateOccurred",
+                    title: "Date of Occurrance",
                     placeholder: "",
                     description: "Enter complainant type",
                 },
@@ -1085,6 +1100,10 @@ export default {
  */
         complaintData: function (complaint) {
             this.form = complaint;
+            const isodate = new Date(complaint.reportdate);
+            this.datereported = moment(isodate.toISOString()).format(
+                "DD/MM/YYYY HH:mm A"
+            );
             let files = [];
             /*             Object.entries(complaint.files).forEach(([key, value]) => {
                 files.push(value.orig_name);

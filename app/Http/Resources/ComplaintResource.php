@@ -20,10 +20,12 @@ class ComplaintResource extends JsonResource
             'firstname' => $this->firstname,
             'middlename' => $this->middlename,
             'lastname' => $this->lastname,
+            'contactyou' => $this->contactyou,
             'email' => $this->email,
-            'phone' => $this->phone,
+            'phoneno' => $this->phoneno,
             'complainanttype' => $this->complainanttype,
             'allegetype' => $this->allegetype,
+            'specify' => $this->specify,
             'reported' => $this->reported,
             'towhom' => $this->towhom,
             'description' => $this->description,
@@ -36,6 +38,7 @@ class ComplaintResource extends JsonResource
             'nopossession' => $this->nopossession,
             'user_id' => $this->user_id,
             'complaintno' => $this->complaintno,
+            'reportdate' => $this->created_at,
             "files" => DocResource::collection($this->docs)
         ];
     }
