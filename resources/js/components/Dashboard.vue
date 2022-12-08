@@ -128,21 +128,21 @@ export default {
     },
 
     setup(props, { emit }) {
-        const router = new useRouter();
-        const route = new useRoute();
-        let dt;
-        const dropdownitems = sessionStorage.getItem("dropdownlist");
-
-        const data = ref([]);
-        const table = ref();
         let selectedComplaint = ref(null);
         let id = props.id;
         let isModalOpen = ref(false);
         let dropdownList = {};
+        let dt;
+        emit("saveDropDownList");
+
+        let dropdownitems = sessionStorage.getItem("dropdownlist");
         if (dropdownitems) {
             dropdownList = JSON.parse(dropdownitems);
         }
-
+        const router = new useRouter();
+        const route = new useRoute();
+        const data = ref([]);
+        const table = ref();
         const columns = [
             {
                 data: null,
@@ -257,22 +257,15 @@ export default {
 
         onMounted(async () => {
             dt = table.value.dt();
-            console.log(table);
+
             $("#lstcomplaints tbody").on("click", "button", function () {
                 selectedComplaint.value = dt.row($(this).parents("tr")).data();
                 showViewComplaint();
             });
-            /*             dt.rows({ selected: true }).every(function () {
-                console.log(this.data());
-            });
 
-            $('#lstcomplaints tbody').on( 'click', 'tr', ()=> {
-                console.log( dt.row( this ).data() );
-            });
- */
             try {
                 if (!axios.defaults.headers.common["Authorization"]) {
-                    const token = sessionStorage.getItem("user_token");
+                    //const token = sessionStorage.getItem("user_token");
                     if (token) {
                         axios.defaults.headers.common["Authorization"] =
                             "Bearer " + token;
@@ -303,9 +296,9 @@ export default {
 
         const logout = async (e) => {
             await axios.post("logout", {}, { withCredentials: true });
-
+            sessionStorage.clear(0);
             axios.defaults.headers.common["Authorization"] = "";
-            router.push({ path: "/ims/" });
+            router.push({ path: "/" });
         };
 
         const getUserId = () => {
@@ -318,7 +311,6 @@ export default {
             isModalOpen.value = true;
         };
         const saveDropDownList = () => {
-            console.log("dashboard");
             emit("saveDropDownList");
         };
         return {

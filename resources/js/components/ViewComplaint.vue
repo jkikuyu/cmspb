@@ -36,7 +36,7 @@
 <script>
 import { watch, ref, onMounted } from "vue";
 import { Modal } from "bootstrap";
-import MakeReport from "./MakeReport.vue";
+import MakeReport from "./MakeReport";
 export default {
     components: { MakeReport },
     name: "ViewComplaint",

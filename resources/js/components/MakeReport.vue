@@ -545,10 +545,10 @@
                                         ></Label>
                                     </div>
                                     <div
-                                        class="row mb-2"
+                                        class="col-sm-auto"
                                         v-if="!isNewComplaint"
                                     >
-                                        {{ form.dateOccurred }}
+                                        {{ form.dateoccurred }}
                                         <!-- <DateTimePicker v-model="range" /> -->
                                     </div>
 
@@ -592,6 +592,7 @@
                                                 $event.target.value
                                             )
                                         "
+                                        :disabled="!isNewComplaint"
                                         :elementId="fields.elaborate.name"
                                         :value="form.elaborate"
                                     />
@@ -743,10 +744,12 @@
                                     v-if="!isNewComplaint"
                                     :dropdownList="dropdownList"
                                     :fields="fields"
+                                    :isNewComplaint="isNewComplaint"
                                 ></admin-update>
 
                                 <div class="card-footer">
                                     <Button
+                                        :disabled="!isNewComplaint"
                                         class="mx-2"
                                         type="button"
                                         @click="submitreport"
