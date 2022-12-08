@@ -785,7 +785,10 @@
             :label="logintext"
             :user="user"
             :form="form"
+            :selectedFiles="selectedFiles"
             :fields="fields"
+            :datereported="datereported"
+            :dropdownList="dropdownList"
             @hidePasswordPdfModal="hidePasswordPdfModal"
         >
             <template #formname> {{ msg.success }} </template>
@@ -1155,7 +1158,7 @@ export default {
             let isEmailorId = false;
             if (this.$refs.makereport.checkValidity()) {
                 this.userid = await this.getAnonymousID();
-
+                console.log("userid", this.userid);
                 //this.userid = data.userid;
                 this.updateForm("userid", this.userid);
                 if (this.fileCount > 5 || this.fileSize > this.maxFileSize) {
@@ -1283,6 +1286,11 @@ export default {
                         this.user["userid"] = this.userid;
                         this.user["password"] = password;
                         this.user["complaintno"] = data.complaintno;
+                        const isodate = new Date(data.date);
+                        this.datereported = moment(
+                            isodate.toISOString()
+                        ).format("DD/MM/YYYY HH:mm A");
+
                         this.isPdfModalOpen = true;
                     } else {
                         this.msg["warning"] =
@@ -1290,7 +1298,8 @@ export default {
                         window.scrollTo(0, 0);
 
                         setTimeout(() => (this.msg = {}), 5000);
-                        this.$forceUpdate();
+                        this.isModalOpen = false;
+                        //this.$forceUpdate();
                     }
                 } catch (err) {
                     console.log(err);
@@ -1317,7 +1326,7 @@ export default {
             this.fileSize = 0;
             this.fileCount = this.selectedFiles.length;
             this.msg["warning"] = "";
-
+            console.log(selectedFiles.files);
             if (this.selectedFiles.length > this.maxFileCount) {
                 this.msg["warning"] =
                     "Files selected exceed the maximum 5 files requirement";

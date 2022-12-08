@@ -43,6 +43,7 @@ class ComplaintController extends Controller
             $validated = $request->validated();
             $files = $request->file("files");
             $complaint = Complaint::create($validated);
+            info($complaint);
             if (isset($files)) {
                 $upfiles = $this->upload($files);
                 $docs = [];
@@ -61,6 +62,7 @@ class ComplaintController extends Controller
             }
             $resp = [
                 'complaintno' => $complaint['complaintno'],
+                'date' => $complaint['created_at'],
                 'status' => '200',
                 'message' => 'Record saved successfully',
             ];

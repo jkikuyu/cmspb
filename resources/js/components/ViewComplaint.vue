@@ -47,7 +47,7 @@ export default {
     },
     setup(props, { emit }) {
         let viewComplaintFormModal = ref(null);
-        const pagetitle = "Complaint Details";
+        const pagetitle = "Incident Report";
         let isNewComplaint = false;
         const modalActive = () => {
             viewComplaintFormModal = new Modal(

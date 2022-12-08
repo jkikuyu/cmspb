@@ -37,7 +37,6 @@
         "datatables.net-select-bs5": "^1.4.0",
         "datatables.net-select-dt": "^1.4.0",
         "datatables.net-vue3": "^1.0.0",
-        "html2pdf": "^0.0.11",
         "html2pdf.js": "^0.10.1",
         "i": "^0.3.7",
         "jquery": "^3.6.1",

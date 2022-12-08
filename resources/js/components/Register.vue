@@ -256,6 +256,12 @@ export default {
             this.confirmpassword = val;
             this.validatePassword(val, "C");
         },
+        isAgree: function (val) {
+            if (val) {
+                this.validatePassword(this.newpassword, "N");
+                this.validatePassword(this.confirmpassword, "C");
+            }
+        },
     },
     emits: ["hideLoginModal", "submitReport"],
     methods: {
@@ -296,6 +302,7 @@ export default {
                 /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
             if (type === "N") {
                 this.newpassword = value;
+                console.log(value.length);
                 if (value.length < 8) {
                     this.msg["newpassword"] = "( " + value.length + "/8 )";
                 } else {

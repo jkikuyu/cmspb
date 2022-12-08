@@ -11,53 +11,12 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title fw-bold" id="loginFormLabel">
+                    <h5 class="modal-title fw-bold" id="downloadPdfFormLabel">
                         <slot name="formname" />
                     </h5>
                 </div>
-                <div class="modal-body" id="userdetails">
-                    <div class="row">
-                        <h5 class="fw-bold">
-                            Complaint No. {{ user.complaintno }} User
-                            Credentials
-                        </h5>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-5">
-                            <Label :label="label.anonymousid" />
-                        </div>
-                        <div class="col-sm-4">
-                            {{ user.userid }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <Label :label="label.password" />
-                        </div>
-                        <div class="col-sm-4">
-                            {{ user.password }}
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row mb-2">
-                        <div class="col-sm-auto">
-                            <Label :label="fields.datereported" />
-                        </div>
-                        <div class="col-sm-auto">
-                            {{ form.datereported }}
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-5">
-                            <Label :label="label.anonymousid" />
-                        </div>
-                        <div class="col-sm-4">
-                            {{ form.anonymous == 0 ? "Yes" : "No" }}
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <Label :label="fields.first" />
-                    </div>
+                <div class="modal-body">
+                    <div class="row"></div>
                 </div>
 
                 <div class="modal-footer">
@@ -80,6 +39,17 @@
             </div>
         </div>
     </div>
+    <div v-show="isContentVisible" id="userdetails">
+        <content-to-print
+            :label="label"
+            :form="form"
+            :fields="fields"
+            :user="user"
+            :datereported="datereported"
+            :dropdownList="dropdownList"
+            :selectedFiles="selectedFiles"
+        />
+    </div>
 </template>
 
 <script>
@@ -88,6 +58,7 @@ import Label from "./Label";
 import Button from "./Button";
 import { watch, ref } from "vue";
 import { Modal } from "bootstrap";
+import ContentToPrint from "./ContentToPrint";
 
 export default {
     name: "PasswordPdf",
@@ -95,6 +66,7 @@ export default {
         html2pdf,
         Label,
         Button,
+        ContentToPrint,
     },
     emits: ["hidePasswordPdfModal"],
     props: {
@@ -103,30 +75,29 @@ export default {
         showPasswordPdfModal: Boolean,
         fields: Object,
         form: Object,
+        datereported: String,
+        dropdownList: Object,
+        selectedFiles: Object,
     },
     setup(props, { emit }) {
         const filename = props.user.complaintno;
+        let isContentVisible = ref(false);
         let downloadPasswordPdfModal = ref(null);
         const hidePasswordPdfModal = () => {
             downloadPasswordPdfModal.hide();
+            isContentVisible.value = false;
             emit("hidePasswordPdfModal");
         };
         const generatePDF = () => {
             const userdetails = document.getElementById("userdetails");
-            /*let h5 = document.createElement("h5");
-                         h5.innerHTML =
-                "Complaint No." + props.user.complaintno + "User Credentials";
-            h5.className = "fw-bold text-center";
-            h5.setAttribute("id","complaintno")
-            userdetails.insertBefore(h5, userdetails.firstChild);
-            isPrintPdf = true; */
+            isContentVisible.value = true;
             html2pdf(userdetails, {
                 margin: 1,
                 filename: "complaint_no_" + props.user.complaintno,
                 html2canvas: { dpi: 192, letterRendering: true },
                 jsPDF: {
                     unit: "in",
-                    format: "letter",
+                    format: "a4",
                     orientation: "portrait",
                 },
             });
@@ -152,6 +123,7 @@ export default {
         );
         return {
             downloadPasswordPdfModal,
+            isContentVisible,
             hidePasswordPdfModal,
             generatePDF,
         };

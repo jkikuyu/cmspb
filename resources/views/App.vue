@@ -148,6 +148,9 @@ export default {
     async created() {
         this.menuitems = await this.fetchPageContents();
     },
+    /*     errorCaptured: (err, vm, info) => {
+        console.log("error", err);
+    }, */
     methods: {
         async fetchPageContents() {
             let data = null;

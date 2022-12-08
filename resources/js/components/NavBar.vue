@@ -90,7 +90,9 @@ export default {
         MenuItem,
     },
     emits: ["saveDropDownList"],
-    data() {
+    setup() {
+        let newpassword = "";
+
         return {
             newpassword: "",
         };
@@ -108,7 +110,7 @@ export default {
     },
 };
 </script>
-<style scoped>
+<style>
 .hline {
     border-top: 10px solid #5d6d07;
 
@@ -159,13 +161,18 @@ h4 span {
 .makereport {
     color: #fff;
 }
-.navbar .navbar-nav .nav-link {
+/* .navbar .navbar-nav .nav-link {
     color: #000;
     font-size: 1.1em;
-}
+} */
 .navbar .navbar-nav .nav-link:hover {
     background-color: #5d6d07;
     color: #fff;
+}
+.nav-link:focus {
+    background-color: #5d6d07;
+    color: #fff !important;
+    font-size: 1.1em;
 }
 /* li a:hover:not(.router-link-active) {
     background-color: #5d6d07;
