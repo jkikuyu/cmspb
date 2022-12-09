@@ -57,7 +57,7 @@ export default {
     watch: {
         range: {
             handler: function () {
-                console.log("range", this.range);
+                //console.log("range", this.range);
             },
             deep: true,
         },

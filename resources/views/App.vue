@@ -165,7 +165,7 @@ export default {
         },
         isTokenExpired: function (token) {
             if (token) {
-                console.log(token);
+                //console.log(token);
                 try {
                     const [, payload] = token.split(".");
                     const { exp: expires } = JSON.parse(window.atob(payload));
@@ -182,7 +182,7 @@ export default {
             }
         },
         refreshToken: async function () {
-            console.log("dash");
+            //console.log("dash");
         },
         saveDropDownList: function () {
             sessionStorage.setItem(
@@ -191,7 +191,7 @@ export default {
             );
         },
         getStoredToken: function () {
-            console.log("gettoken");
+            //console.log("gettoken");
             this.resp = JSON.parse(sessionStorage.getItem("resp"));
         },
     },

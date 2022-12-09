@@ -302,7 +302,7 @@ export default {
                 /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
             if (type === "N") {
                 this.newpassword = value;
-                console.log(value.length);
+                //console.log(value.length);
                 if (value.length < 8) {
                     this.msg["newpassword"] = "( " + value.length + "/8 )";
                 } else {

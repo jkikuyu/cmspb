@@ -197,10 +197,10 @@ export default {
             isValidCaptcha = value;
         };
         const saveDropDownList = () => {
-            console.log("loginpasword");
+            //console.log("loginpasword");
             emit("saveDropDownList");
 
-            console.log("Login....");
+            //console.log("Login....");
         };
         return {
             loginform,

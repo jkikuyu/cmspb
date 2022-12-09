@@ -67,8 +67,7 @@ export default {
         },
         saveDropDownList: function () {
             this.$emit("saveDropDownList");
-
-            console.log("Login....");
+            //console.log("Login....");
         },
     },
 };

@@ -1161,7 +1161,7 @@ export default {
             let isEmailorId = false;
             if (this.$refs.makereport.checkValidity()) {
                 this.userid = await this.getAnonymousID();
-                console.log("userid", this.userid);
+                //console.log("userid", this.userid);
                 //this.userid = data.userid;
                 this.updateForm("userid", this.userid);
                 if (this.fileCount > 5 || this.fileSize > this.maxFileSize) {
@@ -1329,7 +1329,7 @@ export default {
             this.fileSize = 0;
             this.fileCount = this.selectedFiles.length;
             this.msg["warning"] = "";
-            console.log(selectedFiles.files);
+            //console.log(selectedFiles.files);
             if (this.selectedFiles.length > this.maxFileCount) {
                 this.msg["warning"] =
                     "Files selected exceed the maximum 5 files requirement";

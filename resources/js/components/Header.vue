@@ -18,7 +18,7 @@ export default {
     },
     methods: {
         saveDropDownList: function () {
-            console.log("header");
+            //console.log("header");
             this.$emit("saveDropDownList");
         },
     },
