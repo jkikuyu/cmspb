@@ -98,6 +98,7 @@
         <ViewComplaint
             :showModal="isModalOpen"
             :complaintData="selectedComplaint"
+            :isEdtConclusion="isAdmin"
             @hideComplaintModal="isModalOpen = false"
             @saveDropDownList="saveDropDownList"
         >
@@ -125,11 +126,13 @@ export default {
     props: {
         isExpired: Boolean,
         id: String,
+        isAdmin: String,
     },
 
     setup(props, { emit }) {
         let selectedComplaint = ref(null);
-        let id = props.id;
+        const id = props.id;
+        const isAdmin = !!+props.isAdmin; //convert string to boolean
         let isModalOpen = ref(false);
         let dropdownList = {};
         let dt;
@@ -245,12 +248,13 @@ export default {
             {
                 data: "status",
                 render: function (data, type, row, meta) {
-                    let status = "Pending";
-                    if (data) {
-                    } else {
-                        status = "Processing";
-                    }
-                    return status;
+                    return dropdownList.complaintstatus
+                        .filter((cs) => {
+                            return cs.id === data;
+                        })
+                        .map((cs) => {
+                            return cs.name;
+                        });
                 },
             },
         ];
@@ -319,6 +323,7 @@ export default {
             showViewComplaint,
             saveDropDownList,
             isModalOpen,
+            isAdmin,
             data,
             table,
             selectedComplaint,

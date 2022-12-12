@@ -25,6 +25,7 @@
                         @hideViewComplaint="hideViewComplaintModal"
                         @saveDropDownList="saveDropDownList"
                         :pagetitle="pagetitle"
+                        :isEdtConclusion="isEdtConclusion"
                     >
                     </make-report>
                 </div>
@@ -44,6 +45,7 @@ export default {
     props: {
         showModal: Boolean,
         complaintData: Object,
+        isEdtConclusion: Boolean,
     },
     setup(props, { emit }) {
         let viewComplaintFormModal = ref(null);

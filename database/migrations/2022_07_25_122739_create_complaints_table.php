@@ -41,6 +41,8 @@ return new class extends Migration
             $table->boolean('threat', 1)->nullable();
             $table->longText('elaborate')->nullable();
             $table->boolean('evidence')->nullable();
+            $table->longText('evidencedescribe')->nullable();
+
             $table->boolean('nopossession')->nullable();
             $table->tinyInteger('status')->nullable()->default(0);
             $table->longtext('conclusion')->nullable();

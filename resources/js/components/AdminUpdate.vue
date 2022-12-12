@@ -9,9 +9,10 @@
                 :class="{
                     'border border-danger': isCompleted,
                 }"
-                :disabled="!isNewComplaint"
+                :disabled="!isEdtConclusion"
                 :dropdownitems="dropdownList.complaintstatus"
                 :elementId="fields.complaintstatus.name"
+                :value="form.status"
             />
         </div>
     </div>
@@ -21,12 +22,13 @@
         </div>
         <div class="row mb-2">
             <TextArea
-                :disabled="!isNewComplaint"
+                :disabled="!isEdtConclusion"
                 required="isCompleted"
                 :class="{
                     'border border-danger': isCompleted,
                 }"
                 :elementId="fields.complaintconclude.name"
+                :value="form.conclusion"
             />
         </div>
     </div>
@@ -44,7 +46,8 @@ export default {
     props: {
         dropdownList: Object,
         fields: Object,
-        isNewComplaint: Boolean,
+        isEdtConclusion: Boolean,
+        form: Object,
     },
     setup(props, { emit }) {
         let isCompleted = ref(false);

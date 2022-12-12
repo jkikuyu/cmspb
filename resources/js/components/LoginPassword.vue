@@ -122,7 +122,7 @@ export default {
     },
     mounted() {
         if (axios.defaults.headers.common["Authorization"]) {
-            this.$router.push("/ims/dashboard");
+            this.$router.push("/dashboard");
         }
     },
     setup(props, { emit }) {
@@ -131,11 +131,12 @@ export default {
         const captchaValue = ref(null);
         let isValidCaptcha = ref("false");
         let vueclientrecaptchakey = ref(0);
-
+        let isAdmin = "0";
         const loginform = async (e) => {
             let userDetails = {};
             const form = new FormData(e.target);
             const inputs = Object.fromEntries(form.entries());
+
             if (
                 /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
                     inputs.userid
@@ -145,6 +146,7 @@ export default {
                     email: inputs.userid,
                     password: inputs.password,
                 };
+                isAdmin = "1";
             } else {
                 userDetails = {
                     userid: inputs.userid,
@@ -165,7 +167,7 @@ export default {
                     );
                     router.push({
                         name: "Dashboard",
-                        params: { id: data.user.id },
+                        params: { id: data.user.id, isAdmin: isAdmin },
                     });
                     //setDropDownList();
                 } else {

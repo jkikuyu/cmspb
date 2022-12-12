@@ -63,9 +63,10 @@ const routes = [
         props: true,
         beforeEnter: (to, from, next) => {
             if (axios.defaults.headers.common["Authorization"]) {
+                console.log();
                 next();
             } else {
-                next("/cis/login");
+                next("/login");
             }
         },
     },

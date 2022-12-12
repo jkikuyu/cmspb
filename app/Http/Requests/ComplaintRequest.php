@@ -42,11 +42,15 @@ class ComplaintRequest extends FormRequest
             'threat' => ['boolean'],
             'elaborate' => ['string'],
             'evidence' => ['boolean'],
+            'evidencedescribe' => ['string'],
             'dateoccurred' => ['date'],
             'wid' => ['string'],
             'nid' => ['string'],
             'nopossession' => ['boolean'],
             'user_id' => ['integer'],
+            'status' => ['integer'],
+            'conclusion' => ['string'],
+            'controlno' => ['string'],
             'complaintno' => ['string']
 
         ];

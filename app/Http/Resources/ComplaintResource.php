@@ -33,12 +33,18 @@ class ComplaintResource extends JsonResource
             'threat' => $this->threat,
             'elaborate' => $this->elaborate,
             'evidence' => $this->evidence,
+            'evidencedescribe' => $this->evidencedescribe,
             'dateoccurred' => $this->dateoccurred,
             'wid' => $this->wid,
             'nid' => $this->nid,
             'nopossession' => $this->nopossession,
             'user_id' => $this->user_id,
             'complaintno' => $this->complaintno,
+            'status' => $this->status,
+            'controlno' => $this->controlno,
+
+            'conclusion' => $this->conclusion,
+
             'reportdate' => $this->created_at,
             "files" => DocResource::collection($this->docs)
         ];

@@ -662,7 +662,10 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="card">
-                                                    <div class="card-body">
+                                                    <div
+                                                        class="card-body"
+                                                        id="fileList"
+                                                    >
                                                         <div
                                                             v-for="(
                                                                 selectedFile,
@@ -740,16 +743,52 @@
                                         />
                                     </div>
                                 </div>
+                                <div
+                                    v-show="
+                                        !!+form.nopossession && !+form.evidence
+                                    "
+                                    class="row mb-2"
+                                >
+                                    <div class="col-sm-auto">
+                                        <Label
+                                            :label="fields.evidencedescribe"
+                                        ></Label>
+                                    </div>
+                                </div>
+                                <div
+                                    v-show="
+                                        !!+form.nopossession && !+form.evidence
+                                    "
+                                    class="row mb-2"
+                                >
+                                    <TextArea
+                                        @input="
+                                            updateForm(
+                                                fields.evidencedescribe.name,
+                                                $event.target.value
+                                            )
+                                        "
+                                        :disabled="!isNewComplaint"
+                                        :elementId="
+                                            fields.evidencedescribe.name
+                                        "
+                                        :value="form.evidencedescribe"
+                                    />
+                                </div>
+
                                 <admin-update
                                     v-if="!isNewComplaint"
                                     :dropdownList="dropdownList"
                                     :fields="fields"
-                                    :isNewComplaint="isNewComplaint"
+                                    :form="form"
+                                    :isEdtConclusion="isEdtConclusion"
                                 ></admin-update>
 
                                 <div class="card-footer">
                                     <Button
-                                        :disabled="!isNewComplaint"
+                                        :disabled="
+                                            !isNewComplaint && !isEdtConclusion
+                                        "
                                         class="mx-2"
                                         type="button"
                                         @click="submitreport"
@@ -795,6 +834,11 @@
             @hidePasswordPdfModal="hidePasswordPdfModal"
         >
             <template #formname> {{ msg.success }} </template>
+            <template #contenttext>
+                {{
+                    "Click on the Download button to download a copy of the submitted compliant"
+                }}
+            </template>
         </password-pdf>
     </div>
 </template>
@@ -856,6 +900,7 @@ export default {
             dateto: Date(),
             dropdownList: {},
             selectedFiles: [],
+            isEvidence: false,
             user: {},
 
             fields: {
@@ -1023,7 +1068,7 @@ export default {
                 },
                 dateOccurred: {
                     name: "dateOccurred",
-                    title: "Date of Occurrance",
+                    title: "Date of Occurrence",
                     placeholder: "",
                     description: "Enter complainant type",
                 },
@@ -1041,7 +1086,7 @@ export default {
                 },
                 complaintstatus: {
                     name: "complaintstatus",
-                    title: "Complaint Status.",
+                    title: "Status.",
                     placeholder: "",
                     description: "Complaint Status",
                 },
@@ -1056,6 +1101,13 @@ export default {
                     title: "Specify",
                     placeholder: "",
                     description: "Specify",
+                },
+                evidencedescribe: {
+                    name: "evidencedescribe",
+                    title: "Describe the evidence and where it can be found",
+                    placeholder: "Evidence Description",
+                    description:
+                        "Describe the evidence and where it can be found",
                 },
             },
         };
@@ -1080,6 +1132,7 @@ export default {
         },
         complaintData: Object,
         pagetitle: String,
+        isEdtConclusion: Boolean,
     },
     emits: ["saveDropDownList", "hideViewComplaint"],
     created() {
@@ -1119,6 +1172,9 @@ export default {
             );
         },
  */
+        isEdtConclusion: function (value) {
+            console.log("edit conclusion", value);
+        },
         complaintData: function (complaint) {
             this.form = complaint;
             const isodate = new Date(complaint.reportdate);
@@ -1157,31 +1213,54 @@ export default {
                 this.cancelreport();
             }, 5000);
         },
-        async submitreport(password) {
-            let isEmailorId = false;
-            if (this.$refs.makereport.checkValidity()) {
-                this.userid = await this.getAnonymousID();
-                //console.log("userid", this.userid);
-                //this.userid = data.userid;
-                this.updateForm("userid", this.userid);
-                if (this.fileCount > 5 || this.fileSize > this.maxFileSize) {
-                    alert(
-                        "File count or size exceeded. Maximum of 5 files total 25MB"
-                    );
-                    return;
+        clearfiles() {
+            let files = document.getElementById("selectedFiles");
+            console.log(files);
+            //let output = document.getElementById("fileList");
+            if (files) {
+                try {
+                    files.value = null;
+                } catch (ex) {}
+                if (files.value) {
+                    files.parentNode.replaceChild(files.cloneNode(true), files);
                 }
-                this.isModalOpen = true;
-
-                if (isEmailorId) {
-                    this.storeReport(password);
+                //output.innerHTML = "";
+                this.selectedFiles = [];
+            }
+        },
+        async submitreport(password) {
+            //let isEmailorId = false;
+            if (this.isNewComplaint) {
+                if (this.$refs.makereport.checkValidity()) {
+                    this.userid = await this.getAnonymousID();
+                    //console.log("userid", this.userid);
+                    //this.userid = data.userid;
+                    this.updateForm("userid", this.userid);
+                    if (
+                        this.fileCount > 5 ||
+                        this.fileSize > this.maxFileSize
+                    ) {
+                        alert(
+                            "File count or size exceeded. Maximum of 5 files total 25MB"
+                        );
+                        return;
+                    }
+                    this.isModalOpen = true;
+                    /*
+                    if (isEmailorId) {
+                        this.storeReport(password);
+                    } */
+                } else {
+                    this.$forceUpdate();
+                    this.$refs.makereport.reportValidity();
                 }
             } else {
-                this.$forceUpdate();
-                this.$refs.makereport.reportValidity();
+                this.updateRecord();
             }
         },
         updateForm(input, value) {
             let res = value.trim();
+
             this.form[input] = res;
             let storedForm = this.getFormData(); // extract stored form
             if (!storedForm) storedForm = {}; // if none exists, default to empty object
@@ -1191,6 +1270,28 @@ export default {
             for (const [key, value] of Object.entries(storedForm)) {
                 if (value.trim() === "") {
                     delete storedForm[key];
+                }
+                if (key === "evidence") {
+                    console.log(key);
+
+                    if (storedForm["evidence"] === "1") {
+                        if (storedForm["nopossession"] !== null) {
+                            delete storedForm["nopossession"];
+                            console.log(this.form["nopossession"]);
+                            document.getElementById("nopossession").value = "";
+                        }
+                        if (storedForm["evidencedescribe"] !== null) {
+                            delete storedForm["evidencedescribe"];
+                            document.getElementById("evidencedescribe").value =
+                                "";
+                            console.log(
+                                document.getElementById("evidencedescribe")
+                                    .value
+                            );
+                        }
+                    } else {
+                        this.clearfiles();
+                    }
                 }
             }
 
@@ -1255,10 +1356,13 @@ export default {
                 console.log(err);
             }
         },
+        async updateRecord() {},
+
         async storeReport(password) {
             let data = null;
             this.password = password;
             let formdata = new FormData();
+            this.form = this.getFormData();
             let resp = await this.getToken();
             if (resp.token) {
                 let headers = new Headers();

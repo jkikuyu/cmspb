@@ -16,7 +16,11 @@
                     </h5>
                 </div>
                 <div class="modal-body">
-                    <div class="row"></div>
+                    <div class="row">
+                        <h5>
+                            <slot name="contenttext" />
+                        </h5>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

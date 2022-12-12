@@ -99,7 +99,7 @@ export default {
                         id: 0,
                     },
                     {
-                        name: "On going",
+                        name: "Processing",
                         id: 1,
                     },
                     {
