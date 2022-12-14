@@ -233,7 +233,7 @@ export default {
     mounted() {
         const userManualModal = document.querySelector("#userManualModal");
         userManualModal.addEventListener("show.bs.modal", (event) => {
-            const link = "docs";
+            const link = "docs/Report Incident/";
 
             fetch(link)
                 .then((res) => res.text())

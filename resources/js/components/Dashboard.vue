@@ -26,7 +26,7 @@
 
                         <li>
                             <a
-                                href="http://project.tests/pb/docs"
+                                href="docs"
                                 target="_blank"
                                 class="nav-link px-0 align-middle text-white"
                             >
@@ -288,7 +288,7 @@ export default {
             }
         });
         const getComplaints = async (id) => {
-            let dt = await axios.get("complaints/" + id, {
+            let dt = await axios.get("user/" + id, {
                 Authorization: axios.defaults.headers.common["Authorization"],
             });
             if (Array.isArray(dt.data.data)) {
