@@ -327,11 +327,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 span.errmsg {
     padding-top: 0px;
     margin-top: 0px;
     font-size: 12px;
     color: red;
+}
+.link-primary {
+    text-decoration: none;
 }
 </style>

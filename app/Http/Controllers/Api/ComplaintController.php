@@ -9,6 +9,7 @@ use App\Models\Doc;
 
 use App\Http\Requests\ComplaintRequest;
 use Exception;
+use DB;
 
 class ComplaintController extends Controller
 {
@@ -86,6 +87,29 @@ class ComplaintController extends Controller
     public function show(Complaint $complaint)
     {
         return new ComplaintResource($complaint);
+    }
+
+    public function update(ComplaintRequest $request, $id)
+
+    {
+        $complaint = Complaint::find($id);
+        $output = $request->validated();
+        $success = $complaint->update($output);
+        if ($success) {
+            $resp = [
+
+                'status' => '200',
+                'message' => 'Record saved successfully',
+            ];
+        } else {
+            $resp = [
+                'status' => '400',
+                'message' => 'Unauthorized request',
+
+            ];
+        }
+        return
+            response()->json($resp);
     }
 
 

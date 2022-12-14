@@ -110,7 +110,7 @@ export default {
     },
 };
 </script>
-<style>
+<style scoped>
 .hline {
     border-top: 10px solid #5d6d07;
 

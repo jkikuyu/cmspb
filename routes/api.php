@@ -30,14 +30,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get("/user/randomuserid", [App\Http\Controllers\Api\UserController::class, 'generateRandomUserId']);
 
 //Route::get('/complaints/listRecords', 'App\Http\Controllers\Api\ComplaintController@listRecords')->name('complaints.listRecords');
+Route::patch('/complaints/{id}', [App\Http\Controllers\Api\ComplaintController::class, 'update']);
 
 Route::apiResource(name: "complaints", controller: App\Http\Controllers\Api\ComplaintController::class);
 
-Route::get('/complaints/{complaint}', [App\Http\Controllers\Api\ComplaintController::class, 'show'])
-        ->missing(function (Request $request) {
 
-            return Redirect::route('complaints.index');
-        });
+Route::get('/complaints/{complaint}', [App\Http\Controllers\Api\ComplaintController::class, 'show'])
+    ->missing(function (Request $request) {
+
+        return Redirect::route('complaints.index');
+    });
 
 
 Route::apiResource(name: "pagecontents", controller: App\Http\Controllers\Api\PageContentController::class);

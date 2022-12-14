@@ -232,6 +232,7 @@
                                                     $event.target.value
                                                 )
                                             "
+                                            v-mask="'XXXXXXXXXXXX'"
                                             :disabled="!isNewComplaint"
                                             :elementId="fields.workid.name"
                                             :placeholder="
@@ -258,6 +259,7 @@
                                                     $event.target.value
                                                 )
                                             "
+                                            v-mask="'XXXXXXXXXXXX'"
                                             :disabled="!isNewComplaint"
                                             :elementId="fields.nationalid.name"
                                             :placeholder="
@@ -319,6 +321,7 @@
                                                     $event.target.value
                                                 )
                                             "
+                                            v-mask="'############'"
                                             :class="{
                                                 'border border-danger':
                                                     isNewComplaint &&
@@ -857,7 +860,7 @@ import Register from "./Register";
 import AdminUpdate from "./AdminUpdate";
 import moment from "moment-timezone";
 import axios from "axios";
-
+import { mask } from "vue-the-mask";
 export default {
     name: "MakeReport",
 
@@ -1092,7 +1095,7 @@ export default {
                 },
                 complaintconclude: {
                     name: "complaintconclude",
-                    title: "Complaint Conclusion.",
+                    title: "Action taken",
                     placeholder: "",
                     description: "Complaint Conclusion",
                 },
@@ -1125,6 +1128,7 @@ export default {
         AdminUpdate,
         PasswordPdf,
     },
+    directives: { mask },
     props: {
         isNewComplaint: {
             type: Boolean,
@@ -1172,11 +1176,9 @@ export default {
             );
         },
  */
-        isEdtConclusion: function (value) {
-            console.log("edit conclusion", value);
-        },
         complaintData: function (complaint) {
             this.form = complaint;
+            console.log(this.form);
             const isodate = new Date(complaint.reportdate);
             this.datereported = moment(isodate.toISOString()).format(
                 "DD/MM/YYYY HH:mm A"
@@ -1215,7 +1217,6 @@ export default {
         },
         clearfiles() {
             let files = document.getElementById("selectedFiles");
-            console.log(files);
             //let output = document.getElementById("fileList");
             if (files) {
                 try {
@@ -1272,22 +1273,15 @@ export default {
                     delete storedForm[key];
                 }
                 if (key === "evidence") {
-                    console.log(key);
-
                     if (storedForm["evidence"] === "1") {
                         if (storedForm["nopossession"] !== null) {
                             delete storedForm["nopossession"];
-                            console.log(this.form["nopossession"]);
                             document.getElementById("nopossession").value = "";
                         }
                         if (storedForm["evidencedescribe"] !== null) {
                             delete storedForm["evidencedescribe"];
                             document.getElementById("evidencedescribe").value =
                                 "";
-                            console.log(
-                                document.getElementById("evidencedescribe")
-                                    .value
-                            );
                         }
                     } else {
                         this.clearfiles();
@@ -1356,7 +1350,39 @@ export default {
                 console.log(err);
             }
         },
-        async updateRecord() {},
+        async updateRecord() {
+            let id = this.complaintData.id;
+            let headers = new Headers();
+            let msg = "Update failed, try again later";
+            /*             headers.append(
+                "Authorization",
+                "bearer " + sessionStorage.getItem("user_token")
+            );
+            headers.append("Content-type", "application/json"); */
+            const token = sessionStorage.getItem("user_token");
+            //console.log(token);
+            //axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+            delete this.form["files"];
+            const filledData = Object.keys(this.form).reduce((acc, curr) => {
+                if (this.form[curr]) {
+                    acc[curr] = this.form[curr];
+                }
+                return acc;
+            }, {});
+            console.log(this.form);
+            const { data } = await axios
+                .patch("complaints/" + id, filledData, {
+                    withCredentials: true,
+                })
+                .catch(function (error) {
+                    console.log(error.toJSON());
+                });
+            if (data.status === "200") {
+                msg = "Record Updated Successfully";
+            }
+
+            alert(msg);
+        },
 
         async storeReport(password) {
             let data = null;

@@ -31,7 +31,7 @@ class ComplaintRequest extends FormRequest
             'lastname' => ['string'],
             'contactyou' => ['boolean'],
             'specify' => ['string'],
-            'email' => ['string'],
+            'email' => ['email'],
             'phoneno' => ['string'],
             'complainanttype' => ['string'],
             'allegetype' => ['string'],
@@ -57,6 +57,9 @@ class ComplaintRequest extends FormRequest
     }
     public function prepareForValidation()
     {
+        if (in_array($this->method(), ['PUT', 'PATCH'])) {
+            return;
+        }
         $counter = "";
         $complaint = Complaint::latest()->first();
         if (is_null($complaint)) {

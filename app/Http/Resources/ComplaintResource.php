@@ -16,6 +16,7 @@ class ComplaintResource extends JsonResource
     {
         //return parent::toArray($request);
         return [
+            'id' => $this->id,
             'anonymous' => $this->anonymous,
             'firstname' => $this->firstname,
             'middlename' => $this->middlename,

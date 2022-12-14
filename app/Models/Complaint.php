@@ -30,6 +30,8 @@ class Complaint extends Model
         'elaborate',
         'evidence',
         'evidencedescribe',
+        'status',
+        'conclusion',
         'dateoccurred',
         'wid',
         'nid',

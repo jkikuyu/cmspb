@@ -48,6 +48,7 @@
         "vue-client-recaptcha": "^1.0.5",
         "vue-loader": "^16.8.1",
         "vue-router": "^4.0.11",
+        "vue-the-mask": "^0.11.1",
         "vuex": "^4.0.2"
     }
 }
