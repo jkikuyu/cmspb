@@ -288,7 +288,7 @@ export default {
             }
         });
         const getComplaints = async (id) => {
-            let dt = await axios.get("user/" + id, {
+            let dt = await axios.get("complaints/" + id, {
                 Authorization: axios.defaults.headers.common["Authorization"],
             });
             if (Array.isArray(dt.data.data)) {
