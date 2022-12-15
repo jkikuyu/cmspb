@@ -3,7 +3,6 @@
         <div class="col-sm-auto">
             <Label :label="fields.complaintstatus" />
         </div>
-        <div>Selected: {{ cstatus }}</div>
         <div class="col-sm-2 p-0 me-4">
             <Select
                 @change="form.status = $event.target.value"
@@ -61,7 +60,6 @@ export default {
 
         return {
             isCompleted,
-            cstatus,
         };
     },
 };

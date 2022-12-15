@@ -15,7 +15,16 @@
                                     class="alert alert-primary"
                                     role="alert"
                                 >
-                                    Please note: All fields marked (
+                                    Please read the
+                                    <a
+                                        href="docs/ReportIncident"
+                                        target="_blank"
+                                        class="link-primary"
+                                        >guideline</a
+                                    >
+                                    to help you fill in the report.
+                                    <br />
+                                    All fields marked (
                                     <span style="color: #ff0000"> * </span> )
                                     are required
                                 </div>
@@ -1089,7 +1098,7 @@ export default {
                 },
                 complaintstatus: {
                     name: "complaintstatus",
-                    title: "Status.",
+                    title: "Status",
                     placeholder: "",
                     description: "Complaint Status",
                 },
@@ -1178,7 +1187,6 @@ export default {
  */
         complaintData: function (complaint) {
             this.form = complaint;
-            console.log(this.form);
             const isodate = new Date(complaint.reportdate);
             this.datereported = moment(isodate.toISOString()).format(
                 "DD/MM/YYYY HH:mm A"
@@ -1369,7 +1377,6 @@ export default {
                 }
                 return acc;
             }, {});
-            console.log(this.form);
             const { data } = await axios
                 .patch("complaints/" + id, filledData, {
                     withCredentials: true,
@@ -1382,6 +1389,7 @@ export default {
             }
 
             alert(msg);
+            this.hideViewComplaint();
         },
 
         async storeReport(password) {
@@ -1512,7 +1520,7 @@ const range = reactive({
 });*/
 </script>
 
-<style>
+<style scoped>
 label,
 a {
     font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont,
@@ -1522,6 +1530,9 @@ a {
     font-size: 1rem;
     text-align: left;
     color: #212529;
+}
+a.link-primary {
+    color: #ff0000;
 }
 a.filedownload {
     text-decoration: underline !important;
